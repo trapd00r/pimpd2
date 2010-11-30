@@ -4,7 +4,7 @@ package App::Pimpd::Validate;
 require Exporter;
 @ISA = 'Exporter';
 
-our @EXPORT = qw(invalid_regex);
+our @EXPORT = qw(invalid_regex to_terminal);
 
 use strict;
 use Carp;
@@ -28,6 +28,10 @@ use App::Pimpd;
 Returns true if the string supplied is not a valid regular expression.
 
 =cut 
+
+sub to_terminal {
+  return (-t STDOUT) ? 1 : 0;
+}
 
 sub invalid_regex {
   my $re = shift;
