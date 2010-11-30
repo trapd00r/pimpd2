@@ -17,6 +17,7 @@ $Data::Dumper::Quotekeys = 0;
 $Data::Dumper::Sortkeys  = 1;
 
 use App::Pimpd;
+use App::Pimpd::Validate;
 use Term::ExtendedColor;
 
 # NOTE To config
@@ -42,6 +43,12 @@ sub current {
   my $date   = $mpd->current->date   // 'undef';
 
   my $output;
+
+  if(not to_terminal()) {
+    $config_extended_colors = 0;
+    $config_ansi_colors     = 0;
+  }
+
   if($config_extended_colors) {
     $output = sprintf("%s - %s on %s from %s [%s]", 
       fg('green27', fg('bold',  $artist)),
