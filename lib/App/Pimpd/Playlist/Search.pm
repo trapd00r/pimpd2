@@ -17,6 +17,7 @@ $Data::Dumper::Quotekeys = 0;
 $Data::Dumper::Sortkeys  = 1;
 
 use App::Pimpd;
+use App::Pimpd::Validate;
 
 
 =head3 search_playlist()
