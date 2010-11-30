@@ -29,10 +29,6 @@ Returns true if the string supplied is not a valid regular expression.
 
 =cut 
 
-sub to_terminal {
-  return (-t STDOUT) ? 1 : 0;
-}
-
 sub invalid_regex {
   my $re = shift;
   eval { qr/$re/ };
@@ -44,6 +40,19 @@ sub invalid_regex {
   }
 }
 
+=head3 to_terminal()
+
+  if(to_terminal()) {
+    ...
+  }
+
+Returns true if connected to a TTY.
+
+=cut
+
+sub to_terminal {
+  return (-t STDOUT) ? 1 : 0;
+}
 
 
 
