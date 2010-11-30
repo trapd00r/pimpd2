@@ -4,7 +4,12 @@ package App::Pimpd::Collection::Search;
 require Exporter;
 @ISA = 'Exporter';
 
-our @EXPORT = qw(search_db_quick);
+our @EXPORT = qw(
+  search_db_quick
+  search_db_artist
+  search_db_album
+  search_db_title
+  );
 
 use strict;
 use App::Pimpd qw($mpd);
@@ -18,37 +23,22 @@ $Data::Dumper::Quotekeys = 0;
 $Data::Dumper::Sortkeys  = 1;
 
 
-sub search_db {
-  my $query = shift;
+=head3 search_db_quick()
 
-  if(!defined($query)) {
-    return undef;
-  }
+  my @files = search_db_quick($query);
+  my $finds = search_db_quick($query);
 
-  if(invalid_regex($query)) {
-    confess("Invalid regex '$query'");
-  }
+In list context, returns all files matching pattern.
+In scalar context, returns the number of matches.
 
-  my @result;
+=cut
 
-  my %playlist;
-  for($mpd->playlist->as_items) {
-    $playlist{pos}{$_->pos} = join(' - ', $_->artist, $_->album, $_->title);
-  }
-  #print Dumper \%playlist;
-
-  for my $pos(keys(%{$playlist{pos}})) {
-    if($playlist{pos}->{$pos} =~ /$query/pig) {
-      push(@result, $pos);
-    }
-  }
-  return (wantarray()) ? @result : scalar(@result);
-}
-
-
-1;
 sub search_db_quick {
   my $query = shift;
+
+  if(invalid_regex($query)) {
+    confess("Invalid regex: '$query'");
+  }
 
   my @result;
   for($mpd->collection->all_pathes) {
@@ -58,6 +48,80 @@ sub search_db_quick {
   }
   return (wantarray()) ? @result : scalar(@result);
 }
+
+=head3 search_db_artist()
+
+  my @artists = search_db_artist($artist);
+
+In list context, returns all files where the artist fields partially matches
+str.
+
+In scalar context, returns the number of finds.
+
+=cut
+
+sub search_db_artist {
+  my $artist  = shift; # Not a regex
+
+  my @artists = $mpd->collection->songs_by_artist_partial($artist);
+
+  if(!@artists) {
+    return "0";
+  }
+
+  map{ $_ = $_->file } @artists;
+
+  return (wantarray()) ? @artists : scalar(@artists);
+}
+
+=head3 search_db_title()
+
+  my @titles = search_db_title($title);
+
+In list context, returns all files where the title fields partially matches
+str.
+
+In scalar context, returns the number of finds.
+
+=cut
+
+sub search_db_title {
+  my $title  = shift;
+  my @titles = $mpd->collection->songs_with_title_partial($title);
+
+  if(!@titles) {
+    return "0";
+  }
+
+  map{ $_ = $_->file } @titles;
+
+  return (wantarray()) ? @titles : scalar(@titles);
+}
+
+=head3 search_db_album()
+
+  my @albums = search_db_album($album);
+
+In list context, returns all files where the album fields partially matches
+str.
+
+In scalar context, returns the number of finds.
+
+=cut
+
+sub search_db_album {
+  my $album  = shift;
+  my @albums = $mpd->collection->songs_from_album_partial($album);
+
+  if(!@albums) {
+    return "0";
+  }
+  map { $_ = $_->file } @albums;
+
+  return (wantarray()) ? @albums : scalar(@albums);
+}
+
+
 
 
 1;
