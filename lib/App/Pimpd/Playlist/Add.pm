@@ -30,18 +30,15 @@ File must be in the MPD format, without the music_directory prefix.
 =cut
 
 sub add_to_playlist {
-  my $song = shift;
+  my @songs = @_;
 
-  my @songs;
-  if(ref($song) eq 'ARRAY') {
-    push(@songs, @{$song});
+  if(ref($songs[0] eq 'ARRAY')) {
+    push(@songs, @{$songs[0]});
+    shift(@songs);
   }
-   else {
-     $mpd->playlist->add($song);
-     return 0;
-   }
-   $mpd->playlist->add(@songs);
-   return 0;
+
+  $mpd->playlist->add(@songs);
+  return 0;
 }
 
 
