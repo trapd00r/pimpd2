@@ -19,7 +19,9 @@ $Data::Dumper::Sortkeys  = 1;
 use App::Pimpd;
 use Term::ExtendedColor;
 
+# NOTE To config
 my $config_extended_colors = 1;
+my $config_ansi_colors     = undef;
 
 
 =head3 current()
@@ -40,12 +42,27 @@ sub current {
   my $date   = $mpd->current->date   // 'undef';
 
   my $output;
-  if(defined($config_extended_colors)) {
+  if($config_extended_colors) {
     $output = sprintf("%s - %s on %s from %s [%s]", 
       fg('green27', fg('bold',  $artist)),
-      fg('yellow5', $title), fg('blue4', $album),
+      fg('yellow5', $title),
+      fg('blue4', $album),
       fg('orange2', fg('bold', $date)),
       $genre,
+    );
+  }
+  elsif($config_ansi_colors) {
+    $output = sprintf("%s - %s on %s from %s [%s]", 
+      fg(2, fg('bold',  $artist)),
+      fg(3, $title),
+      fg(4, $album),
+      fg(5, fg('bold', $date)),
+      $genre,
+    );
+  }
+  else {
+    $output = sprintf("%s - %s on %s from %s [%s]", 
+      $artist, $title, $album, $date,  $genre,
     );
   }
 
