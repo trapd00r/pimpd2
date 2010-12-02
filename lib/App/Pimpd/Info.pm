@@ -28,7 +28,7 @@ my $config_ansi_colors     = undef;
 my(%current, %status, ,%stats);
 
 if($mpd->status->state ne 'stop') {
-  my %current = ('artist'     =>  $mpd->current->artist,
+  %current = ('artist'     =>  $mpd->current->artist,
                  'album'      =>  $mpd->current->album,
                  'title'      =>  $mpd->current->title,
                  'genre'      =>  $mpd->current->genre,
@@ -39,14 +39,14 @@ if($mpd->status->state ne 'stop') {
                  'bitrate'    =>  $mpd->status->bitrate,
                  'audio'      =>  $mpd->status->audio,
                  );
-  my %status  = ('repeat'     =>  $mpd->status->repeat,
+  %status  = ('repeat'     =>  $mpd->status->repeat,
                  'shuffle'    =>  $mpd->status->random,
                  'xfade'      =>  $mpd->status->xfade,
                  'volume'     =>  $mpd->status->volume,
                  'state'      =>  $mpd->status->state,
                  'list'       =>  $mpd->status->playlist,
                  );
-  my %stats   = ('song'       =>  $mpd->status->song,
+  %stats   = ('song'       =>  $mpd->status->song,
                  'length'     =>  $mpd->status->playlistlength,
                  'songs'      =>  $mpd->stats->songs,
                  'albums'     =>  $mpd->stats->albums,
