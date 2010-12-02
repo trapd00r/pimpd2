@@ -1,0 +1,156 @@
+#!/usr/bin/perl
+use vars qw($VERSION);
+my $APP;
+
+$APP     = 'pimpd2';
+$VERSION = 0.01;
+
+use lib '/home/scp1/devel/pimpd-ng2/lib';
+
+use strict;
+
+use App::Pimpd;
+use App::Pimpd::Collection::Search;
+use App::Pimpd::Collection::Album;
+use App::Pimpd::Playlist::Search;
+use App::Pimpd::Playlist::Add;
+use App::Pimpd::Playlist::Randomize;
+use App::Pimpd::Player;
+use App::Pimpd::Info;
+#use App::Pimpd::Validate;
+
+use Term::ExtendedColor;
+use Getopt::Long;
+use Pod::Usage;
+use Data::Dumper;
+
+$Data::Dumper::Terse     = 1;
+$Data::Dumper::Indent    = 1;
+$Data::Dumper::Useqq     = 1;
+$Data::Dumper::Deparse   = 1;
+$Data::Dumper::Quotekeys = 0;
+$Data::Dumper::Sortkeys  = 1;
+
+
+#not @ARGV and usage();
+
+GetOptions(
+  'np|now-playing'       => sub { print current(), "\n"; },
+  'i|information'        => \&info,
+  'lsa|list-albums'      => sub { print "$_\n" for songs_on_album(); },
+  'randa|random-album:i' => sub { print "$_\n" for randomize_albums(@ARGV); },
+  'rt|random_track'      => sub { random_track_in_playlist(); },
+  'a|add'                => sub { add(@ARGV); },
+  'p|play'               => sub { play(); },
+  's|stop'               => sub { stop(); },
+  'k|kill'               => sub { player_destruct(); },
+
+  help  => \&usage,
+);
+
+
+# Wrapper for add_to_playlist()
+sub add {
+  my @files = @_;
+
+  if(!-t STDIN) {
+    while(<STDIN>) {
+      push(@files, $_);
+    }
+  }
+  add_to_playlist(@files);
+}
+
+sub usage() {
+  print "$APP v$VERSION\n\n";
+  pod2usage(verbose => 1);
+  exit 0;
+}
+
+#!/usr/bin/perl
+our $APP     = undef;
+our $VERSION = '0.1.0';
+use strict;
+use Data::Dumper;
+use Pod::Usage;
+use Getopt::Long;
+
+
+
+
+=pod
+
+=head1 NAME
+
+pimpd2
+
+=head1 USAGE
+
+=head1 DESCRIPTION
+
+=head1 OPTIONS
+
+  -np,   --now-playing   basic song info on a single line
+  -i,    --info          full song info
+  -sal,  --songs         list songs on album str
+  -r,    --randomize     randomize a new playlist with n tracks
+  -ra,   --random-album  add n random full albums
+  -a,    --add           add files to playlist
+
+  -p,    --play          start playback (locally and remote)
+  -s,    --stop          stop playback (locally and remote)
+  -k,    --kill          stop playback (locally)
+
+  -h,    --help          show this help
+
+=head1 AUTHOR
+
+Written by Magnus Woldrich
+
+=head1 REPORTING BUGS
+
+Report bugs to trapd00r@trapd00r.se
+
+=head1 COPYRIGHT
+
+Copyright (C) 2010 Magnus Woldrich
+
+License GPLv2
+
+=cut
+
+
+
+#add_to_playlist(randomize(10));
+
+#query_playlist($search);
+#print for add_to_playlist('foobar');
+#print for add_to_playlist(['foo', 12, 24, 1024, 'bar']);
+
+#add_to_playlist(search_db_album('stripped'));
+#add_to_playlist(search_db_artist('zelmani'));
+
+#my @result = search_db_title('waiting for a miracle');
+#for(@result) {
+#  print fg('yellow4', $_);
+#}
+#@result = search_db_artist('mr cool');
+#for(@result) {
+#  print fg('yellow12', $_);
+#}
+
+
+
+
+
+sub query_playlist {
+  my $search = shift;
+
+  my $ref    = search_playlist($search);
+
+  for my $pos(sort(keys(%{$ref}))) {
+    print $ref->{$pos};
+    #add_to_playlist($ref{$pos});
+  }
+}
+
