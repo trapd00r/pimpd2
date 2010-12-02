@@ -27,7 +27,7 @@ my $config_ansi_colors     = undef;
 
 my(%current, %status, ,%stats);
 
-if($mpd->status ne 'stop') {
+if($mpd->status->state ne 'stop') {
   my %current = ('artist'     =>  $mpd->current->artist,
                  'album'      =>  $mpd->current->album,
                  'title'      =>  $mpd->current->title,
