@@ -4,7 +4,11 @@ package App::Pimpd::Validate;
 require Exporter;
 @ISA = 'Exporter';
 
-our @EXPORT = qw(invalid_regex to_terminal);
+our @EXPORT = qw(
+  invalid_regex
+  to_terminal
+  empty_playlist
+);
 
 use strict;
 use Carp;
@@ -55,5 +59,11 @@ sub to_terminal {
 }
 
 
+sub empty_playlist {
+  if(scalar($mpd->playlist->as_items) == 0) {
+    return 1;
+  }
+  return 0;
+}
 
 1;
