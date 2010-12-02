@@ -12,7 +12,6 @@ use lib '/home/scp1/devel/pimpd-ng2/lib';
 
 use strict;
 use Audio::MPD;
-use Term::ExtendedColor;
 
 our $mpd = Audio::MPD->new(
   host  => $ENV{MPD_HOST},

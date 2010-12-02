@@ -25,30 +25,34 @@ my $config_extended_colors = 1;
 my $config_ansi_colors     = undef;
 
 
-my %current = ('artist'     =>  $mpd->current->artist,
-               'album'      =>  $mpd->current->album,
-               'title'      =>  $mpd->current->title,
-               'genre'      =>  $mpd->current->genre,
-               'file'       =>  $mpd->current->file,
-               'date'       =>  $mpd->current->date,
-               'time'       =>  $mpd->status->time->sofar.'/'.
-                                $mpd->status->time->total,
-               'bitrate'    =>  $mpd->status->bitrate,
-               'audio'      =>  $mpd->status->audio,
-               );
-my %status  = ('repeat'     =>  $mpd->status->repeat,
-               'shuffle'    =>  $mpd->status->random,
-               'xfade'      =>  $mpd->status->xfade,
-               'volume'     =>  $mpd->status->volume,
-               'state'      =>  $mpd->status->state,
-               'list'       =>  $mpd->status->playlist,
-               );
-my %stats   = ('song'       =>  $mpd->status->song,
-               'length'     =>  $mpd->status->playlistlength,
-               'songs'      =>  $mpd->stats->songs,
-               'albums'     =>  $mpd->stats->albums,
-               'artists'    =>  $mpd->stats->artists,
-               );
+my(%current, %status, ,%stats);
+
+if($mpd->status ne 'stop') {
+  my %current = ('artist'     =>  $mpd->current->artist,
+                 'album'      =>  $mpd->current->album,
+                 'title'      =>  $mpd->current->title,
+                 'genre'      =>  $mpd->current->genre,
+                 'file'       =>  $mpd->current->file,
+                 'date'       =>  $mpd->current->date,
+                 'time'       =>  $mpd->status->time->sofar.'/'.
+                                  $mpd->status->time->total,
+                 'bitrate'    =>  $mpd->status->bitrate,
+                 'audio'      =>  $mpd->status->audio,
+                 );
+  my %status  = ('repeat'     =>  $mpd->status->repeat,
+                 'shuffle'    =>  $mpd->status->random,
+                 'xfade'      =>  $mpd->status->xfade,
+                 'volume'     =>  $mpd->status->volume,
+                 'state'      =>  $mpd->status->state,
+                 'list'       =>  $mpd->status->playlist,
+                 );
+  my %stats   = ('song'       =>  $mpd->status->song,
+                 'length'     =>  $mpd->status->playlistlength,
+                 'songs'      =>  $mpd->stats->songs,
+                 'albums'     =>  $mpd->stats->albums,
+                 'artists'    =>  $mpd->stats->artists,
+                 );
+}
 
 =head3 current()
 
@@ -69,7 +73,7 @@ sub current {
   }
 
   if( ($config_extended_colors) or ($config_ansi_colors) ) {
-    $output = sprintf("%s - %s on %s from %s [%s]", 
+    $output = sprintf("%s - %s on %s from %s [%s]",
       fg($c[3], fg('bold',  $current{artist})),
       fg($c[11], $current{title}),
       fg($c[0], $current{album}),
@@ -78,7 +82,7 @@ sub current {
     );
   }
   else {
-    $output = sprintf("%s - %s on %s from %s [%s]", 
+    $output = sprintf("%s - %s on %s from %s [%s]",
       $current{artist},
       $current{title},
       $current{album},
