@@ -10,15 +10,7 @@ our @EXPORT = qw(
 );
 
 use strict;
-use Carp;
-use Data::Dumper;
 use Term::ExtendedColor;
-$Data::Dumper::Terse     = 1;
-$Data::Dumper::Indent    = 1;
-$Data::Dumper::Useqq     = 1;
-$Data::Dumper::Deparse   = 1;
-$Data::Dumper::Quotekeys = 0;
-$Data::Dumper::Sortkeys  = 1;
 
 use App::Pimpd;
 use App::Pimpd::Validate;
@@ -50,8 +42,10 @@ sub show_playlist {
     $crnt_artist =~ s/(\w+)/\u\L$1/g;
 
     if($mpd->current->pos == $i) {
-      printf("%4d %25.25s |x| %-47.47s\n",
-        $i, $artist, $title);
+      # bg('red4', $i) will add another 17 chars
+
+      printf("%19s %51.51s |@{[fg('bold', 'x')]}| %-47.47s\n",
+        bg('red4', $i), fg('red1', fg('bold',  $artist)), $title);
 
     }
     else {
@@ -61,8 +55,6 @@ sub show_playlist {
     $i++;
   }
 }
-
-
 
 
 1;
