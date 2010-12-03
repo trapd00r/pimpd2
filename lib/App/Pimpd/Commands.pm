@@ -12,10 +12,12 @@ our @EXPORT = qw(
   clear
   crop
   crossfade
+  toggle_random
+  toggle_repeat
+  toggle_pause
   random
   repeat
-  stats
-  status
+  pause
 );
 
 use strict;
@@ -102,7 +104,7 @@ sub toggle_repeat {
 
 =head3 random()
 
-Set random mode to 1/0. If no arguments are provided, this functions just like
+Set random mode to 1/0. If no arguments are provided, functions just like
 toggle_random().
 
 =cut
@@ -111,9 +113,19 @@ sub random {
   $mpd->random(shift);
 }
 
+=head3 toggle_pause()
+
+Toggle playback status.
+
+=cut
+
+sub toggle_pause {
+  $mpd->pause;
+}
+
 =head3 repeat()
 
-Set repeat mode to /10. If no arguments are provided, this functions just like
+Set repeat mode to /10. If no arguments are provided, functions just like
 toggle_repeat.
 
 =cut
@@ -121,5 +133,17 @@ toggle_repeat.
 sub repeat {
   $mpd->repeat(shift);
 }
+
+=head3 pause()
+
+Pause/resume playback. If no arguments are provided, functions just like
+toggle_pause.
+
+=cut
+
+sub pause {
+  $mpd->pause(shift);
+}
+
 
 1;
