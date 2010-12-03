@@ -10,14 +10,16 @@ use lib '/home/scp1/devel/pimpd-ng2/lib';
 use strict;
 
 use App::Pimpd;
+use App::Pimpd::Player;
+use App::Pimpd::Info;
+use App::Pimpd::Shell;
+use App::Pimpd::Commands;
+#use App::Pimpd::Validate;
 use App::Pimpd::Collection::Search;
 use App::Pimpd::Collection::Album;
 use App::Pimpd::Playlist::Search;
 use App::Pimpd::Playlist::Add;
 use App::Pimpd::Playlist::Randomize;
-use App::Pimpd::Player;
-use App::Pimpd::Info;
-#use App::Pimpd::Validate;
 
 use Term::ExtendedColor;
 use Getopt::Long;
@@ -37,13 +39,23 @@ $Data::Dumper::Sortkeys  = 1;
 GetOptions(
   'np|now-playing'       => sub { print current(), "\n"; },
   'i|information'        => \&info,
-  'lsa|list-albums'      => sub { print "$_\n" for songs_on_album(); },
+  'lsa|list-albums'      => sub { print $_->file, "\n" for songs_on_album(); },
   'randa|random-album:i' => sub { print "$_\n" for randomize_albums(@ARGV); },
   'rt|random_track'      => sub { random_track_in_playlist(); },
   'a|add'                => sub { add(@ARGV); },
   'p|play'               => sub { play(); },
   's|stop'               => sub { stop(); },
   'k|kill'               => sub { player_destruct(); },
+  'sh|shell'             => sub { spawn_shell(@ARGV); },
+
+  'next'                 => sub { next_track(); },
+  'prev'                 => sub { previous_track(); },
+  'clear'                => sub { clear_playlist(); },
+  'crop'                 => sub { crop(@ARGV); },
+  'crossfade|xfade'      => sub { crossfade(@ARGV); },
+  'pause'                => sub { toggle_pause; },
+  'repeat'               => sub { toggle_repeat; },
+  'random'               => sub { toggle_random; },
 
   help  => \&usage,
 );
