@@ -9,7 +9,7 @@ require Exporter;
 our @EXPORT = qw(
   next_track
   previous_track
-  clear
+  clear_playlist
   crop
   crossfade
   toggle_random
@@ -44,13 +44,13 @@ sub previous_track {
   $mpd->previous;
 }
 
-=head3 clear()
+=head3 clear_playlist()
 
-Clear the playlist
+clear the playlist
 
 =cut
 
-sub clear {
+sub clear_playlist {
   $mpd->playlist->clear;
 }
 
