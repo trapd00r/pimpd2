@@ -20,7 +20,11 @@ $Data::Dumper::Sortkeys  = 1;
 
 use App::Pimpd;
 use App::Pimpd::Info;
+use App::Pimpd::Player;
+use App::Pimpd::Collection::Album;
+use App::Pimpd::Playlist;
 use App::Pimpd::Playlist::Randomize;
+use App::Pimpd::Playlist::Add;
 use App::Pimpd::Validate;
 use Term::ExtendedColor;
 
@@ -37,6 +41,7 @@ sub spawn_shell {
   _shell_msg_help();
 
   my $opts = {
+
     'rand'    => sub {
       if(!defined($_[0])) {
         $_[0] = 100;
@@ -46,20 +51,41 @@ sub spawn_shell {
         $_[0] = 100;
       }
       print 'Adding ' . fg('bold', @_) . " random tracks...\n";
-      randomize(@_);
+      my @random = randomize(@_);
+
+      print "$_\n" for @random;
+      add_to_playlist(@random);
     },
+
+
     'randa'   => sub {
-      randomize_albums($_[0]);
+      print 'Adding ' . fg('bold', $_[0]) . " random albums...\n\n";
+      my @albums = randomize_albums($_[0]);
+
+      my $old = undef;
+      for(@albums) {
+        my($album_dir) = $_ =~ m|(.+)/.+|;
+        if($old ne $album_dir) {
+          print "> $album_dir\n";
+          $old = $album_dir;
+        }
+      }
+      print "\n";
+      add_to_playlist(@albums);
     },
+
 
     'list'      => sub {
       if(empty_playlist()) {
         print STDERR "Playlist is empty\n";
         return 1;
       }
-      playlist();
+      show_playlist();
+      print fg('bold', ' >'), '> ', current(), "\n";
     },
 
+
+    # FIXME
     'fav'       => sub {
       if(empty_playlist()) {
         print STDERR "Nothing is playing - playlist is empty\n";
@@ -67,6 +93,9 @@ sub spawn_shell {
       }
       write_favlist(@_);
     },
+
+
+    # FIXME
     'favstats'  => sub {
       if($_[0] eq 'all') {
         favlist_stats(1);
@@ -76,11 +105,13 @@ sub spawn_shell {
       }
     },
 
+    #FIXME
     'track'      => sub {
-      @_[0] = 1 if @_[0] !~ /^\d+$/;
-      play_from_list(@_);
+      $_[0] = 1 if $_[0] !~ /^\d+$/;
+      play_pos_from_playlist(@_);
     },
 
+    #FIXME
     'cp'        => sub {
       if(empty_playlist()) {
         print STDERR "Nothing is playing - playlist is empty\n";
@@ -89,6 +120,7 @@ sub spawn_shell {
       cp();
     },
 
+    #FIXME
     'cpa'       => sub {
       if(empty_playlist()) {
         print STDERR "Nothing is playing - playlist is empty\n";
@@ -151,7 +183,7 @@ sub spawn_shell {
       }
       list_albums();
     },
-    'lsa'       => sub { list_songs_on_album(@_); },
+    'lsa'       => sub { print $_->file, "\n" for songs_on_album(@_); },
 
     'e'         => sub { list_external(@_); },
 
