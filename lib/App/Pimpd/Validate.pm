@@ -9,19 +9,32 @@ our @EXPORT = qw(
   to_terminal
   empty_playlist
   invalid_playlist_pos
+  remote_host
 );
 
-use strict;
-use Carp;
-use Data::Dumper;
-$Data::Dumper::Terse     = 1;
-$Data::Dumper::Indent    = 1;
-$Data::Dumper::Useqq     = 1;
-$Data::Dumper::Deparse   = 1;
-$Data::Dumper::Quotekeys = 0;
-$Data::Dumper::Sortkeys  = 1;
+use lib '/home/scp1/devel/pimpd-ng2/lib';
 
+use strict;
 use App::Pimpd;
+
+=head3 remote_host()
+
+  if(remote_host()) {
+    ...
+  }
+
+Returns true if a remote host is specified that does not match 'localhost' or
+127.0.0.1
+
+=cut
+
+sub remote_host {
+  not defined($mpd_host) and $mpd_host = 'localhost';
+  if( ($mpd_host eq 'localhost') or ($mpd_host eq '127.0.0.1')) {
+    return 0;
+  }
+  return 1;
+}
 
 
 =head3 invalid_regex()
