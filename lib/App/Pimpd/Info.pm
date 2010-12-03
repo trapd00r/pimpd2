@@ -27,31 +27,33 @@ my $config_ansi_colors     = undef;
 
 my(%current, %status, ,%stats);
 
-if($mpd->status->state ne 'stop') {
-  %current = ('artist'     =>  $mpd->current->artist,
-                 'album'      =>  $mpd->current->album,
-                 'title'      =>  $mpd->current->title,
-                 'genre'      =>  $mpd->current->genre,
-                 'file'       =>  $mpd->current->file,
-                 'date'       =>  $mpd->current->date,
-                 'time'       =>  $mpd->status->time->sofar.'/'.
-                                  $mpd->status->time->total,
-                 'bitrate'    =>  $mpd->status->bitrate,
-                 'audio'      =>  $mpd->status->audio,
-                 );
-  %status  = ('repeat'     =>  $mpd->status->repeat,
-                 'shuffle'    =>  $mpd->status->random,
-                 'xfade'      =>  $mpd->status->xfade,
-                 'volume'     =>  $mpd->status->volume,
-                 'state'      =>  $mpd->status->state,
-                 'list'       =>  $mpd->status->playlist,
-                 );
-  %stats   = ('song'       =>  $mpd->status->song,
-                 'length'     =>  $mpd->status->playlistlength,
-                 'songs'      =>  $mpd->stats->songs,
-                 'albums'     =>  $mpd->stats->albums,
-                 'artists'    =>  $mpd->stats->artists,
-                 );
+sub _current_update {
+  if($mpd->status->state ne 'stop') {
+    %current = ('artist'     =>  $mpd->current->artist,
+                   'album'      =>  $mpd->current->album,
+                   'title'      =>  $mpd->current->title,
+                   'genre'      =>  $mpd->current->genre,
+                   'file'       =>  $mpd->current->file,
+                   'date'       =>  $mpd->current->date,
+                   'time'       =>  $mpd->status->time->sofar.'/'.
+                                    $mpd->status->time->total,
+                   'bitrate'    =>  $mpd->status->bitrate,
+                   'audio'      =>  $mpd->status->audio,
+                   );
+    %status  = ('repeat'     =>  $mpd->status->repeat,
+                   'shuffle'    =>  $mpd->status->random,
+                   'xfade'      =>  $mpd->status->xfade,
+                   'volume'     =>  $mpd->status->volume,
+                   'state'      =>  $mpd->status->state,
+                   'list'       =>  $mpd->status->playlist,
+                   );
+    %stats   = ('song'       =>  $mpd->status->song,
+                   'length'     =>  $mpd->status->playlistlength,
+                   'songs'      =>  $mpd->stats->songs,
+                   'albums'     =>  $mpd->stats->albums,
+                   'artists'    =>  $mpd->stats->artists,
+                   );
+  }
 }
 
 =head3 current()
@@ -66,6 +68,8 @@ If $config_extended_colors is true, use 256 colors.
 
 sub current {
   my $output;
+
+  _current_update();
 
   if(not to_terminal()) {
     $config_extended_colors = 0;
@@ -105,6 +109,8 @@ Yields all available information.
 sub info {
   (undef,undef,undef,undef,undef, my $crnt_year) = localtime(time);
   $crnt_year += 1900;
+
+  _current_update();
 
 
   for(keys(%current)) {
