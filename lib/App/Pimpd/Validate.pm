@@ -10,12 +10,28 @@ our @EXPORT = qw(
   empty_playlist
   invalid_playlist_pos
   remote_host
+  escape
 );
 
 use lib '/home/scp1/devel/pimpd-ng2/lib';
 
 use strict;
 use App::Pimpd;
+
+=head3 escape()
+
+  my $str = escape('fo&oba|r\n');
+
+Returns the argument in a shape that's safe for the shell.
+
+=cut
+
+sub escape {
+  my $str = shift;
+  $str =~ s/([;<>\*\|`&\$!#\(\)\[\]\{\}:'"])/\\$1/g;
+
+  return $str;
+}
 
 =head3 remote_host()
 
@@ -45,7 +61,7 @@ sub remote_host {
 
 Returns true if the string supplied is not a valid regular expression.
 
-=cut 
+=cut
 
 sub invalid_regex {
   my $re = shift;
