@@ -32,12 +32,12 @@ File must be in the MPD format, without the music_directory prefix.
 
 sub add_to_playlist {
   my @songs = @_;
-  chomp(@songs);
 
   if(ref($songs[0] eq 'ARRAY')) {
     push(@songs, @{$songs[0]});
     shift(@songs);
   }
+  chomp(@songs);
 
   $mpd->playlist->add(@songs);
   return 0;
