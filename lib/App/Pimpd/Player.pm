@@ -137,7 +137,7 @@ sub player_destruct {
 
   if(kill(9, $pimpd_player)) {
     unlink($player_temp_log);
-    printf("%d %s\n", fg('bold', $pimpd_player), 'terminated');
+    #printf("%s %s\n", fg('bold', $pimpd_player), 'terminated');
   }
 
   open(my $fh, '<', $pidfile_player) or die($!);
@@ -145,11 +145,11 @@ sub player_destruct {
   close($fh);
 
   if(kill(9, $pimpd_target)) {
-    printf("%d %s\n", fg('bold', $pimpd_target, 'terminated'));
+    #printf("%s %s\n", fg('bold', $pimpd_target, 'terminated'));
   }
 
   if(kill(9, $pimpd_target+1)) {
-    printf("%d %s\n", fg('bold', $pimpd_target + 1), 'terminated');
+    #printf("%s %s\n", fg('bold', $pimpd_target + 1), 'terminated');
   }
   return 0;
 }
