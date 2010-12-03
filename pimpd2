@@ -3,7 +3,7 @@ use vars qw($VERSION);
 my $APP;
 
 $APP     = 'pimpd2';
-$VERSION = 0.01;
+$VERSION = 0.02;
 
 use lib '/home/scp1/devel/pimpd-ng2/lib';
 
@@ -14,6 +14,7 @@ use App::Pimpd::Player;
 use App::Pimpd::Info;
 use App::Pimpd::Shell;
 use App::Pimpd::Commands;
+use App::Pimpd::Transfer;
 #use App::Pimpd::Validate;
 use App::Pimpd::Collection::Search;
 use App::Pimpd::Collection::Album;
@@ -47,6 +48,8 @@ GetOptions(
   's|stop'               => sub { stop(); },
   'k|kill'               => sub { player_destruct(); },
   'sh|shell'             => sub { spawn_shell(@ARGV); },
+
+  'cp'                   => sub { cp($target_directory) },
 
   'next'                 => sub { next_track(); },
   'prev'                 => sub { previous_track(); },
