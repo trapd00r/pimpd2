@@ -8,6 +8,7 @@ our @EXPORT = qw(
   invalid_regex
   to_terminal
   empty_playlist
+  invalid_playlist_pos
 );
 
 use strict;
@@ -65,5 +66,22 @@ sub empty_playlist {
   }
   return 0;
 }
+
+sub invalid_playlist_pos {
+  my @pos = @_;
+  my @playlist = map { $_ = $_->pos } $mpd->playlist->as_items;
+  my $fail = 0;
+
+  for(@pos) {
+    if($_ ~~ @playlist) {
+      # all good
+    }
+    else {
+      $fail++;
+    }
+  }
+  return($fail);
+}
+
 
 1;
