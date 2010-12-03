@@ -56,6 +56,7 @@ sub spawn_shell {
       my @random = randomize(@_);
 
       print "$_\n" for @random;
+      clear_playlist();
       add_to_playlist(@random);
     },
 
