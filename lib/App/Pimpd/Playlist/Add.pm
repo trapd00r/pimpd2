@@ -40,6 +40,13 @@ sub add_to_playlist {
   chomp(@songs);
 
   $mpd->playlist->add(@songs);
+
+  # Start playback. Often one wants to clear the playlist and add a bunch of
+  # new, maybe randomized, content. When the playlist is cleared, playback will
+  # stop.
+  # If using the player() functionality, we have around 20s to start playback
+  # again. 20s ought to be enough for everybody.
+  $mpd->play;
   return 0;
 }
 
