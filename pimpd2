@@ -43,6 +43,7 @@ GetOptions(
   'ra|random-album:i'    => sub { print "$_\n" for randomize_albums(@ARGV); },
   'rt|random_track'      => sub { random_track_in_playlist(); },
   'a|add'                => sub { add(@ARGV); },
+  'aa|add-album'         => sub { @_ = map { $_->file } songs_on_album; add(@_); },
   'p|play'               => sub { play(); },
   's|stop'               => sub { stop(); },
   'k|kill'               => sub { player_destruct(); },
