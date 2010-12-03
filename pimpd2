@@ -20,6 +20,7 @@ use App::Pimpd::Collection::Search;
 use App::Pimpd::Collection::Album;
 use App::Pimpd::Playlist::Search;
 use App::Pimpd::Playlist::Add;
+use App::Pimpd::Playlist::Remove;
 use App::Pimpd::Playlist::Randomize;
 
 use Term::ExtendedColor;
@@ -35,21 +36,20 @@ $Data::Dumper::Quotekeys = 0;
 $Data::Dumper::Sortkeys  = 1;
 
 
-#not @ARGV and usage();
-
 GetOptions(
   'np|now-playing'       => sub { print current(), "\n"; },
   'i|information'        => \&info,
   'lsa|list-albums'      => sub { print $_->file, "\n" for songs_on_album(); },
-  'randa|random-album:i' => sub { print "$_\n" for randomize_albums(@ARGV); },
+  'ra|random-album:i'    => sub { print "$_\n" for randomize_albums(@ARGV); },
   'rt|random_track'      => sub { random_track_in_playlist(); },
   'a|add'                => sub { add(@ARGV); },
   'p|play'               => sub { play(); },
   's|stop'               => sub { stop(); },
   'k|kill'               => sub { player_destruct(); },
   'sh|shell'             => sub { spawn_shell(@ARGV); },
+  'rma|remove-album'     => sub { remove_album_from_playlist(@ARGV); },
 
-  'cp'                   => sub { cp($target_directory) },
+  'cp'                   => sub { cp(@ARGV ? @ARGV : $target_directory) },
 
   'next'                 => sub { next_track(); },
   'prev'                 => sub { previous_track(); },
@@ -82,35 +82,38 @@ sub usage() {
   exit 0;
 }
 
-#!/usr/bin/perl
-our $APP     = undef;
-our $VERSION = '0.1.0';
-use strict;
-use Data::Dumper;
-use Pod::Usage;
-use Getopt::Long;
-
-
-
-
 =pod
 
 =head1 NAME
 
 pimpd2
 
-=head1 USAGE
-
 =head1 DESCRIPTION
+
+Hello.
 
 =head1 OPTIONS
 
   -np,   --now-playing   basic song info on a single line
   -i,    --info          full song info
-  -sal,  --songs         list songs on album str
+  -lsa,  --songs         list songs on album str
   -r,    --randomize     randomize a new playlist with n tracks
   -ra,   --random-album  add n random full albums
   -a,    --add           add files to playlist
+  -rma,  --remove-album  remove album matching pattern from playlist
+  -cp,   --copy          copy the current track to destination
+  -sh,   --shell         spawn the interactive shell
+
+=head2 Controls
+
+  -cl,   --clear         clear the playlist
+  -cr,   --crop          remove all songs but the current one from playlist
+  -n,    --next          next track in playlist
+  -p,    --previous      previous track in playlist
+  -x,    --xfade         set crossfade
+         --pause         toggle playback status
+         --repeat        toggle repeat mode
+         --random        toggle random mode
 
   -p,    --play          start playback (locally and remote)
   -s,    --stop          stop playback (locally and remote)
@@ -133,39 +136,3 @@ Copyright (C) 2010 Magnus Woldrich
 License GPLv2
 
 =cut
-
-
-
-#add_to_playlist(randomize(10));
-
-#query_playlist($search);
-#print for add_to_playlist('foobar');
-#print for add_to_playlist(['foo', 12, 24, 1024, 'bar']);
-
-#add_to_playlist(search_db_album('stripped'));
-#add_to_playlist(search_db_artist('zelmani'));
-
-#my @result = search_db_title('waiting for a miracle');
-#for(@result) {
-#  print fg('yellow4', $_);
-#}
-#@result = search_db_artist('mr cool');
-#for(@result) {
-#  print fg('yellow12', $_);
-#}
-
-
-
-
-
-sub query_playlist {
-  my $search = shift;
-
-  my $ref    = search_playlist($search);
-
-  for my $pos(sort(keys(%{$ref}))) {
-    print $ref->{$pos};
-    #add_to_playlist($ref{$pos});
-  }
-}
-
