@@ -7,8 +7,8 @@ require Exporter;
 # play() and stop() defined in Player.pm
 
 our @EXPORT = qw(
-  next
-  previous
+  next_track
+  previous_track
   clear
   crop
   crossfade
@@ -24,23 +24,23 @@ use strict;
 use Carp;
 use App::Pimpd;
 
-=head3 next()
+=head3 next_track()
 
 Play the next track in the playlist
 
 =cut
 
-sub next {
+sub next_track {
   $mpd->next;
 }
 
-=head3 previous()
+=head3 previous_track()
 
 Play the previous track in the playlist
 
 =cut
 
-sub previous {
+sub previous_track {
   $mpd->previous;
 }
 
