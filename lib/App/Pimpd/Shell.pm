@@ -21,6 +21,8 @@ $Data::Dumper::Sortkeys  = 1;
 use App::Pimpd;
 use App::Pimpd::Info;
 use App::Pimpd::Player;
+use App::Pimpd::Commands;
+use App::Pimpd::Transfer;
 use App::Pimpd::Collection::Album;
 use App::Pimpd::Playlist;
 use App::Pimpd::Playlist::Randomize;
@@ -59,6 +61,7 @@ sub spawn_shell {
 
 
     'randa'   => sub {
+      $_[0] = 10 if(!$_[0]);
       print 'Adding ' . fg('bold', $_[0]) . " random albums...\n\n";
       my @albums = randomize_albums($_[0]);
 
@@ -111,25 +114,25 @@ sub spawn_shell {
       play_pos_from_playlist(@_);
     },
 
-    #FIXME
     'cp'        => sub {
       if(empty_playlist()) {
         print STDERR "Nothing is playing - playlist is empty\n";
         return 1;
       }
-      cp();
+      cp($target_directory);
     },
 
-    #FIXME
     'cpa'       => sub {
       if(empty_playlist()) {
         print STDERR "Nothing is playing - playlist is empty\n";
         return 1;
       }
-      cp_album();
+      cp_album($target_directory);
     },
 
+    # FIXME
     'cpl'       => sub { cp_list(@_); },
+
     'i'         => sub {
       if(empty_playlist()) {
         print STDERR "Nothing is playing - playlist is empty\n";
@@ -196,7 +199,7 @@ sub spawn_shell {
         print STDERR "Playlist is empty!\n";
         return 1;
       }
-      $mpd->next;
+      next_track();
       print current() . "\n";
     },
 
@@ -205,12 +208,12 @@ sub spawn_shell {
         print STDERR "Playlist is empty!\n";
         return 1;
       }
-      $mpd->prev;
+      previous_track();
       print current() . "\n";
     },
 
     't'         => sub {
-      $mpd->pause;
+      toggle_pause();
       print $mpd->status->state . "\n";
     },
 
@@ -261,7 +264,7 @@ sub spawn_shell {
 
     'rt'        => sub { random_track_in_playlist(); },
     'aa'        => sub { add_current_album(); },
-    'cl'        => sub { $mpd->playlist->clear; },
+    'clear'     => sub { clear_playlist() },
     'cr'        => sub { $mpd->playlist->crop; },
     'stop'      => sub { stop(); },
     'play'      => sub {
