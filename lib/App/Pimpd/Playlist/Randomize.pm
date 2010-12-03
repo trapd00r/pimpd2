@@ -41,7 +41,7 @@ sub randomize {
   my @songs  = shuffle($mpd->collection->all_pathes);
   my @random = (@songs[0 .. $no_songs - 1]);
 
-  return \@random;
+  return (wantarray()) ? @random : \@random;
 }
 
 =head3 randomize_albums()
