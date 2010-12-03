@@ -4,9 +4,29 @@ package App::Pimpd;
 use vars qw($VERSION);
 $VERSION = 0.01;
 
+my $config;
+BEGIN {
+  $config = '/home/scp1/devel/pimpd-ng2/pimpd.conf';
+  require($config);
+}
+
 require Exporter;
 @ISA = 'Exporter';
-our @EXPORT = qw($mpd @c);
+our @EXPORT = qw(
+  $mpd
+  @c
+  $mpd_host
+  $mpd_port
+  $mpd_pass
+  $mpd_user
+  $ssh_host
+  $ssh_port
+  $ssh_user
+
+  $music_directory
+  $playlist_directory
+  $target_directory
+);
 
 use lib '/home/scp1/devel/pimpd-ng2/lib';
 
@@ -18,17 +38,20 @@ our $mpd = Audio::MPD->new(
   port  => $ENV{MPD_PORT},
 );
 
-our @c;
+our(
+  @c,
+  $mpd_host,
+  $mpd_port,
+  $mpd_pass,
+  $mpd_user,
 
-my $config = './pimpd.conf';
-require($config);
+  $ssh_host,
+  $ssh_port,
+  $ssh_user,
 
-#!/usr/bin/perl
-our $APP     = undef;
-our $VERSION = '0.1.0';
-use strict;
-use Data::Dumper;
-use Pod::Usage;
+  $music_directory,
+  $playlist_directory,
+);
 
 
 
@@ -69,3 +92,4 @@ License GPLv2
 
 =cut
 
+1;
