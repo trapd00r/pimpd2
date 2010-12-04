@@ -19,6 +19,56 @@ use File::Copy;
 use App::Pimpd;
 use App::Pimpd::Validate;
 
+=head3 cp_album()
+
+  cp_album($destination);
+
+If we're dealing with a local MPD server, copy all tracks from the current album
+to the defined destination.
+
+If the MPD server is on a remote box, we use scp. The reason why we're not using
+Net::SCP is because it's no more then a simple wrapper around the scp binary
+anyway.
+
+=cut
+
+sub cp_album {
+  my $destination = shift;
+
+  my $album  = $mpd->current->album;
+
+  my @tracks = map {
+    $music_directory . '/' . $_->file
+    } $mpd->collection->songs_from_album($album);
+
+  print "$_\n" for @tracks;
+
+  if(remote_host()) {
+    for(@tracks) {
+      #$_ = escape($_);
+      scp($_, $destination);
+    }
+  }
+  else {
+    for(@tracks) {
+      $_ = escape($_);
+      if(copy($_, $destination)) {
+        printf("%40.40s => %s\n", $_, $destination);
+      }
+      else {
+        warn("cp_album: $!");
+      }
+    }
+  }
+}
+
+=head3 cp()
+
+  cp($destination);
+
+Copy the current track to destination.
+
+=cut
 
 sub cp {
   my $destination = shift;
@@ -38,7 +88,6 @@ sub cp {
 
   if(remote_host()) {
     return scp($file, $destination);
-    print "REMOTE";
   }
 
   else {
