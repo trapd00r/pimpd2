@@ -41,7 +41,6 @@ sub cp_album {
     $music_directory . '/' . $_->file
     } $mpd->collection->songs_from_album($album);
 
-  print "$_\n" for @tracks;
 
   if(remote_host()) {
     for(@tracks) {
