@@ -31,12 +31,17 @@ Returns number of songs in scalar context.
 
 sub songs_on_album {
   my $album = shift // $mpd->current->album;
+  my $artist = $mpd->current->artist;
 
   if(!defined($album) or $album eq '') {
     print STDERR "Album tag missing!\n";
     return 1;
   }
-  my @tracks = $mpd->collection->songs_from_album($album);
+
+  # We dont want _all_ albums named 'Best Of'.
+  my @tracks = grep { $_->artist eq $artist }
+    $mpd->collection->songs_from_album($album);
+
 
   return (wantarray()) ? @tracks : scalar(@tracks);
 }
