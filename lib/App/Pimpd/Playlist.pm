@@ -7,6 +7,7 @@ require Exporter;
 our @EXPORT = qw(
   show_playlist
   play_pos_from_playlist
+  queue
 );
 
 use strict;
@@ -24,6 +25,45 @@ sub play_pos_from_playlist {
   }
   $mpd->play($track_no);
 }
+
+sub queue {
+  my @to_play = @_;
+  if(scalar(@to_play < 1)) {
+    print STDERR "The queue function requires at least one song \n";
+    return 1;
+  }
+
+  for(@to_play) {
+    if(invalid_playlist_pos($_)) {
+      print STDERR fg($c[5], $_), ": invalid position\n";
+      return 1;
+    }
+  }
+
+  my %list = ();
+  map { $list{$_->pos} = $_->title } $mpd->playlist->as_items;
+
+
+  $mpd->random(0);
+  $mpd->play(shift(@to_play));
+  $mpd->playlist->move($mpd->current->pos, 0);
+
+  return 0 if(scalar(@to_play) == 0);
+
+
+  my $next_pos = $mpd->current->pos + 1;
+  print fg('bold', 'Queueing'), ":\n";
+  for(@to_play) {
+    printf("%-50.50s %s\n", fg($c[3], $list{$_}), "( $_ => $next_pos )");
+    #print "$_ => ", fg('bold', $next_pos), "\n" if($DEBUG);
+
+    $mpd->playlist->move($_, $next_pos);
+    $next_pos++;
+  }
+}
+
+
+
 
 sub show_playlist {
   my @playlist = $mpd->playlist->as_items;
