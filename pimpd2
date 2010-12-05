@@ -3,7 +3,7 @@ use vars qw($VERSION);
 my $APP;
 
 $APP     = 'pimpd2';
-$VERSION = 0.02;
+$VERSION = 0.04;
 
 use lib '/home/scp1/devel/pimpd-ng2/lib';
 
@@ -41,6 +41,7 @@ GetOptions(
   'np|now-playing'       => sub { print current(), "\n"; },
   'i|information'        => \&info,
   'lsa|list-songs'       => sub { _lsa(@ARGV); },
+  'l|laa|list-albums'    => sub { print "$_\n" for albums_by_artist(@ARGV); },
   'ra|random-album:i'    => sub { print "$_\n" for randomize_albums(@ARGV); },
   'rt|random_track'      => sub { random_track_in_playlist(); },
   'a|add'                => sub { _add(@ARGV); },
@@ -73,6 +74,7 @@ GetOptions(
   help  => \&usage,
 );
 
+# Wrapper for songs_on_album()
 sub _lsa {
   my($album, $artist) = @_;
 
@@ -90,7 +92,6 @@ sub _search_playlist {
 }
 
 
-# Wrapper for add_to_playlist()
 sub _add {
   my @files = @_;
 
@@ -122,7 +123,8 @@ Hello.
 
   -np,   --now-playing      basic song info on a single line
   -i,    --info             full song info
-  -lsa,  --songs            list songs on album str
+  -lsa,  --songs            list songs on album
+  -l,    --albums           list albums by artist
   -r,    --randomize        randomize a new playlist with n tracks
   -ra,   --random-album     add n random full albums
   -a,    --add              add files to playlist
@@ -131,7 +133,6 @@ Hello.
   -cpa,  --copy-album       copy the current album to destination
   -sh,   --shell            spawn the interactive shell
   -q,    --queue            queue tracks
-  -lsa,  --list-songs       list all songs on album
 
 =head2 Search
 
