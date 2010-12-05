@@ -6,10 +6,26 @@ require Exporter;
 
 our @EXPORT = qw(
   songs_on_album
+  albums_by_artist
   );
 
 use strict;
 use App::Pimpd qw($mpd);
+
+=head3 albums_by_artist()
+
+  my @albums = albums_by_artist('laleh');
+
+=cut
+
+sub albums_by_artist {
+  my $artist = shift // $mpd->current->artist;
+
+  return wantarray()
+    ? $mpd->collection->albums_by_artist($artist)
+    : scalar($mpd->collection->albums_by_artist($artist))
+    ;
+}
 
 =head3 songs_on_album()
 
