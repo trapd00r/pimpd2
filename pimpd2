@@ -43,7 +43,7 @@ GetOptions(
   'lsa|list-songs'       => sub { _lsa(@ARGV); },
   'l|laa|list-albums'    => sub { print "$_\n" for albums_by_artist(@ARGV); },
   'ra|random-album:i'    => sub { print "$_\n" for randomize_albums(@ARGV); },
-  'rt|random_track'      => sub { random_track_in_playlist(); },
+  'rt|random_track'      => sub { _rt(); },
   'a|add'                => sub { _add(@ARGV); },
   'aa|add-album'         => sub { @_ = map { $_->file } songs_on_album; add(@_); },
   'p|play'               => sub { play(); },
@@ -73,6 +73,8 @@ GetOptions(
 
   help  => \&usage,
 );
+
+sub _rt { play_pos_from_playlist(random_track_in_playlist()); }
 
 # Wrapper for songs_on_album()
 sub _lsa {
