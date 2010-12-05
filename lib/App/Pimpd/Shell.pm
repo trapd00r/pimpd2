@@ -154,22 +154,22 @@ sub spawn_shell {
 
     'sar'       => sub {
       my $artist = join(' ', @_);
-      print "$_\n" for search_db_artist($artist);
+      add_to_playlist(search_db_artist($artist));
     },
 
     'sal'       => sub {
       my $album = join(' ', @_);
-      print "$_\n" for search_db_album($album);
+      add_to_playlist(search_db_album($album));
     },
 
     'set'       => sub {
       my $title = join(' ', @_);
-      print "$_\n" for search_db_title($title);
+      add_to_playlist(search_db_title($title));
     },
 
     'sdb'       => sub {
       my $search = join(' ', @_);
-      print "$_\n" for search_db_quick($search);
+      add_to_playlist(search_db_quick($search));
     },
 
     #FIXME
