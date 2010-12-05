@@ -24,6 +24,7 @@ use App::Pimpd::Player;
 use App::Pimpd::Commands;
 use App::Pimpd::Transfer;
 use App::Pimpd::Collection::Album;
+use App::Pimpd::Collection::Search;
 use App::Pimpd::Playlist;
 use App::Pimpd::Playlist::Randomize;
 use App::Pimpd::Playlist::Add;
@@ -152,24 +153,25 @@ sub spawn_shell {
 
     'sar'       => sub {
       my $artist = join(' ', @_);
-      search_artist($artist);
+      print "$_\n" for search_db_artist($artist);
     },
 
     'sal'       => sub {
       my $album = join(' ', @_);
-      search_album($album);
+      print "$_\n" for search_db_album($album);
     },
 
     'set'       => sub {
       my $title = join(' ', @_);
-      search_title($title);
+      print "$_\n" for search_db_title($title);
     },
 
     'sdb'       => sub {
       my $search = join(' ', @_);
-      search_db($search);
+      print "$_\n" for search_db_quick($search);
     },
 
+    #FIXME
     'spl'       => sub {
       my $search = join(' ', @_);
       search_playlist($search);
@@ -180,17 +182,20 @@ sub spawn_shell {
       search_all_playlists($search);
     },
 
+
     'l'         => sub {
       if(empty_playlist()) {
         print STDERR "Nothing is playing - playlist is empty\n";
         return 1;
       }
-      list_albums();
+      print "$_\n" for albums_by_artist(@_);
     },
+
     'lsa'       => sub { print $_->file, "\n" for songs_on_album(@_); },
 
     'e'         => sub { list_external(@_); },
 
+    #FIXME
     # The 0 argument makes sure we're not clearing the playlist
     # NOTE: Not really neccessary anymore
     'add'       => sub { add_playlist(0, @_); },
