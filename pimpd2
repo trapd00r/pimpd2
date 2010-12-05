@@ -18,6 +18,7 @@ use App::Pimpd::Transfer;
 #use App::Pimpd::Validate;
 use App::Pimpd::Collection::Search;
 use App::Pimpd::Collection::Album;
+use App::Pimpd::Playlist;
 use App::Pimpd::Playlist::Search;
 use App::Pimpd::Playlist::Add;
 use App::Pimpd::Playlist::Remove;
@@ -42,7 +43,7 @@ GetOptions(
   'lsa|list-albums'      => sub { print $_->file, "\n" for songs_on_album(); },
   'ra|random-album:i'    => sub { print "$_\n" for randomize_albums(@ARGV); },
   'rt|random_track'      => sub { random_track_in_playlist(); },
-  'a|add'                => sub { add(@ARGV); },
+  'a|add'                => sub { _add(@ARGV); },
   'aa|add-album'         => sub { @_ = map { $_->file } songs_on_album; add(@_); },
   'p|play'               => sub { play(); },
   's|stop'               => sub { stop(); },
@@ -51,6 +52,9 @@ GetOptions(
   'rma|remove-album'     => sub { remove_album_from_playlist(@ARGV); },
 
   'cp'                   => sub { cp(@ARGV ? @ARGV : $target_directory) },
+  'cpa'                  => sub { cp_album(@ARGV ? @ARGV : $target_directory) },
+
+  'spl|search-playlist'  => sub { _search_playlist(@ARGV); },
 
   'next'                 => sub { next_track(); },
   'prev'                 => sub { previous_track(); },
@@ -64,9 +68,24 @@ GetOptions(
   help  => \&usage,
 );
 
+sub _search_playlist {
+  my $result = search_playlist(@_);
+
+  $\ = "\n";
+  if( keys(%{$result}) < 2 ) {
+    play_pos_from_playlist( keys(%{$result}) );
+  }
+  queue(keys(%{$result})); #FIXME queue should take arrayref
+
+  #for my $pos(keys(%{$result})) {
+  #  play_pos_from_playlist($pos);
+  #  #print $pos, $result->{$pos};
+  #}
+}
+
 
 # Wrapper for add_to_playlist()
-sub add {
+sub _add {
   my @files = @_;
 
   if(!-t STDIN) {
