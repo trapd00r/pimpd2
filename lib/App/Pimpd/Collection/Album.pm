@@ -23,6 +23,7 @@ sub songs_on_album {
   #my $album  = shift // $mpd->current->album;
   #my $artist = shift // $mpd->current->artist;
 
+  $album or $album = $mpd->current->album;
   if(!defined($album) or $album eq '') {
     print STDERR "Album tag missing!\n";
     return 1;
