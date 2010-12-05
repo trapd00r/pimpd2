@@ -63,15 +63,15 @@ In scalar context, returns the number of finds.
 sub search_db_artist {
   my $artist  = shift; # Not a regex
 
-  my @artists = $mpd->collection->songs_by_artist_partial($artist);
+  my @tracks = $mpd->collection->songs_by_artist_partial($artist);
 
-  if(!@artists) {
+  if(!@tracks) {
     return "0";
   }
 
-  map{ $_ = $_->file } @artists;
+  map{ $_ = $_->file } @tracks;
 
-  return (wantarray()) ? @artists : scalar(@artists);
+  return (wantarray()) ? @tracks : scalar(@tracks);
 }
 
 =head3 search_db_title()
