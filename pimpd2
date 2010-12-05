@@ -74,7 +74,10 @@ GetOptions(
   help  => \&usage,
 );
 
-sub _rt { play_pos_from_playlist(random_track_in_playlist()); }
+sub _rt {
+  play_pos_from_playlist(random_track_in_playlist());
+  print current(), "\n";
+}
 
 # Wrapper for songs_on_album()
 sub _lsa {
