@@ -19,6 +19,7 @@ use File::Copy;
 use App::Pimpd;
 use App::Pimpd::Validate;
 
+
 =head3 cp_album()
 
   cp_album($destination);
