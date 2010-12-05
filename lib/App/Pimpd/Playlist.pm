@@ -20,7 +20,7 @@ sub play_pos_from_playlist {
   my $track_no = shift;
 
   if(invalid_playlist_pos($track_no)) {
-    print STDERR "Playlist index $track_no is invalid\n";
+    print STDERR "Playlist index '$track_no' is invalid\n";
     return 1;
   }
   $mpd->play($track_no);
