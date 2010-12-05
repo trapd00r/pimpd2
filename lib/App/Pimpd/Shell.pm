@@ -268,7 +268,11 @@ sub spawn_shell {
       print "$status\n";
     },
 
-    'rt'        => sub { random_track_in_playlist(); },
+    'rt'        => sub {
+      play_pos_from_playlist(random_track_in_playlist());
+      print current(), "\n";
+    },
+
     'aa'        => sub { add_current_album(); },
     'clear'     => sub { clear_playlist() },
     'cr'        => sub { $mpd->playlist->crop; },
