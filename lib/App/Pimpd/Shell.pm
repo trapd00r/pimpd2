@@ -26,6 +26,7 @@ use App::Pimpd::Transfer;
 use App::Pimpd::Collection::Album;
 use App::Pimpd::Collection::Search;
 use App::Pimpd::Playlist;
+use App::Pimpd::Playlist::Remove;
 use App::Pimpd::Playlist::Randomize;
 use App::Pimpd::Playlist::Add;
 use App::Pimpd::Validate;
@@ -284,6 +285,8 @@ sub spawn_shell {
       }
       play();
     },
+
+    'rma'       => sub { remove_album_from_playlist(@_); },
     'h'         => sub { _shell_msg_help(); },
     'exit'      => sub { exit(0); },
   };
@@ -319,6 +322,7 @@ sub _shell_msg_help {
         track     n    play track n in playlist
         add       s    add playlist s
         aa        NIL  add the full album of the currently playing song
+        rma       s    remove album from playlist
         sdb       p    search the database for pattern
         sar       p    search for artists matching pattern
         sal       p    search for albums matching pattern
