@@ -11,6 +11,7 @@ our @EXPORT = qw(
 use strict;
 
 use App::Pimpd;
+use App::Pimpd::Validate;
 
 
 sub remove_album_from_playlist {
@@ -19,7 +20,9 @@ sub remove_album_from_playlist {
   my @removed;
   for($mpd->playlist->as_items) {
     if($_->album =~ m/$search_str/gi) {
-      $mpd->playlist->delete($_->pos);
+      if(not(invalid_playlist_pos($_->pos))) {
+        $mpd->playlist->delete($_->pos);
+      }
     }
   }
 }
