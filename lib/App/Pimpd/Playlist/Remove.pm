@@ -13,6 +13,18 @@ use strict;
 use App::Pimpd;
 use App::Pimpd::Validate;
 
+=head1 NAME
+
+App::Pimpd::Playlist::Remove
+
+=head1 EXPORTS
+
+=head2 remove_album_from_playlist()
+
+Takes a string, possibly regex, matches it against the current playlist albums
+and removes the resulting matches.
+
+=cut
 
 sub remove_album_from_playlist {
   my $search_str = shift;

@@ -19,8 +19,13 @@ use File::Copy;
 use App::Pimpd;
 use App::Pimpd::Validate;
 
+=pod
 
-=head3 cp_album()
+=head1 NAME
+
+App::Pimpd::Transfer - transfer remote/local music files elsewhere
+
+=head2 cp_album()
 
   cp_album($destination);
 
@@ -46,7 +51,7 @@ sub cp_album {
   if(remote_host()) {
     for(@tracks) {
       #$_ = escape($_);
-      scp($_, $destination);
+      _scp($_, $destination);
     }
   }
   else {
@@ -62,7 +67,7 @@ sub cp_album {
   }
 }
 
-=head3 cp()
+=head2 cp()
 
   cp($destination);
 
@@ -87,7 +92,7 @@ sub cp {
   }
 
   if(remote_host()) {
-    return scp($file, $destination);
+    return _scp($file, $destination);
   }
 
   else {
@@ -101,7 +106,7 @@ sub cp {
   }
 }
 
-sub scp {
+sub _scp {
   my($source, $dest) = @_;
 
   # FIXME let scp's fail

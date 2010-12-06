@@ -62,13 +62,7 @@ our(
 
 =head1 NAME
 
-pimpd2 - Perl Interface for the Music Player Daemon 2
-
-=head1 SYNOPSIS
-
-=head3 Usage
-
-  pimpd2 [OPTION] [FILE...]
+App::Pimpd2 - Base class for pimpd2
 
 =head1 DESCRIPTION
 

@@ -11,7 +11,7 @@ WriteMakefile(
       ? ('LICENSE'=> 'perl')
       : ()),
     PL_FILES            => {},
-    #EXE_FILES =>           ['pimpd'],
+    EXE_FILES =>           ['pimpd2'],
     PREREQ_PM => {
         'Test::More' => 0,
         'Audio::MPD' => 0,

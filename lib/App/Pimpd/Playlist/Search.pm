@@ -20,7 +20,15 @@ use App::Pimpd;
 use App::Pimpd::Validate;
 
 
-=head3 search_playlist()
+=pod
+
+=head1 NAME
+
+App::Pimpd::Playlist::Search
+
+=head1 EXPORTS
+
+=head2 search_playlist()
 
   my $results = search_playlist($search_str);
   print Dumper $results;

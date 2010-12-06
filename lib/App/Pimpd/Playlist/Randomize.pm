@@ -26,8 +26,13 @@ use App::Pimpd;
 use App::Pimpd::Validate;
 use List::Util 'shuffle';
 
+=head1 NAME
 
-=head3 randomize()
+App::Pimpd::Playlist::Randomize
+
+=head1 EXPORTS
+
+=head2 randomize()
 
 Parameters: $integer
 
@@ -44,7 +49,7 @@ sub randomize {
   return (wantarray()) ? @random : \@random;
 }
 
-=head3 randomize_albums()
+=head2 randomize_albums()
 
 Parameters: $integer
 
@@ -72,6 +77,12 @@ sub randomize_albums {
   }
   return (wantarray()) ? @songs : scalar(@songs);
 }
+
+=head2 random_track_in_playlist()
+
+Returns a random playlist position id.
+
+=cut
 
 sub random_track_in_playlist {
   if(empty_playlist()) {

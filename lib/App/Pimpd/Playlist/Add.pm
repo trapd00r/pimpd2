@@ -18,8 +18,13 @@ $Data::Dumper::Sortkeys  = 1;
 use App::Pimpd;
 use App::Pimpd::Validate;
 
+=head1 NAME
 
-=head3 add_to_playlist()
+App::Pimpd::Playlist::Add - add music to playlist
+
+=head1 EXPORTS
+
+=head2 add_to_playlist()
 
   add_to_playlist($file);
   add_to_playlist(\@files);

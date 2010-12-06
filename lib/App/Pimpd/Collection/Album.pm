@@ -12,9 +12,21 @@ our @EXPORT = qw(
 use strict;
 use App::Pimpd qw($mpd);
 
-=head3 albums_by_artist()
+=pod
+
+=head1 NAME
+
+App::Pimpd::Collection::Album - send album related queries to MPD
+
+=head1 EXPORTS
+
+=head2 albums_by_artist()
 
   my @albums = albums_by_artist('laleh');
+
+In list context, return all albums by artist as L<strings>.
+
+In scalar context, return number of albums by artist.
 
 =cut
 
@@ -27,10 +39,19 @@ sub albums_by_artist {
     ;
 }
 
-=head3 songs_on_album()
+=head2 songs_on_album()
 
-Returns a list with Audio::MPD::Common::Item::Song objects in list context.
-Returns number of songs in scalar context.
+  my @songs = songs_on_album('Me and Simon', 'Laleh');
+
+In list context, returns a list with Audio::MPD::Common::Item::Song objects.
+
+In scalar context, returns the number of songs found on album.
+
+If called without arguments, use the current album.
+
+If called with a second argument, it's interpreted as the artist name.
+This narrows down the result a bit, since a query for C<The Best of> probably
+would return more then one result.
 
 =cut
 

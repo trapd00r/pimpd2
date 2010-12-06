@@ -18,7 +18,14 @@ use lib '/home/scp1/devel/pimpd-ng2/lib';
 use strict;
 use App::Pimpd;
 
-=head3 escape()
+
+=pod
+
+=head1 NAME
+
+App::Pimpd::Validate
+
+=head2 escape()
 
   my $str = escape('fo&oba|r\n');
 
@@ -33,7 +40,7 @@ sub escape {
   return $str;
 }
 
-=head3 remote_host()
+=head2 remote_host()
 
   if(remote_host()) {
     ...
@@ -53,7 +60,7 @@ sub remote_host {
 }
 
 
-=head3 invalid_regex()
+=head2 invalid_regex()
 
   if(invalid_regex($regex)) {
     ...
@@ -74,7 +81,7 @@ sub invalid_regex {
   }
 }
 
-=head3 to_terminal()
+=head2 to_terminal()
 
   if(to_terminal()) {
     ...
@@ -88,6 +95,15 @@ sub to_terminal {
   return (-t STDOUT) ? 1 : 0;
 }
 
+=head2 empty_playlist()
+
+  if(empty_playlist()) {
+    ...
+  }
+
+Returns true if the playlist is empty.
+
+=cut
 
 sub empty_playlist {
   if(scalar($mpd->playlist->as_items) == 0) {
@@ -95,6 +111,16 @@ sub empty_playlist {
   }
   return 0;
 }
+
+=head2 invalid_playlist_pos()
+
+  if(invalid_playlist_pos(@list)) {
+    ...
+  }
+
+Returns true if any of the supplied playlist IDs is invalid.
+
+=cut
 
 sub invalid_playlist_pos {
   my @pos = @_;

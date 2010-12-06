@@ -23,7 +23,13 @@ $Data::Dumper::Quotekeys = 0;
 $Data::Dumper::Sortkeys  = 1;
 
 
-=head3 search_db_quick()
+=pod
+
+=head1 NAME
+
+App::Pimpd::Collection::Search - search the MPD collection
+
+=head2 search_db_quick()
 
   my @files = search_db_quick($query);
   my $finds = search_db_quick($query);
@@ -49,7 +55,7 @@ sub search_db_quick {
   return (wantarray()) ? @result : scalar(@result);
 }
 
-=head3 search_db_artist()
+=head2 search_db_artist()
 
   my @artists = search_db_artist($artist);
 
@@ -74,7 +80,7 @@ sub search_db_artist {
   return (wantarray()) ? @tracks : scalar(@tracks);
 }
 
-=head3 search_db_title()
+=head2 search_db_title()
 
   my @titles = search_db_title($title);
 
@@ -98,7 +104,7 @@ sub search_db_title {
   return (wantarray()) ? @titles : scalar(@titles);
 }
 
-=head3 search_db_album()
+=head2 search_db_album()
 
   my @albums = search_db_album($album);
 

@@ -16,6 +16,24 @@ use Term::ExtendedColor;
 use App::Pimpd;
 use App::Pimpd::Validate;
 
+=pod
+
+=head1 NAME
+
+App::Pimpd::Playlist - base class for dealing with MPD playlists
+
+=head1 EXPORTS
+
+=head2 play_pos_from_playlist()
+
+  play_pos_from_playlist(42);
+
+Takes a playlist id as the first argument, and plays it.
+
+No return value.
+
+=cut
+
 sub play_pos_from_playlist {
   my $track_no = shift;
 
@@ -25,6 +43,17 @@ sub play_pos_from_playlist {
   }
   $mpd->play($track_no);
 }
+
+=head2 queue()
+
+  queue(@playlist_pos);
+
+Takes a list of playlist IDs, and rearranges them in the playlist to build up a
+queue.
+
+No return value.
+
+=cut
 
 sub queue {
   my @to_play = @_;
@@ -62,8 +91,15 @@ sub queue {
   }
 }
 
+=head2 show_playlist()
 
+  show_playlist()
 
+Show the playlist.
+
+No return value.
+
+=cut
 
 sub show_playlist {
   my @playlist = $mpd->playlist->as_items;

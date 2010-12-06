@@ -24,7 +24,15 @@ use strict;
 use Carp;
 use App::Pimpd;
 
-=head3 next_track()
+=pod
+
+=head1 NAME
+
+App::Pimpd::Commands - basic commands controlling playback
+
+=head1 EXPORTS
+
+=head2 next_track()
 
 Play the next track in the playlist
 
@@ -34,7 +42,7 @@ sub next_track {
   $mpd->next;
 }
 
-=head3 previous_track()
+=head2 previous_track()
 
 Play the previous track in the playlist
 
@@ -44,7 +52,7 @@ sub previous_track {
   $mpd->previous;
 }
 
-=head3 clear_playlist()
+=head2 clear_playlist()
 
 clear the playlist
 
@@ -54,7 +62,7 @@ sub clear_playlist {
   $mpd->playlist->clear;
 }
 
-=head3 crop()
+=head2 crop()
 
 Remove all songs except for the currently playing song.
 
@@ -70,7 +78,7 @@ sub crop {
   }
 }
 
-=head3 crossfade()
+=head2 crossfade()
 
 Enable crossfading and set the duration of crossfade between songs. If seconds
 is not specified, or if seconds is 0, crossfading is disabled.
@@ -82,7 +90,7 @@ sub crossfade {
   $mpd->fade($sec);
 }
 
-=head3 toggle_random()
+=head2 toggle_random()
 
 Toggle random mode on/off
 
@@ -92,7 +100,7 @@ sub toggle_random {
   $mpd->random();
 }
 
-=head3 toggle_repeat()
+=head2 toggle_repeat()
 
 Toggle repeat mode on/off
 
@@ -102,7 +110,7 @@ sub toggle_repeat {
   $mpd->repeat();
 }
 
-=head3 random()
+=head2 random()
 
 Set random mode to 1/0. If no arguments are provided, functions just like
 toggle_random().
@@ -113,7 +121,7 @@ sub random {
   $mpd->random(shift);
 }
 
-=head3 toggle_pause()
+=head2 toggle_pause()
 
 Toggle playback status.
 
@@ -123,7 +131,7 @@ sub toggle_pause {
   $mpd->pause;
 }
 
-=head3 repeat()
+=head2 repeat()
 
 Set repeat mode to /10. If no arguments are provided, functions just like
 toggle_repeat.
@@ -134,7 +142,7 @@ sub repeat {
   $mpd->repeat(shift);
 }
 
-=head3 pause()
+=head2 pause()
 
 Pause/resume playback. If no arguments are provided, functions just like
 toggle_pause.

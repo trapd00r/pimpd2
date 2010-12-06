@@ -32,8 +32,15 @@ use App::Pimpd::Playlist::Add;
 use App::Pimpd::Validate;
 use Term::ExtendedColor;
 
+=pod
 
-=head3 spawn_shell()
+=head1 NAME
+
+App::Pimpd::Shell - interactive shell for pimpd2
+
+=head1 EXPORTS
+
+=head2 spawn_shell()
 
 Spawns the interactive shell
 
