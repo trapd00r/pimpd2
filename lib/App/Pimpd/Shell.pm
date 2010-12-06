@@ -31,6 +31,7 @@ use App::Pimpd::Playlist::Randomize;
 use App::Pimpd::Playlist::Add;
 use App::Pimpd::Validate;
 use Term::ExtendedColor;
+use Term::Complete;
 
 =pod
 
@@ -44,16 +45,17 @@ App::Pimpd::Shell - interactive shell for pimpd2
 
 Spawns the interactive shell
 
-=cut 
+=cut
 
 sub spawn_shell {
   my $option = shift;
   my($cmd, $arg, @cmd_args); # for later use
   _shell_msg_help();
 
+
   my $opts = {
 
-    'rand'    => sub {
+    'randomize'    => sub {
       if(!defined($_[0])) {
         $_[0] = 100;
       }
@@ -70,7 +72,7 @@ sub spawn_shell {
     },
 
 
-    'randa'   => sub {
+    'random-album'   => sub {
       $_[0] = 10 if(!$_[0]);
       print 'Adding ' . fg('bold', $_[0]) . " random albums...\n\n";
       my @albums = randomize_albums($_[0]);
@@ -88,7 +90,7 @@ sub spawn_shell {
     },
 
 
-    'list'      => sub {
+    'playlist'      => sub {
       if(empty_playlist()) {
         print STDERR "Playlist is empty\n";
         return 1;
@@ -99,7 +101,7 @@ sub spawn_shell {
 
 
     # FIXME
-    'fav'       => sub {
+    'favorite'       => sub {
       if(empty_playlist()) {
         print STDERR "Nothing is playing - playlist is empty\n";
         return 1;
@@ -124,7 +126,7 @@ sub spawn_shell {
       play_pos_from_playlist(@_);
     },
 
-    'cp'        => sub {
+    'copy'        => sub {
       if(empty_playlist()) {
         print STDERR "Nothing is playing - playlist is empty\n";
         return 1;
@@ -132,7 +134,7 @@ sub spawn_shell {
       cp($target_directory);
     },
 
-    'cpa'       => sub {
+    'copy-album'       => sub {
       if(empty_playlist()) {
         print STDERR "Nothing is playing - playlist is empty\n";
         return 1;
@@ -141,7 +143,7 @@ sub spawn_shell {
     },
 
     # FIXME
-    'cpl'       => sub { cp_list(@_); },
+    'copy-list'       => sub { cp_list(@_); },
 
     'i'         => sub {
       if(empty_playlist()) {
@@ -151,7 +153,7 @@ sub spawn_shell {
       info();
     },
 
-    'mon'       => sub {
+    'monitor'       => sub {
       if(empty_playlist()) {
         print STDERR "Playlist is empty - there's nothing to monitor\n";
         return 1;
@@ -159,28 +161,28 @@ sub spawn_shell {
       monitor();
     },
 
-    'sar'       => sub {
+    'sartist'       => sub {
       my $artist = join(' ', @_);
       add_to_playlist(search_db_artist($artist));
     },
 
-    'sal'       => sub {
+    'salbum'       => sub {
       my $album = join(' ', @_);
       add_to_playlist(search_db_album($album));
     },
 
-    'set'       => sub {
+    'stitle'       => sub {
       my $title = join(' ', @_);
       add_to_playlist(search_db_title($title));
     },
 
-    'sdb'       => sub {
+    'sany'       => sub {
       my $search = join(' ', @_);
       add_to_playlist(search_db_quick($search));
     },
 
     #FIXME
-    'spl'       => sub {
+    'splaylist'       => sub {
       my $search = join(' ', @_);
       search_playlist($search);
     },
@@ -191,7 +193,7 @@ sub spawn_shell {
     },
 
 
-    'l'         => sub {
+    'albums'         => sub {
       if(empty_playlist()) {
         print STDERR "Nothing is playing - playlist is empty\n";
         return 1;
@@ -199,16 +201,16 @@ sub spawn_shell {
       print "$_\n" for albums_by_artist(@_);
     },
 
-    'lsa'       => sub { print $_->file, "\n" for songs_on_album(@_); },
+    'songs'       => sub { print $_->file, "\n" for songs_on_album(@_); },
 
-    'e'         => sub { list_external(@_); },
+    'external'         => sub { list_external(@_); },
 
     #FIXME
     # The 0 argument makes sure we're not clearing the playlist
     # NOTE: Not really neccessary anymore
     'add'       => sub { add_playlist(0, @_); },
 
-    'n'         => sub {
+    'next'         => sub {
       if(empty_playlist()) {
         print STDERR "Playlist is empty!\n";
         return 1;
@@ -217,7 +219,7 @@ sub spawn_shell {
       print current() . "\n";
     },
 
-    'p'         => sub {
+    'previous'         => sub {
       if(empty_playlist()) {
         print STDERR "Playlist is empty!\n";
         return 1;
@@ -226,12 +228,12 @@ sub spawn_shell {
       print current() . "\n";
     },
 
-    't'         => sub {
+    'pause'         => sub {
       toggle_pause();
       print $mpd->status->state . "\n";
     },
 
-    's'         => sub {
+    'shuffle'         => sub {
       $mpd->playlist->shuffle;
       print "New playlist version is " .$mpd->status->playlist . "\n"
     },
@@ -252,7 +254,7 @@ sub spawn_shell {
       np_realtime();
     },
 
-    'q'         => sub {
+    'queue'         => sub {
       if(invalid_pos(@_)) {
         printf("No such song%s\n", (@_ < 1) ? 's' : '');
         return 1;
@@ -260,7 +262,7 @@ sub spawn_shell {
       queue(@_);
     },
 
-    'ra'        => sub {
+    'random'        => sub {
       $mpd->random;
       my $status =  ($mpd->status->random)
         ? "Random: " . fg('bold', 'On')
@@ -268,7 +270,7 @@ sub spawn_shell {
       print "$status\n";
     },
 
-    're'        => sub {
+    'repeat'        => sub {
       $mpd->repeat;
       my $status = ($mpd->status->repeat)
         ? "Repeat: " . fg('bold', 'On')
@@ -276,14 +278,14 @@ sub spawn_shell {
       print "$status\n";
     },
 
-    'rt'        => sub {
+    'randomtrack'        => sub {
       play_pos_from_playlist(random_track_in_playlist());
       print current(), "\n";
     },
 
-    'aa'        => sub { add_current_album(); },
+    'add-album'        => sub { add_current_album(); },
     'clear'     => sub { clear_playlist() },
-    'cr'        => sub { $mpd->playlist->crop; },
+    'crop'        => sub { $mpd->playlist->crop; },
     'stop'      => sub { stop(); },
     'play'      => sub {
       if(empty_playlist()) {
@@ -293,15 +295,17 @@ sub spawn_shell {
       play();
     },
 
-    'rma'       => sub { remove_album_from_playlist(@_); },
-    'h'         => sub { _shell_msg_help(); },
+    'delalbum'       => sub { remove_album_from_playlist(@_); },
+    'help'         => sub { _shell_msg_help(); },
     'exit'      => sub { exit(0); },
   };
 
   while(1) {
     print fg($c[6], 'pimpd'), fg('bold', '> ');
 
-    chomp(my $choice = <STDIN>);
+    #chomp(my $choice = <STDIN>);
+    my @available_cmd = keys(%{$opts});
+    my $choice = Complete(undef, \@available_cmd);
     ($cmd) = $choice =~ m/^(\w+)/;
     ($arg) = $choice =~ m/\s+(.+)$/;
     @cmd_args  = split(/\s+/, $arg);
@@ -312,7 +316,7 @@ sub spawn_shell {
       $opts->{$cmd}->(@cmd_args);
     }
     else {
-      $opts->{h}->();
+      $opts->{help}->();
       print STDERR "No such option ", fg($c[5], $cmd), "\n";
     }
   }
@@ -321,45 +325,41 @@ sub spawn_shell {
 
 sub _shell_msg_help {
   printf("%s %s\n%s
-    OPTIONS:
-        play           start playback
-        stop           stop playback
-        rand      n    randomize a new playlist with n tracks
-        randa     n    add n random albums to a new playlist
-        track     n    play track n in playlist
-        add       s    add playlist s
-        aa        NIL  add the full album of the currently playing song
-        rma       s    remove album from playlist
-        sdb       p    search the database for pattern
-        sar       p    search for artists matching pattern
-        sal       p    search for albums matching pattern
-        set       p    search for titles matching pattern
-        spl       p    search the playlist for pattern
-        fav       NIL  add the current track to the favorites
-        favstats  NIL  generate statistics from all favlists
-        list      NIL  show the current playlist
-        lsa       (n)  list all songs on the current album
-        i         NIL  show now playing information
-        np        NIL  show the currently playing track
-        nprt      NIL  show the currently playing track and progress in realtime
-        cp        NIL  copy the currently playing track to specifed location
-        cpl       (s)  copy the content of playlist s to specifed location
-        rt        NIL  play a random track from the playlist
-        n         NIL  next track
-        p         NIL  previous track
-        s         NIL  shuffle the playlist
-        ra        NIL  toggle random on/off
-        re        NIL  toggle repeat on/off
-        cl        NIL  clear the current playlist
-        cr        NIL  crop the current track
-        q         n    queue n tracks
-        l         NIL  list all albums featuring artist
-        e         s    list all tracks in playlist s
 
-        h         NIL  show this help
+Options:
+      np            show the current song
+      info          show all current information
+      songs         list songs on album
+      albums        list albums by artist
+      randomize     add n random songs to playlist
+      random-album  add n random albums to playlist
+      add           add files to playlist
+      remove-album  remove album from playlist
+      copy          copy song to destination
+      copy-album    copy album to destination
+      queue         put songs in a queue
 
-        exit      NIL  exit
+Search:
+      sartist       search for artist str
+      salbum        search for album str
+      stitle        search for title str
+      sany          search database for str
+      splaylist     search the current playlist for str
 
+Controls:
+      next          next track in playlist
+      previous      previous track in playlist
+      pause         toggle playback
+      repeat        toggle repeat on/off
+      random        toggle random on/off
+      clear         clear playlist
+      crop          remove all tracks but the current one from playlist
+
+      clear         clear playlist
+      crop          remove all tracks but the current from playlist
+
+      help          show this help
+      exit          exit pimpd2
 
         \n", shift,
       );
