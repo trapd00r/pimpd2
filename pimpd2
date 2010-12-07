@@ -22,6 +22,7 @@ use App::Pimpd::Playlist;
 use App::Pimpd::Playlist::Search;
 use App::Pimpd::Playlist::Add;
 use App::Pimpd::Playlist::Remove;
+use App::Pimpd::Playlist::Favorite;
 use App::Pimpd::Playlist::Randomize;
 
 use Term::ExtendedColor;
@@ -54,6 +55,8 @@ GetOptions(
 
   'cp'                   => sub { cp(@ARGV ? @ARGV : $target_directory) },
   'cpa'                  => sub { cp_album(@ARGV ? @ARGV : $target_directory) },
+
+  'fav|favorite|love'    => sub { add_to_favlist(@ARGV); }, # FIXME
 
   'spl|search-playlist'  => sub { _search_playlist(@ARGV); },
   'sdb|search-db'        => sub { print "$_\n" for search_db_quick(@ARGV); },
@@ -138,6 +141,7 @@ Hello.
   -cpa,  --copy-album       copy the current album to destination
   -sh,   --shell            spawn the interactive shell
   -q,    --queue            queue tracks
+  -f,    --love             love song
 
 =head2 Search
 
