@@ -11,12 +11,14 @@ our @EXPORT = qw(
   invalid_playlist_pos
   remote_host
   escape
+  get_valid_lists
 );
 
 use lib '/home/scp1/devel/pimpd-ng2/lib';
 
 use strict;
 use App::Pimpd;
+use Term::ExtendedColor;
 
 
 =pod
@@ -24,6 +26,61 @@ use App::Pimpd;
 =head1 NAME
 
 App::Pimpd::Validate
+
+=cut
+
+sub get_valid_lists {
+  my @lists       = @_;
+  my @valid_lists = sort($mpd->collection->all_playlists);
+
+  for my $list(@lists) {
+    if($list ~~ @valid_lists) {
+      next;
+    }
+    else {
+      my @choices = ();
+
+      for my $valid(@valid_lists) {
+        if($valid =~ /$list/i) {
+          push(@choices, $valid);
+        }
+      }
+      if(scalar(@choices) == 0) {
+        print STDERR "No such playlist '" . fg($c[5], $list), "'\n";
+        return;
+      }
+
+      my $i = 0;
+      for my $choice(@choices) {
+        print fg('bold', sprintf("%3d", $i)), " $choice\n";
+        $i++;
+      }
+      print "choice: ";
+      chomp(my $answer = <STDIN>);
+
+      if($answer eq 'all') {
+        return(@choices); # return all matched lists
+      }
+      elsif($answer eq 'current') {
+        return(undef);
+      }
+      if($answer ~~ @valid_lists) {
+        $list = $answer;
+      }
+      # Make sure the number selected is in fact valid
+      elsif($answer >= 0 and $answer <= scalar(@valid_lists)) {
+        $list = $choices[$answer];
+      }
+      else {
+        print STDERR "Playlist $answer is not valid\n";
+        return 1;
+      }
+    }
+  }
+  return(@lists);
+}
+
+
 
 =head2 escape()
 

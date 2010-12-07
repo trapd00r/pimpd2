@@ -57,6 +57,7 @@ GetOptions(
   'cpa'                  => sub { cp_album(@ARGV ? @ARGV : $target_directory) },
 
   'fav|favorite|love'    => sub { add_to_favlist(@ARGV); }, # FIXME
+  'sip|external'         => sub { songs_in_playlist(@ARGV); },
 
   'spl|search-playlist'  => sub { _search_playlist(@ARGV); },
   'sdb|search-db'        => sub { print "$_\n" for search_db_quick(@ARGV); },
@@ -142,6 +143,7 @@ Hello.
   -sh,   --shell            spawn the interactive shell
   -q,    --queue            queue tracks
   -f,    --love             love song
+  -sip,  --external         list songs in playlists
 
 =head2 Search
 

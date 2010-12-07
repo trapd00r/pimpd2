@@ -56,7 +56,7 @@ sub spawn_shell {
 
   my $opts = {
 
-    'randomize'    => sub {
+    'randomize'      => sub {
       if(!defined($_[0])) {
         $_[0] = 100;
       }
@@ -91,7 +91,7 @@ sub spawn_shell {
     },
 
 
-    'playlist'      => sub {
+    'playlist'       => sub {
       if(empty_playlist()) {
         print STDERR "Playlist is empty\n";
         return 1;
@@ -101,7 +101,7 @@ sub spawn_shell {
     },
 
 
-    'love'       => sub {
+    'love'           => sub {
       if(empty_playlist()) {
         print STDERR "Nothing is playing - playlist is empty\n";
         return 1;
@@ -110,23 +110,12 @@ sub spawn_shell {
     },
 
 
-    # FIXME
-    'favstats'  => sub {
-      if($_[0] eq 'all') {
-        favlist_stats(1);
-      }
-      else {
-        favlist_stats(0);
-      }
-    },
-
-    #FIXME
-    'track'      => sub {
+    'track'           => sub {
       $_[0] = 1 if $_[0] !~ /^\d+$/;
       play_pos_from_playlist(@_);
     },
 
-    'copy'        => sub {
+    'copy'            => sub {
       if(empty_playlist()) {
         print STDERR "Nothing is playing - playlist is empty\n";
         return 1;
@@ -134,7 +123,7 @@ sub spawn_shell {
       cp($target_directory);
     },
 
-    'copy-album'       => sub {
+    'copy-album'      => sub {
       if(empty_playlist()) {
         print STDERR "Nothing is playing - playlist is empty\n";
         return 1;
@@ -145,7 +134,7 @@ sub spawn_shell {
     # FIXME
     'copy-list'       => sub { cp_list(@_); },
 
-    'i'         => sub {
+    'i'               => sub {
       if(empty_playlist()) {
         print STDERR "Nothing is playing - playlist is empty\n";
         return 1;
@@ -153,7 +142,7 @@ sub spawn_shell {
       info();
     },
 
-    'monitor'       => sub {
+    'monitor'         => sub {
       if(empty_playlist()) {
         print STDERR "Playlist is empty - there's nothing to monitor\n";
         return 1;
@@ -161,22 +150,22 @@ sub spawn_shell {
       monitor();
     },
 
-    'sartist'       => sub {
+    'sartist'         => sub {
       my $artist = join(' ', @_);
       add_to_playlist(search_db_artist($artist));
     },
 
-    'salbum'       => sub {
+    'salbum'          => sub {
       my $album = join(' ', @_);
       add_to_playlist(search_db_album($album));
     },
 
-    'stitle'       => sub {
+    'stitle'          => sub {
       my $title = join(' ', @_);
       add_to_playlist(search_db_title($title));
     },
 
-    'sany'       => sub {
+    'sany'            => sub {
       my $search = join(' ', @_);
       add_to_playlist(search_db_quick($search));
     },
@@ -187,13 +176,13 @@ sub spawn_shell {
       search_playlist($search);
     },
 
-    'sap'       => sub {
+    'sap'             => sub {
       my $search = join(' ', @_);
       search_all_playlists($search);
     },
 
 
-    'albums'         => sub {
+    'albums'          => sub {
       if(empty_playlist()) {
         print STDERR "Nothing is playing - playlist is empty\n";
         return 1;
@@ -201,16 +190,14 @@ sub spawn_shell {
       print "$_\n" for albums_by_artist(@_);
     },
 
-    'songs'       => sub { print $_->file, "\n" for songs_on_album(@_); },
-
-    'external'         => sub { list_external(@_); },
+    'songs'           => sub { print $_->file, "\n" for songs_on_album(@_); },
 
     #FIXME
     # The 0 argument makes sure we're not clearing the playlist
     # NOTE: Not really neccessary anymore
-    'add'       => sub { add_playlist(0, @_); },
+    'add'             => sub { add_playlist(0, @_); },
 
-    'next'         => sub {
+    'next'            => sub {
       if(empty_playlist()) {
         print STDERR "Playlist is empty!\n";
         return 1;
@@ -219,7 +206,7 @@ sub spawn_shell {
       print current() . "\n";
     },
 
-    'previous'         => sub {
+    'previous'        => sub {
       if(empty_playlist()) {
         print STDERR "Playlist is empty!\n";
         return 1;
@@ -228,7 +215,7 @@ sub spawn_shell {
       print current() . "\n";
     },
 
-    'pause'         => sub {
+    'pause'           => sub {
       toggle_pause();
       print $mpd->status->state . "\n";
     },
@@ -238,7 +225,7 @@ sub spawn_shell {
       print "New playlist version is " .$mpd->status->playlist . "\n"
     },
 
-    'np'        => sub {
+    'np'              => sub {
       if(empty_playlist()) {
         print STDERR "Nothing is playing - playlist is empty\n";
         return 1;
@@ -246,7 +233,7 @@ sub spawn_shell {
       print current() . "\n";
     },
 
-    'nprt'      => sub {
+    'nprt'            => sub {
       if(empty_playlist()) {
         print STDERR "Nothing is playing - playlist is empty\n";
         return 1;
@@ -254,7 +241,7 @@ sub spawn_shell {
       np_realtime();
     },
 
-    'queue'         => sub {
+    'queue'            => sub {
       if(invalid_pos(@_)) {
         printf("No such song%s\n", (@_ < 1) ? 's' : '');
         return 1;
@@ -262,7 +249,7 @@ sub spawn_shell {
       queue(@_);
     },
 
-    'random'        => sub {
+    'random'           => sub {
       $mpd->random;
       my $status =  ($mpd->status->random)
         ? "Random: " . fg('bold', 'On')
@@ -270,7 +257,7 @@ sub spawn_shell {
       print "$status\n";
     },
 
-    'repeat'        => sub {
+    'repeat'           => sub {
       $mpd->repeat;
       my $status = ($mpd->status->repeat)
         ? "Repeat: " . fg('bold', 'On')
@@ -278,16 +265,17 @@ sub spawn_shell {
       print "$status\n";
     },
 
-    'randomtrack'        => sub {
+    'randomtrack'      => sub {
       play_pos_from_playlist(random_track_in_playlist());
       print current(), "\n";
     },
 
     'add-album'        => sub { add_current_album(); },
-    'clear'     => sub { clear_playlist() },
-    'crop'        => sub { $mpd->playlist->crop; },
-    'stop'      => sub { stop(); },
-    'play'      => sub {
+    'external'         => sub { songs_in_playlist(@_); },
+    'clear'            => sub { clear_playlist() },
+    'crop'             => sub { $mpd->playlist->crop; },
+    'stop'             => sub { stop(); },
+    'play'             => sub {
       if(empty_playlist()) {
         print STDERR "Nothing is playing - playlist is empty\n";
         return 1;
@@ -295,9 +283,9 @@ sub spawn_shell {
       play();
     },
 
-    'delalbum'       => sub { remove_album_from_playlist(@_); },
-    'help'         => sub { _shell_msg_help(); },
-    'exit'      => sub { exit(0); },
+    'delalbum'         => sub { remove_album_from_playlist(@_); },
+    'help'             => sub { _shell_msg_help(); },
+    'exit'             => sub { exit(0); },
   };
 
   while(1) {

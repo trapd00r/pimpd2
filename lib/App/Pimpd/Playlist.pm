@@ -8,6 +8,7 @@ our @EXPORT = qw(
   show_playlist
   play_pos_from_playlist
   queue
+  songs_in_playlist
 );
 
 use strict;
@@ -33,6 +34,30 @@ Takes a playlist id as the first argument, and plays it.
 No return value.
 
 =cut
+
+sub songs_in_playlist {
+  my @playlists = @_;
+
+  @playlists = get_valid_lists(@playlists);
+  for my $playlist(@playlists) {
+    my $full_path = "$playlist_directory/$playlist\.m3u";
+
+    my $fh = undef;
+    if(remote_host()) {
+      open($fh, "ssh -p $ssh_port $ssh_user\@$ssh_host \"/bin/cat '$full_path'\"|")
+        or die("$ssh_host:$ssh_port: $!");
+    }
+    else {
+      open($fh, '<', $full_path) or die("Can not open $full_path: $!");
+    }
+    while(<$fh>) {
+      print fg($c[4], $playlist), ': ', fg($c[10], $_);
+    }
+    close($fh);
+  }
+  return 0;
+}
+
 
 sub play_pos_from_playlist {
   my $track_no = shift;
