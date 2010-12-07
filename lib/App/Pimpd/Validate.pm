@@ -41,8 +41,15 @@ sub get_valid_lists {
       my @choices = ();
 
       for my $valid(@valid_lists) {
-        if($valid =~ /$list/i) {
-          push(@choices, $valid);
+        if(not invalid_regex($list)) {
+          if($valid =~ /$list/i) {
+            push(@choices, $valid);
+          }
+        }
+        else {
+          if($valid =~ /\Q$list/i) {
+            push(@choices, $valid);
+          }
         }
       }
       if(scalar(@choices) == 0) {
