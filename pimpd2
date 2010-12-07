@@ -75,7 +75,8 @@ GetOptions(
   'repeat'               => sub { toggle_repeat; },
   'random'               => sub { toggle_random; },
 
-  help  => \&usage,
+  'debug'                => sub { _debug(); },
+  'help'                 => \&usage,
 );
 
 sub _rt {
@@ -116,6 +117,14 @@ sub usage() {
   print "$APP v$VERSION\n\n";
   pod2usage(verbose => 1);
   exit 0;
+}
+
+sub _debug {
+  my $i = 0;
+  for(@c) {
+    print fg($_, "\$c[$i]"), "\n";
+    $i++;
+  }
 }
 
 =pod
