@@ -26,6 +26,7 @@ use App::Pimpd::Transfer;
 use App::Pimpd::Collection::Album;
 use App::Pimpd::Collection::Search;
 use App::Pimpd::Playlist;
+use App::Pimpd::Playlist::Favorite;
 use App::Pimpd::Playlist::Remove;
 use App::Pimpd::Playlist::Randomize;
 use App::Pimpd::Playlist::Add;
@@ -100,13 +101,12 @@ sub spawn_shell {
     },
 
 
-    # FIXME
-    'favorite'       => sub {
+    'love'       => sub {
       if(empty_playlist()) {
         print STDERR "Nothing is playing - playlist is empty\n";
         return 1;
       }
-      write_favlist(@_);
+      add_to_favlist();
     },
 
 
@@ -338,6 +338,7 @@ Options:
       copy          copy song to destination
       copy-album    copy album to destination
       queue         put songs in a queue
+      love          love song
 
 Search:
       sartist       search for artist str
