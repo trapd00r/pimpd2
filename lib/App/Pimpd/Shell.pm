@@ -30,6 +30,7 @@ use App::Pimpd::Playlist::Favorite;
 use App::Pimpd::Playlist::Remove;
 use App::Pimpd::Playlist::Randomize;
 use App::Pimpd::Playlist::Add;
+use App::Pimpd::Playlist::Search;
 use App::Pimpd::Validate;
 use Term::ExtendedColor;
 use Term::Complete;
@@ -170,10 +171,10 @@ sub spawn_shell {
       add_to_playlist(search_db_quick($search));
     },
 
-    #FIXME
     'splaylist'       => sub {
       my $search = join(' ', @_);
-      search_playlist($search);
+      print "$_\n" for values %{ search_playlist($search) };
+      queue( keys % { search_playlist($search) } );
     },
 
     'sap'             => sub {
