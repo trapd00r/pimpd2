@@ -25,12 +25,12 @@ App::Pimpd::Playlist::Favorite - class dealing with favorite songs
 
 Add the current track to a 'favlist', a playlist named by the following pattern:
 
-  %year-%month_%genre.m3u
+  %year-%month-%genre.m3u
 
 =cut
 
 sub add_to_favlist {
-  #my $favlist_m3u = shift;
+  my $favlist_m3u = shift; # arbitary playlist name
   my $artist = $mpd->current->artist // 'undef';
   my $album  = $mpd->current->album  // 'undef';
   my $title  = $mpd->current->title  // 'undef';
@@ -38,13 +38,20 @@ sub add_to_favlist {
   my $file   = $mpd->current->file;
   #my $file   = $basedir . '/' . $mpd->current->file;
 
+  $genre =~ s/\s+/_/g; # evil whitespace
+
   my(undef, undef, undef, undef, $month, $year) = localtime(time);
   $month += 1;
   $year  += 1900;
 
-  # 2010-12_rock.m3u
-  my $favlist_m3u = $playlist_directory . "/"
-    . sprintf("%d-%02d_%s.m3u", $year, $month, lc($genre));
+  if($favlist_m3u) {
+    $favlist_m3u = "$playlist_directory/" . $favlist_m3u . '.m3u';
+  }
+  else {
+    # 2010-12-rock.m3u
+    $favlist_m3u = $playlist_directory . "/"
+      . sprintf("%d-%02d-%s.m3u", $year, $month, lc($genre));
+  }
 
   if(remote_host()) {
     # Sometimes this yells 'Illegal seek at [ ... ].
