@@ -192,11 +192,7 @@ sub spawn_shell {
     },
 
     'songs'           => sub { print $_->file, "\n" for songs_on_album(@_); },
-
-    #FIXME
-    # The 0 argument makes sure we're not clearing the playlist
-    # NOTE: Not really neccessary anymore
-    'add'             => sub { add_playlist(0, @_); },
+    'add'             => sub { add_playlist(@_); },
 
     'next'            => sub {
       if(empty_playlist()) {
@@ -322,7 +318,7 @@ Options:
       albums        list albums by artist
       randomize     add n random songs to playlist
       random-album  add n random albums to playlist
-      add           add files to playlist
+      add           add playlist
       remove-album  remove album from playlist
       copy          copy song to destination
       copy-album    copy album to destination
