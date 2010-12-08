@@ -107,7 +107,7 @@ sub spawn_shell {
         print STDERR "Nothing is playing - playlist is empty\n";
         return 1;
       }
-      add_to_favlist();
+      add_to_favlist(@_);
     },
 
 
