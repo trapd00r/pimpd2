@@ -3,7 +3,7 @@ use vars qw($VERSION);
 my $APP;
 
 $APP     = 'pimpd2';
-$VERSION = 0.04;
+$VERSION = 0.05;
 
 use lib '/home/scp1/devel/pimpd-ng2/lib';
 
