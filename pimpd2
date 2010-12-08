@@ -45,8 +45,11 @@ GetOptions(
   'l|laa|list-albums'    => sub { print "$_\n" for albums_by_artist(@ARGV); },
   'ra|random-album:i'    => sub { print "$_\n" for randomize_albums(@ARGV); },
   'rt|random_track'      => sub { _rt(); },
-  'a|add'                => sub { _add(@ARGV); },
+
+  'af|add'               => sub { _add_files(@ARGV); },
   'aa|add-album'         => sub { @_ = map { $_->file } songs_on_album; add(@_); },
+  'a|apl|add-playlist'   => sub { add_playlist(@ARGV); },
+
   'p|play'               => sub { play(); },
   's|stop'               => sub { stop(); },
   'k|kill'               => sub { player_destruct(); },
@@ -102,7 +105,7 @@ sub _search_playlist {
 }
 
 
-sub _add {
+sub _add_files {
   my @files = @_;
 
   if(!-t STDIN) {
@@ -145,7 +148,8 @@ Hello.
   -l,    --albums           list albums by artist
   -r,    --randomize        randomize a new playlist with n tracks
   -ra,   --random-album     add n random full albums
-  -a,    --add              add files to playlist
+  -af,   --add-files        add files to playlist
+  -a,    --add-playlist     add playlist
   -rma,  --remove-album     remove album matching pattern from playlist
   -cp,   --copy             copy the current track to destination
   -cpa,  --copy-album       copy the current album to destination
