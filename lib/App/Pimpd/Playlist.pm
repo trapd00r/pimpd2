@@ -9,6 +9,7 @@ our @EXPORT = qw(
   play_pos_from_playlist
   queue
   songs_in_playlist
+  add_playlist
 );
 
 use strict;
@@ -24,6 +25,19 @@ use App::Pimpd::Validate;
 App::Pimpd::Playlist - base class for dealing with MPD playlists
 
 =head1 EXPORTS
+
+
+=cut
+
+sub add_playlist {
+  my @lists = get_valid_lists(@_);
+  for(@lists) {
+    $mpd->playlist->load($_);
+  }
+  $mpd->play;
+  return 0;
+}
+
 
 =head2 play_pos_from_playlist()
 
