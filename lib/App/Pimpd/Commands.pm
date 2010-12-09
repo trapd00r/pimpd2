@@ -153,5 +153,97 @@ sub pause {
   $mpd->pause(shift);
 }
 
+=pod
+
+=head1 NAME
+
+App::Pimpd::Commands - Package exporting usual commands
+
+=head1 SYNOPSIS
+
+    use App::Pimpd;
+    use App::Pimpd::Commands;
+
+    if( ... ) {
+      next_track();
+    }
+    else {
+      previous_track();
+    }
+
+=head1 DESCRIPTION
+
+B<App::Pimpd::Commands> exports functions dealing with usual commands
+
+=head1 EXPORTS
+
+=head2 next_track()
+
+Play the next track in the current playlist.
+
+=head2 previous_track()
+
+Play the previous track in the current playlist.
+
+=head2 clear_playlist()
+
+Clear the current playlist.
+
+=head2 crop()
+
+Remove all tracks but the currently playing in the current playlist.
+
+=head2 crossfade()
+
+Parameters: $seconds
+
+Enable crossfading and set the duration of crossfade between songs. If seconds
+is omitted, or if seconds is zero, crossfading is disabled.
+
+=head2 toggle_random()
+
+Toggle random mode on/off
+
+=head2 toggle_repeat()
+
+Toggle repeat mode on/off
+
+=head2 toggle_pause()
+
+Toggle playback status
+
+=head2 random()
+
+Parameters: $integer
+
+Set/unset random mode. Non-zero sets random mode on, zero sets random mode off.
+
+=head2 repeat()
+
+Set/unset repeat mode. Non-zero sets repeat mode on, zero sets repeat mode off.
+
+=head2 pause()
+
+Set playback status. Non-zero resumes playback, zero pauses.
+Called with zero arguments, functions just like B<toggle_pause()>.
+
+=head1 SEE ALSO
+
+App::Pimpd
+
+=head1 AUTHOR
+
+  Magnus Woldrich
+  CPAN ID: WOLDRICH
+  magnus@trapd00r.se
+  http://japh.se
+
+=head1 COPYRIGHT
+
+Copyright (C) 2010 Magnus Woldrich. All right reserved.
+This program is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
+
+=cut
 
 1;
