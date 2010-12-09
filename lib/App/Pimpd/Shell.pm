@@ -9,14 +9,6 @@ our @EXPORT = qw(
 );
 
 use strict;
-use Carp;
-use Data::Dumper;
-$Data::Dumper::Terse     = 1;
-$Data::Dumper::Indent    = 1;
-$Data::Dumper::Useqq     = 1;
-$Data::Dumper::Deparse   = 1;
-$Data::Dumper::Quotekeys = 0;
-$Data::Dumper::Sortkeys  = 1;
 
 use App::Pimpd;
 use App::Pimpd::Info;
@@ -34,20 +26,6 @@ use App::Pimpd::Playlist::Search;
 use App::Pimpd::Validate;
 use Term::ExtendedColor;
 use Term::Complete;
-
-=pod
-
-=head1 NAME
-
-App::Pimpd::Shell - interactive shell for pimpd2
-
-=head1 EXPORTS
-
-=head2 spawn_shell()
-
-Spawns the interactive shell
-
-=cut
 
 sub spawn_shell {
   my $option = shift;
@@ -348,7 +326,47 @@ Controls:
       );
 }
 
+=pod
 
+=head1 NAME
 
+App::Pimpd::Shell - Pimpd interactive shell
+
+=head1 SYNOPSIS
+
+    use App::Pimpd;
+    use App::Pimpd::Shell;
+
+    spawn_shell();
+
+=head1 DESCRIPTION
+
+App::Pimpd::Shell contains the definitions set up for an interactive shell with
+tabcompletion support that can handle most of this programs options.
+
+=head1 EXPORTS
+
+=head2 spawn_shell()
+
+Spawn the shell.
+
+=head1 SEE ALSO
+
+App::Pimpd
+
+=head1 AUTHOR
+
+  Magnus Woldrich
+  CPAN ID: WOLDRICH
+  magnus@trapd00r.se
+  http://japh.se
+
+=head1 COPYRIGHT
+
+Copyright (C) 2010 Magnus Woldrich. All right reserved.
+This program is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
+
+=cut
 
 1;
