@@ -18,16 +18,6 @@ use Term::ExtendedColor;
 use App::Pimpd;
 use App::Pimpd::Validate;
 
-=pod
-
-=head1 NAME
-
-App::Pimpd::Playlist - base class for dealing with MPD playlists
-
-=head1 EXPORTS
-
-
-=cut
 
 sub add_playlist {
   my @lists = get_valid_lists(@_);
@@ -37,17 +27,6 @@ sub add_playlist {
   $mpd->play;
   return 0;
 }
-
-
-=head2 play_pos_from_playlist()
-
-  play_pos_from_playlist(42);
-
-Takes a playlist id as the first argument, and plays it.
-
-No return value.
-
-=cut
 
 sub songs_in_playlist {
   my @playlists = @_;
@@ -72,7 +51,6 @@ sub songs_in_playlist {
   return 0;
 }
 
-
 sub play_pos_from_playlist {
   my $track_no = shift;
 
@@ -82,17 +60,6 @@ sub play_pos_from_playlist {
   }
   $mpd->play($track_no);
 }
-
-=head2 queue()
-
-  queue(@playlist_pos);
-
-Takes a list of playlist IDs, and rearranges them in the playlist to build up a
-queue.
-
-No return value.
-
-=cut
 
 sub queue {
   my @to_play = @_;
@@ -130,16 +97,6 @@ sub queue {
   }
 }
 
-=head2 show_playlist()
-
-  show_playlist()
-
-Show the playlist.
-
-No return value.
-
-=cut
-
 sub show_playlist {
   my @playlist = $mpd->playlist->as_items;
 
@@ -171,5 +128,87 @@ sub show_playlist {
   }
 }
 
+
+=pod
+
+=head1 NAME
+
+App::Pimpd::Playlist - Functions dealing with the current playlist
+
+=head1 SYNOPSIS
+
+    use App::Pimpd;
+    use App::Pimpd::Playlist;
+
+    add_playlist(@playlists);
+    play_pos_from_playlist(42);
+
+    queue(4, 12, 9, 18);
+
+=head1 DESCRIPTION
+
+App::Pimpd::Playlist provides functions playing with the current playlist
+
+=head1 EXPORTS
+
+=head2 add_playlist()
+
+  add_playlist('rock');
+
+Parameters: @playlists
+
+Tries hard to find valid, existing playlists based on input.
+If a playlist doesn't exist, tries to match the strings against the existing
+ones (using B<get_valid_lists()> from B<App::Pimpd::Validate>), presenting
+the user with a prompt.
+
+get_valid_lists() returns a list of valid playlists which we add to the current
+playlist.
+
+=head2 play_pos_from_playlist()
+
+  play_pos_from_playlist(42);
+
+Parameters: $playlist_pos
+
+Play $playlist_pos in the current playlist.
+
+=head2 queue()
+
+  queue(42, 3, 9, 18, 12);
+
+Parameters: @playlist_positions
+
+Simulates a queue by turning random mode off and moving the supplied playlist
+position IDs up in order.
+
+=head2 show_playlist()
+
+Show the current playlist.
+
+=head2 songs_in_playlist()
+
+Parameters: @playlists
+
+Takes a list of existing playlists and prints the content.
+
+=head1 SEE ALSO
+
+App::Pimpd
+
+=head1 AUTHOR
+
+  Magnus Woldrich
+  CPAN ID: WOLDRICH
+  magnus@trapd00r.se
+  http://japh.se
+
+=head1 COPYRIGHT
+
+Copyright (C) 2010 Magnus Woldrich. All right reserved.
+This program is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
+
+=cut
 
 1;
