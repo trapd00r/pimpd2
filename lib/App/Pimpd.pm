@@ -53,36 +53,80 @@ our(
   $playlist_directory,
 );
 
-
-
-
-
-
 =pod
 
 =head1 NAME
 
-App::Pimpd2 - Base class for pimpd2
+App::Pimpd - Base class for pimpd2
+
+=head1 SYNOPSIS
+
+    use App::Pimpd;
+
+    $\ = "\n";
+    print $mpd_host;
+    print $mpd_port;
 
 =head1 DESCRIPTION
 
-pimpd rocks
+B<App::Pimpd> is the base class for the rest of the App::Pimpd namespace, exporting
+the $mpd object and a couple of configuration variables.
 
-=head1 OPTIONS
+
+=head1 EXPORTS
+
+=head2 $mpd
+
+The base object used to communicate with mpd.
+
+=head2 $mpd_host, $mpd_port, $mpd_user, $mpd_pass
+
+MPD connection details, grabbed from environment variables and/or configuration
+file.
+
+=head2 $ssh_host, $ssh_port, $ssh_user
+
+SSH connection details. Used in B<App::Pimpd::Transfer>.
+
+=head2 $music_directory, $playlist_directory
+
+As specified in mpd.conf
+
+=head2 $target_directory
+
+The directory where B<App::Pimpd::Transfer> will place all files.
+
+=head2 @c
+
+List of colors, from configuration file.
+
+Contains valid arguments to B<Term::ExtendedColor>, like so:
+
+    $c[0]  = 'red2';
+    $c[1]  = 'blue4';
+    $c[2]  = 'green14';
+
+    ...
+
+    $c[15] = 'purple3';
+
+
+=head1 SEE ALSO
+
+B<Term::ExtendedColor>
 
 =head1 AUTHOR
 
-Written by Magnus Woldrich
-
-=head1 REPORTING BUGS
-
-Report bugs to trapd00r@trapd00r.se
+  Magnus Woldrich
+  CPAN ID: WOLDRICH
+  magnus@trapd00r.se
+  http://japh.se
 
 =head1 COPYRIGHT
 
-Copyright (C) 2010 Magnus Woldrich
-
-License GPLv2
+Copyright (C) 2010 Magnus Woldrich. All right reserved.
+This program is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
 
 =cut
 
