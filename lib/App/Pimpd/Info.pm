@@ -197,5 +197,61 @@ sub info {
   );
 }
 
+=pod
+
+=head1 NAME
+
+App::Pimpd::Info
+
+=head1 SYNOPSIS
+
+    use App::Pimpd;
+    use App::Pimpd::Info;
+
+    my $current = current();
+
+    if( ... ) {
+      info();
+    }
+
+=head1 DESCRIPTION
+
+App::Pimpd::Info provides functions for displaying current playback information.
+
+=head1 EXPORTS
+
+=head2 current()
+
+  my $current = current();
+
+Returns a pre-formatted string holding info for the current song, on a single
+line.
+
+=head2 info()
+
+  if( ... ) {
+    info();
+  }
+
+Prints all available information for the current song and MPD server setup.
+
+=head1 SEE ALSO
+
+App::Pimpd
+
+=head1 AUTHOR
+
+  Magnus Woldrich
+  CPAN ID: WOLDRICH
+  magnus@trapd00r.se
+  http://japh.se
+
+=head1 COPYRIGHT
+
+Copyright (C) 2010 Magnus Woldrich. All right reserved.
+This program is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
+
+=cut
 
 1;
