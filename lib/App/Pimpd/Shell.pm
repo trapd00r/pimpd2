@@ -74,7 +74,7 @@ sub spawn_shell {
     },
 
 
-    'random-album'   => sub {
+    'randomalbum'   => sub {
       $_[0] = 10 if(!$_[0]);
       print 'Adding ' . fg('bold', $_[0]) . " random albums...\n\n";
       my @albums = randomize_albums($_[0]);
@@ -317,9 +317,9 @@ Options:
       songs         list songs on album
       albums        list albums by artist
       randomize     add n random songs to playlist
-      random-album  add n random albums to playlist
+      randomalbum   add n random albums to playlist
       add           add playlist
-      remove-album  remove album from playlist
+      delalbum      remove album from playlist
       copy          copy song to destination
       copy-album    copy album to destination
       queue         put songs in a queue
@@ -340,9 +340,6 @@ Controls:
       random        toggle random on/off
       clear         clear playlist
       crop          remove all tracks but the current one from playlist
-
-      clear         clear playlist
-      crop          remove all tracks but the current from playlist
 
       help          show this help
       exit          exit pimpd2
