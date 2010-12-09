@@ -4,6 +4,7 @@ package App::Pimpd::Player;
 require Exporter;
 @ISA = 'Exporter';
 
+#FIXME
 our @EXPORT = qw(
   play
   stop
@@ -154,5 +155,56 @@ sub player_destruct {
   return 0;
 }
 
+=pod
+
+=head1 NAME
+
+App::Pimpd::Player - Package exporting functions that helps with local playback
+
+=head1 SYNOPSIS
+
+    use App::Pimpd;
+    use App::Pimpd::Player;
+
+    if($play_music) {
+      play();
+    }
+    elsif($time_to_sleep) {
+      player_destruct();
+    }
+
+=head1 DESCRIPTION
+
+App::Pimpd::Player provides functions that allows for local playback of music
+playing on a remote MPD server.
+
+=head1 EXPORTS
+
+=head2 play()
+
+Starts remote and local playback.
+
+=head2 stop()
+
+Stops remote and local playback.
+
+=head1 SEE ALSO
+
+App::Pimpd
+
+=head1 AUTHOR
+
+  Magnus Woldrich
+  CPAN ID: WOLDRICH
+  magnus@trapd00r.se
+  http://japh.se
+
+=head1 COPYRIGHT
+
+Copyright (C) 2010 Magnus Woldrich. All right reserved.
+This program is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
+
+=cut
 
 1;
