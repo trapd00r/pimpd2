@@ -10,8 +10,6 @@ our @EXPORT = qw(
   random_track_in_playlist
 );
 
-
-
 use strict;
 use Carp;
 use Data::Dumper;
@@ -26,19 +24,6 @@ use App::Pimpd;
 use App::Pimpd::Validate;
 use List::Util 'shuffle';
 
-=head1 NAME
-
-App::Pimpd::Playlist::Randomize
-
-=head1 EXPORTS
-
-=head2 randomize()
-
-Parameters: $integer
-
-Returns:    \@files
-
-=cut
 
 sub randomize {
   my $no_songs = shift // 100;
@@ -49,13 +34,6 @@ sub randomize {
   return (wantarray()) ? @random : \@random;
 }
 
-=head2 randomize_albums()
-
-Parameters: $integer
-
-Returns:    @files
-
-=cut
 
 sub randomize_albums {
   my $no_albums = shift // 10;
@@ -78,12 +56,6 @@ sub randomize_albums {
   return (wantarray()) ? @songs : scalar(@songs);
 }
 
-=head2 random_track_in_playlist()
-
-Returns a random playlist position id.
-
-=cut
-
 sub random_track_in_playlist {
   if(empty_playlist()) {
     print STDERR "Playlist is empty - nothing to play\n";
@@ -96,5 +68,88 @@ sub random_track_in_playlist {
   return $items[0]->pos;
 }
 
+=pod
+
+=head1 NAME
+
+App::Pimpd::Playlist::Randomize - Package exporting various randomizing functions
+
+=head1 SYNOPSIS
+
+    use App::Pimpd;
+    use App::Pimpd::Playlist::Randomize;
+
+    my @random_songs = randomize(10);
+
+    my @random_albums = randomize_albums(5);
+
+    my $random_song = random_track_in_playlist();
+
+=head1 DESCRIPTION
+
+App::Pimpd::Playlist::Randomize provides functions for altering the current
+playlist in random ways.
+
+=head1 EXPORTS
+
+=head2 randomize()
+
+  my @randoms = randomize(42);
+  my $randoms = randomize();
+
+Parameters: $integer | NONE
+
+Returns:    @songs   | \@songs
+
+In list context, returns a list with n random paths ( all relative to MPD ).
+
+In scalar context, returns an array reference.
+
+If called with zero arguments, a default value of 100 songs is used.
+
+=head2 random_albums();
+
+  my @random_albums       = random_albums(42);
+  my $random_albums_songs = random_albums();
+
+Parameters: $integer | NONE
+
+Returns:    @songs   | scalar(@songs)
+
+In list context, returns a list with the paths to the songs of n random albums.
+
+In scalar context, returns the number of B<songs> found on the n random albums.
+
+If called with zero arguments, a default value of 10 albums is used.
+
+=head2 random_track_in_playlist()
+
+  my $position = random_track_in_playlist();
+  $mpd->play($position);
+
+Parameters: NONE
+
+Returns:    $playlist_pos
+
+Returns a valid playlist position id, used to reference a song in the playlist.
+
+=head1 SEE ALSO
+
+App::Pimpd::Playlist
+
+=head1 AUTHOR
+
+  Magnus Woldrich
+  CPAN ID: WOLDRICH
+  magnus@trapd00r.se
+  http://japh.se
+
+=head1 COPYRIGHT
+
+Copyright (C) 2010 Magnus Woldrich. All right reserved.
+This program is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
+
+=cut
 
 1;
