@@ -1,6 +1,9 @@
 #!/usr/bin/perl
 package App::Pimpd::Validate;
 
+use vars qw($VERSION);
+$VERSION = 0.06;
+
 require Exporter;
 @ISA = 'Exporter';
 
@@ -20,14 +23,6 @@ use strict;
 use App::Pimpd;
 use Term::ExtendedColor;
 
-
-=pod
-
-=head1 NAME
-
-App::Pimpd::Validate
-
-=cut
 
 sub get_valid_lists {
   my @lists       = @_;
@@ -87,33 +82,12 @@ sub get_valid_lists {
   return(@lists);
 }
 
-
-
-=head2 escape()
-
-  my $str = escape('fo&oba|r\n');
-
-Returns the argument in a shape that's safe for the shell.
-
-=cut
-
 sub escape {
   my $str = shift;
   $str =~ s/([;<>\*\|`&\$!#\(\)\[\]\{\}:'"])/\\$1/g;
 
   return $str;
 }
-
-=head2 remote_host()
-
-  if(remote_host()) {
-    ...
-  }
-
-Returns true if a remote host is specified that does not match 'localhost' or
-127.0.0.1
-
-=cut
 
 sub remote_host {
   not defined($mpd_host) and $mpd_host = 'localhost';
@@ -122,17 +96,6 @@ sub remote_host {
   }
   return 1;
 }
-
-
-=head2 invalid_regex()
-
-  if(invalid_regex($regex)) {
-    ...
-  }
-
-Returns true if the string supplied is not a valid regular expression.
-
-=cut
 
 sub invalid_regex {
   my $re = shift;
@@ -145,29 +108,11 @@ sub invalid_regex {
   }
 }
 
-=head2 to_terminal()
-
-  if(to_terminal()) {
-    ...
-  }
-
-Returns true if connected to a TTY.
-
-=cut
 
 sub to_terminal {
   return (-t STDOUT) ? 1 : 0;
 }
 
-=head2 empty_playlist()
-
-  if(empty_playlist()) {
-    ...
-  }
-
-Returns true if the playlist is empty.
-
-=cut
 
 sub empty_playlist {
   if(scalar($mpd->playlist->as_items) == 0) {
@@ -175,16 +120,6 @@ sub empty_playlist {
   }
   return 0;
 }
-
-=head2 invalid_playlist_pos()
-
-  if(invalid_playlist_pos(@list)) {
-    ...
-  }
-
-Returns true if any of the supplied playlist IDs is invalid.
-
-=cut
 
 sub invalid_playlist_pos {
   my @pos = @_;
@@ -202,5 +137,102 @@ sub invalid_playlist_pos {
   return($fail);
 }
 
+=pod
+
+=head1 NAME
+
+App::Pimpd::Validate - Package exporting various functions for validating data
+
+=head1 SYNOPSIS
+
+    use App::Pimpd;
+    use App::Pimpd::Validate;
+
+    if(to_terminal()) {
+      print "Yes, you can see me!\n";
+    }
+
+    $str = escape($str);
+
+    if(invalid_playlist_pos(42)) {
+      print STDERR "No song on playlist position 42!\n";
+    }
+
+=head1 DESCRIPTION
+
+App::Pimpd::Validate provides functions for verifying certain conditions that's
+crucial for other functions.
+
+=head1 EXPORTS
+
+=head2 remote_host()
+
+Returns true if the MPD server is located on a remote host.
+
+The MPD server is assumed to be remote if the B<$mpd_host> configuration file
+variable is:
+
+  not defined
+or
+  equals 'localhost'
+or
+  equals '127.0.0.1'
+
+=head2 invalid_regex()
+
+Parameters: $regex
+
+Returns true if the provided regex is invalid.
+
+=head2 empty_playlist()
+
+Returns true if the current playlist is empty.
+
+=head2 to_terminal()
+
+Returns true if output is going to a TTY.
+
+=head2 invalid_playlist_pos()
+
+Parameters: $integer
+
+Returns true if supplied argument is an invalid playlist position.
+
+=head2 escape()
+
+Parameters: $string
+Returns:    $string
+
+Takes the supplied string and escapes it from evil chars the shell might
+otherwise munch.
+
+=head2 get_valid_lists()
+
+Parameters: @playlists
+Returns:    @valid_playlists
+
+Takes a list and traverses it, checking if every playlist exists.
+
+If a playlist is found to be non-existant, tries to match the string against
+all known playlists. If a partial match is found, prompts for validation.
+
+=head1 SEE ALSO
+
+App::Pimpd
+
+=head1 AUTHOR
+
+  Magnus Woldrich
+  CPAN ID: WOLDRICH
+  magnus@trapd00r.se
+  http://japh.se
+
+=head1 COPYRIGHT
+
+Copyright (C) 2010 Magnus Woldrich. All right reserved.
+This program is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
+
+=cut
 
 1;
