@@ -2,7 +2,7 @@
 package App::Pimpd;
 
 use vars qw($VERSION);
-$VERSION = 0.01;
+$VERSION = 0.06;
 
 my $config;
 BEGIN {

@@ -1,6 +1,9 @@
 #!/usr/bin/perl
 package App::Pimpd::Shell;
 
+use vars qw($VERSION);
+$VERSION = 0.06;
+
 require Exporter;
 @ISA = 'Exporter';
 
