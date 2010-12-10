@@ -30,21 +30,13 @@ use Getopt::Long;
 use Pod::Usage;
 use Data::Dumper;
 
-$Data::Dumper::Terse     = 1;
-$Data::Dumper::Indent    = 1;
-$Data::Dumper::Useqq     = 1;
-$Data::Dumper::Deparse   = 1;
-$Data::Dumper::Quotekeys = 0;
-$Data::Dumper::Sortkeys  = 1;
-
-
 GetOptions(
   'np|now-playing'       => sub { print current(), "\n"; },
-  'i|information'        => \&info,
-  'lsa|list-songs'       => sub { _lsa(@ARGV); },
-  'l|laa|list-albums'    => sub { print "$_\n" for albums_by_artist(@ARGV); },
-  'ra|random-album:i'    => sub { print "$_\n" for randomize_albums(@ARGV); },
-  'rt|random_track'      => sub { _rt(); },
+  'i|info'               => \&info,
+  'lsa|songs'            => sub { _lsa(@ARGV); },
+  'l|laa|albums'         => sub { print "$_\n" for albums_by_artist(@ARGV); },
+  'ra|random-album'      => sub { print "$_\n" for randomize_albums(@ARGV); },
+  'rt|random-track'      => sub { _rt(); },
 
   'af|add'               => sub { _add_files(@ARGV); },
   'aa|add-album'         => sub { @_ = map { $_->file } songs_on_album; add(@_); },
@@ -92,7 +84,7 @@ sub _lsa {
   my($album, $artist) = @_;
 
   $album or $album = $mpd->current->album;
-  print "$_\n" for songs_on_album($album, $artist);
+  print $_->file, "\n" for songs_on_album($album, $artist);
 }
 
 sub _search_playlist {
