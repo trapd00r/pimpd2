@@ -34,7 +34,7 @@ sub albums_by_artist {
   my $artist = shift // $mpd->current->artist;
 
   return wantarray()
-    ? $mpd->collection->albums_by_artist($artist)
+    ? sort($mpd->collection->albums_by_artist($artist))
     : scalar($mpd->collection->albums_by_artist($artist))
     ;
 }
