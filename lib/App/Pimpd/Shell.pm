@@ -166,7 +166,8 @@ sub spawn_shell {
         print STDERR "Nothing is playing, and no argument supplied\n";
         return 1;
       }
-      print "$_\n" for albums_by_artist(@_);
+      my $artist = join(' ', @_);
+      print "$_\n" for albums_by_artist($artist);
     },
 
     'songs'           => sub { print $_->file, "\n" for songs_on_album(@_); },
