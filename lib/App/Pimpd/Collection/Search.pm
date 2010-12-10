@@ -13,14 +13,8 @@ our @EXPORT = qw(
 
 use strict;
 use App::Pimpd qw($mpd);
+use App::Pimpd::Validate;
 use Carp 'confess';
-use Data::Dumper;
-$Data::Dumper::Terse     = 1;
-$Data::Dumper::Indent    = 1;
-$Data::Dumper::Useqq     = 1;
-$Data::Dumper::Deparse   = 1;
-$Data::Dumper::Quotekeys = 0;
-$Data::Dumper::Sortkeys  = 1;
 
 
 =pod
