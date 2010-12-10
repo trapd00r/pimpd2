@@ -20,6 +20,19 @@ use Term::ExtendedColor;
 use App::Pimpd;
 use App::Pimpd::Validate;
 
+sub remove_album_from_playlist {
+  my $search_str = shift;
+
+  my @removed;
+  for($mpd->playlist->as_items) {
+    if($_->album =~ m/$search_str/gi) {
+      if(not(invalid_playlist_pos($_->pos))) {
+        $mpd->playlist->delete($_->pos);
+      }
+    }
+  }
+}
+
 sub add_to_playlist {
   my @songs = @_;
 
@@ -232,6 +245,12 @@ In scalar context, returns the number of knows playlists.
 Parameters: @paths | \@paths
 
 Adds the list of songs (paths) to the current playlist.
+
+=head2 remove_album_from_playlist()
+
+Parameters: $regex
+
+Tries to remove all albums matching $regex from the current playlist.
 
 =head1 SEE ALSO
 
