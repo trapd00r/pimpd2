@@ -10,6 +10,7 @@ our @EXPORT = qw(
   queue
   songs_in_playlist
   add_playlist
+  list_all_playlists
 );
 
 use strict;
@@ -126,6 +127,13 @@ sub show_playlist {
     }
     $i++;
   }
+}
+
+sub list_all_playlists {
+  return wantarray()
+    ? sort($mpd->collection->all_playlists)
+    : scalar($mpd->collection->all_playlists)
+    ;
 }
 
 
