@@ -162,8 +162,8 @@ sub spawn_shell {
 
 
     'albums'          => sub {
-      if(empty_playlist()) {
-        print STDERR "Nothing is playing - playlist is empty\n";
+      if(empty_playlist() and !@_) {
+        print STDERR "Nothing is playing, and no argument supplied\n";
         return 1;
       }
       print "$_\n" for albums_by_artist(@_);
