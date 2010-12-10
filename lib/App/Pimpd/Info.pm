@@ -59,16 +59,6 @@ sub _current_update {
   }
 }
 
-=head3 current()
-
-  my $current = current();
-
-Return a formatted string with relevant now playing information.
-
-If $config_extended_colors is true, use 256 colors.
-
-=cut
-
 sub current {
   my $output;
 
@@ -100,14 +90,6 @@ sub current {
 
   return $output;
 }
-
-=head info()
-
-  info();
-
-Yields all available information.
-
-=cut
 
 sub info {
   (undef,undef,undef,undef,undef, my $crnt_year) = localtime(time);
