@@ -9,25 +9,10 @@ our @EXPORT = qw(
 );
 
 use strict;
-use Carp;
 
 use App::Pimpd;
 use App::Pimpd::Validate;
 use Term::ExtendedColor;
-
-=head1 NAME
-
-App::Pimpd::Playlist::Favorite - class dealing with favorite songs
-
-=head1 EXPORTS
-
-=head2 add_to_favlist()
-
-Add the current track to a 'favlist', a playlist named by the following pattern:
-
-  %year-%month-%genre.m3u
-
-=cut
 
 sub add_to_favlist {
   my $favlist_m3u = shift; # arbitary playlist name
@@ -77,6 +62,59 @@ sub add_to_favlist {
 
   print fg($c[8], fg('bold', $title)), ' => ', fg($c[6], $favlist_m3u), "\n";
 }
+
+=pod
+
+=head1 NAME
+
+App::Pimpd::Playlist::Favorite - Package exporting functions for the favlist
+functionality
+
+=head1 SYNOPSIS
+
+    use App::Pimpd;
+    use App::Pimpd::Playlist::Favorite;
+
+    if($mpd->current->title eq 'This song is awesome!') {
+      add_to_favlist();
+    }
+
+=head1 DESCRIPTION
+
+App::Pimpd::Playlist::Favorite exports functions dealing with the favlist
+functionality.
+
+=head1 EXPORTS
+
+=head2 add_to_favlist()
+
+Parameters: $playlist_name | NONE
+
+Saves the currently playing song to a special playlist, 'favlist'.
+
+If called without arguments, the playlist naming template is
+C<%year-%month-%genre>, else the argument is used.
+
+=head1 SEE ALSO
+
+App::Pimpd::Playlist
+
+=head1 AUTHOR
+
+  Magnus Woldrich
+  CPAN ID: WOLDRICH
+  magnus@trapd00r.se
+  http://japh.se
+
+=head1 COPYRIGHT
+
+Copyright (C) 2010 Magnus Woldrich. All right reserved.
+This program is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
+
+=cut
+
+1;
 
 
 
