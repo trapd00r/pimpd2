@@ -1,6 +1,9 @@
 #!/usr/bin/perl
 package App::Pimpd::Transfer;
 
+use vars qw($VERSION);
+$VERSION = 0.06;
+
 require Exporter;
 @ISA = 'Exporter';
 
@@ -13,30 +16,11 @@ our @EXPORT = qw(
 use lib '/home/scp1/devel/pimpd-ng2/lib';
 
 use strict;
-use Carp;
+use Carp 'confess';
 use File::Copy;
 
 use App::Pimpd;
 use App::Pimpd::Validate;
-
-=pod
-
-=head1 NAME
-
-App::Pimpd::Transfer - transfer remote/local music files elsewhere
-
-=head2 cp_album()
-
-  cp_album($destination);
-
-If we're dealing with a local MPD server, copy all tracks from the current album
-to the defined destination.
-
-If the MPD server is on a remote box, we use scp. The reason why we're not using
-Net::SCP is because it's no more then a simple wrapper around the scp binary
-anyway.
-
-=cut
 
 sub cp_album {
   my $destination = shift;
@@ -54,6 +38,7 @@ sub cp_album {
       _scp($_, $destination);
     }
   }
+
   else {
     for(@tracks) {
       $_ = escape($_);
@@ -66,14 +51,6 @@ sub cp_album {
     }
   }
 }
-
-=head2 cp()
-
-  cp($destination);
-
-Copy the current track to destination.
-
-=cut
 
 sub cp {
   my $destination = shift;
@@ -114,7 +91,62 @@ sub _scp {
     == 0 or confess("scp: $!");
 }
 
+=pod
 
+=head1 NAME
 
+App::Pimpd::Transfer
+
+=head1 SYNOPSIS
+
+    use App::Pimpd;
+    use App::Pimpd::Transfer;
+
+    cp('/tmp');
+    cp_album();
+
+=head1 DESCRIPTION
+
+App::Pimpd::Transfer provides functions for transfering music from the MPD
+server to the local machine.
+
+=head1 EXPORTS
+
+=head2 cp()
+
+  cp($location);
+
+Parameters: $path | NONE
+
+Copy the currently playing song to B<$location>. If $location is omitted, uses
+the B<$target_directory> variable from the configuration file.
+
+=head2 cp_album()
+
+  cp_album($location);
+
+Parameters: $path | NONE
+
+Copy the songs from the currently playing album to $location. If $location is 
+omitted, uses the $target_directory variable from the configuration file.
+
+=head1 SEE ALSO
+
+App::Pimpd
+
+=head1 AUTHOR
+
+  Magnus Woldrich
+  CPAN ID: WOLDRICH
+  magnus@trapd00r.se
+  http://japh.se
+
+=head1 COPYRIGHT
+
+Copyright (C) 2010 Magnus Woldrich. All right reserved.
+This program is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
+
+=cut
 
 1;
