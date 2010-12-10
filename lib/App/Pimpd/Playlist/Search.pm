@@ -8,34 +8,10 @@ our @EXPORT = qw(search_playlist);
 
 use strict;
 use Carp;
-use Data::Dumper;
-$Data::Dumper::Terse     = 1;
-$Data::Dumper::Indent    = 1;
-$Data::Dumper::Useqq     = 1;
-$Data::Dumper::Deparse   = 1;
-$Data::Dumper::Quotekeys = 0;
-$Data::Dumper::Sortkeys  = 1;
 
 use App::Pimpd;
 use App::Pimpd::Validate;
 
-
-=pod
-
-=head1 NAME
-
-App::Pimpd::Playlist::Search
-
-=head1 EXPORTS
-
-=head2 search_playlist()
-
-  my $results = search_playlist($search_str);
-  print Dumper $results;
-
-Returns a hashref with the numeric pos id as key and the filename for value.
-
-=cut
 
 sub search_playlist {
   my $query = shift;
@@ -59,5 +35,56 @@ sub search_playlist {
   return \%result;
 }
 
+=pod
+
+=head1 NAME
+
+App::Pimpd::Playlist::Search - Search the current playlist
+
+=head1 SYNOPSIS
+
+    use App::Pimpd;
+    use App::Pimpd::Playlist::Search
+
+    my $result = search_playlist('laleh');
+
+    my $file = $result->{42};
+
+=head1 DESCRIPTION
+
+App::Pimpd::Playlist::Search provides functions for searching the current
+playlist.
+
+=head1 EXPORTS
+
+=head2 search_playlist()
+
+Parameters: $regex
+
+Returns:    \%position_and_files
+
+Build up a hash where the playlist position IDs are mapped to the filenames.
+
+The result is returned as a hash reference.
+
+=head1 SEE ALSO
+
+App::Pimpd::Playlist
+
+=head1 AUTHOR
+
+  Magnus Woldrich
+  CPAN ID: WOLDRICH
+  magnus@trapd00r.se
+  http://japh.se
+
+=head1 COPYRIGHT
+
+Copyright (C) 2010 Magnus Woldrich. All right reserved.
+This program is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
+
+=cut
 
 1;
+
