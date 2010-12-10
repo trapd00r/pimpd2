@@ -171,6 +171,7 @@ sub spawn_shell {
     },
 
     'songs'           => sub { print $_->file, "\n" for songs_on_album(@_); },
+    'playlists'       => sub { print "$_\n" for list_all_playlists(); },
     'add'             => sub { add_playlist(@_); },
 
     'next'            => sub {

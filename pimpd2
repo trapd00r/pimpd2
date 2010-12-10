@@ -3,7 +3,7 @@ use vars qw($VERSION);
 my $APP;
 
 $APP     = 'pimpd2';
-$VERSION = 0.05;
+$VERSION = 0.06;
 
 use lib '/home/scp1/devel/pimpd-ng2/lib';
 
@@ -30,6 +30,8 @@ use Getopt::Long;
 use Pod::Usage;
 use Data::Dumper;
 
+@ARGV or usage();
+
 GetOptions(
   'np|now-playing'       => sub { print current(), "\n"; },
   'i|info'               => \&info,
@@ -41,6 +43,7 @@ GetOptions(
   'af|add'               => sub { _add_files(@ARGV); },
   'aa|add-album'         => sub { @_ = map { $_->file } songs_on_album; add(@_); },
   'a|apl|add-playlist'   => sub { add_playlist(@ARGV); },
+  'lsp|playlists'        => sub { print "$_\n" for list_all_playlists(); },
 
   'p|play'               => sub { play(); },
   's|stop'               => sub { stop(); },
@@ -72,6 +75,7 @@ GetOptions(
 
   'debug'                => sub { _debug(); },
   'help'                 => \&usage,
+  'man'                  => sub { pod2usage( verbose => 3 ); },
 );
 
 sub _rt {
@@ -130,7 +134,7 @@ pimpd2
 
 =head1 DESCRIPTION
 
-Hello.
+The B<best> MPD client out there. Yes, really.
 
 =head1 OPTIONS
 
