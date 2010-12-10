@@ -200,6 +200,12 @@ Parameters: @playlists
 
 Takes a list of existing playlists and prints the content.
 
+=head2 list_all_playlists()
+
+In list context, returns a list with known playlists.
+
+In scalar context, returns the number of knows playlists.
+
 =head1 SEE ALSO
 
 App::Pimpd
