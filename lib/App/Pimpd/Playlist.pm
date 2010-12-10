@@ -11,6 +11,7 @@ our @EXPORT = qw(
   songs_in_playlist
   add_playlist
   list_all_playlists
+  add_to_playlist
 );
 
 use strict;
@@ -18,6 +19,26 @@ use Term::ExtendedColor;
 
 use App::Pimpd;
 use App::Pimpd::Validate;
+
+sub add_to_playlist {
+  my @songs = @_;
+
+  if(ref($songs[0] eq 'ARRAY')) {
+    push(@songs, @{$songs[0]});
+    shift(@songs);
+  }
+  chomp(@songs);
+
+  $mpd->playlist->add(@songs);
+
+  # Start playback. Often one wants to clear the playlist and add a bunch of
+  # new, maybe randomized, content. When the playlist is cleared, playback will
+  # stop.
+  # If using the player() functionality, we have around 20s to start playback
+  # again. 20s ought to be enough for everybody.
+  $mpd->play;
+  return 0;
+}
 
 
 sub add_playlist {
@@ -205,6 +226,12 @@ Takes a list of existing playlists and prints the content.
 In list context, returns a list with known playlists.
 
 In scalar context, returns the number of knows playlists.
+
+=head2 add_to_playlist()
+
+Parameters: @paths | \@paths
+
+Adds the list of songs (paths) to the current playlist.
 
 =head1 SEE ALSO
 
