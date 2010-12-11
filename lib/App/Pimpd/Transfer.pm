@@ -2,7 +2,7 @@
 package App::Pimpd::Transfer;
 
 use vars qw($VERSION);
-$VERSION = 0.06;
+$VERSION = 0.10;
 
 require Exporter;
 @ISA = 'Exporter';
@@ -12,8 +12,6 @@ our @EXPORT = qw(
   cp_album
   cp_list
 );
-
-use lib '/home/scp1/devel/pimpd-ng2/lib';
 
 use strict;
 use Carp 'confess';
@@ -86,7 +84,6 @@ sub cp {
 sub _scp {
   my($source, $dest) = @_;
 
-  # FIXME let scp's fail
   system('scp', '-r',  "-P $ssh_port", "$ssh_host:'$source'", $dest)
     == 0 or confess("scp: $!");
 }

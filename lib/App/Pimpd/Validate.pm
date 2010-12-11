@@ -2,7 +2,7 @@
 package App::Pimpd::Validate;
 
 use vars qw($VERSION);
-$VERSION = 0.06;
+$VERSION = 0.10;
 
 require Exporter;
 @ISA = 'Exporter';
@@ -17,8 +17,6 @@ our @EXPORT = qw(
   get_valid_lists
 );
 
-use lib '/home/scp1/devel/pimpd-ng2/lib';
-
 use strict;
 use App::Pimpd;
 use Term::ExtendedColor;
@@ -27,6 +25,8 @@ use Term::ExtendedColor;
 sub get_valid_lists {
   my @lists       = @_;
   my @valid_lists = sort($mpd->collection->all_playlists);
+
+  get_color_support();
 
   for my $list(@lists) {
     if($list ~~ @valid_lists) {
