@@ -178,20 +178,24 @@ App::Pimpd::Info provides functions for displaying current playback information.
 
 =head1 EXPORTS
 
-=head2 current()
+=over
+
+=item current()
 
   my $current = current();
 
 Returns a pre-formatted string holding info for the current song, on a single
 line.
 
-=head2 info()
+=item info()
 
   if( ... ) {
     info();
   }
 
 Prints all available information for the current song and MPD server setup.
+
+=back
 
 =head1 SEE ALSO
 

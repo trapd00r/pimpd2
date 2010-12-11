@@ -102,55 +102,59 @@ B<App::Pimpd::Commands> exports functions dealing with usual commands
 
 =head1 EXPORTS
 
-=head2 next_track()
+=over
+
+=item next_track()
 
 Play the next track in the current playlist.
 
-=head2 previous_track()
+=item previous_track()
 
 Play the previous track in the current playlist.
 
-=head2 clear_playlist()
+=item clear_playlist()
 
 Clear the current playlist.
 
-=head2 crop()
+=item crop()
 
 Remove all tracks but the currently playing in the current playlist.
 
-=head2 crossfade()
+=item crossfade()
 
 Parameters: $seconds
 
 Enable crossfading and set the duration of crossfade between songs. If seconds
 is omitted, or if seconds is zero, crossfading is disabled.
 
-=head2 toggle_random()
+=item toggle_random()
 
 Toggle random mode on/off
 
-=head2 toggle_repeat()
+=item toggle_repeat()
 
 Toggle repeat mode on/off
 
-=head2 toggle_pause()
+=item toggle_pause()
 
 Toggle playback status
 
-=head2 random()
+=item random()
 
 Parameters: $integer
 
 Set/unset random mode. Non-zero sets random mode on, zero sets random mode off.
 
-=head2 repeat()
+=item repeat()
 
 Set/unset repeat mode. Non-zero sets repeat mode on, zero sets repeat mode off.
 
-=head2 pause()
+=item pause()
 
 Set playback status. Non-zero resumes playback, zero pauses.
 Called with zero arguments, functions just like B<toggle_pause()>.
+
+=back
 
 =head1 SEE ALSO
 

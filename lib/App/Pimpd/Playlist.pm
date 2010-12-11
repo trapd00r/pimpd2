@@ -196,7 +196,9 @@ App::Pimpd::Playlist provides functions playing with the current playlist
 
 =head1 EXPORTS
 
-=head2 add_playlist()
+=over
+
+=item add_playlist()
 
   add_playlist('rock');
 
@@ -210,7 +212,7 @@ the user with a prompt.
 get_valid_lists() returns a list of valid playlists which we add to the current
 playlist.
 
-=head2 play_pos_from_playlist()
+=item play_pos_from_playlist()
 
   play_pos_from_playlist(42);
 
@@ -218,7 +220,7 @@ Parameters: $playlist_pos
 
 Play $playlist_pos in the current playlist.
 
-=head2 queue()
+=item queue()
 
   queue(42, 3, 9, 18, 12);
 
@@ -227,33 +229,35 @@ Parameters: @playlist_positions
 Simulates a queue by turning random mode off and moving the supplied playlist
 position IDs up in order.
 
-=head2 show_playlist()
+=item show_playlist()
 
 Show the current playlist.
 
-=head2 songs_in_playlist()
+=item songs_in_playlist()
 
 Parameters: @playlists
 
 Takes a list of existing playlists and prints the content.
 
-=head2 list_all_playlists()
+=item list_all_playlists()
 
 In list context, returns a list with known playlists.
 
 In scalar context, returns the number of knows playlists.
 
-=head2 add_to_playlist()
+=item add_to_playlist()
 
 Parameters: @paths | \@paths
 
 Adds the list of songs (paths) to the current playlist.
 
-=head2 remove_album_from_playlist()
+=item remove_album_from_playlist()
 
 Parameters: $regex
 
 Tries to remove all albums matching $regex from the current playlist.
+
+=back
 
 =head1 SEE ALSO
 

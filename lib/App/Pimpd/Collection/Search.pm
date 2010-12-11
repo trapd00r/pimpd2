@@ -96,7 +96,9 @@ App::Pimpd::Collection::Search provides search functions for the MPD collection
 
 =head1 EXPORTS
 
-=head2 search_db_quick()
+=over
+
+=item search_db_quick()
 
   my @paths = search_db_quick('foo');
 
@@ -111,7 +113,7 @@ In list context, returns full paths for the matched songs.
 
 In scalar context, returns the number of matches.
 
-=head2 search_db_artist()
+=item search_db_artist()
 
   my @paths = search_db_artist('Laleh');
 
@@ -123,7 +125,7 @@ In list context, returns full paths for all songs by $artist.
 
 In scalar context, returns the number of songs by $artist.
 
-=head2 search_db_album()
+=item search_db_album()
 
 Parameters: $string
 
@@ -133,7 +135,7 @@ In list context, returns full paths for the songs on $album.
 
 In scalar context, returns the number of songs on albums.
 
-=head2 search_db_title()
+=item search_db_title()
 
 Parameters: $string
 
@@ -142,6 +144,8 @@ Returns:    @paths
 In list context, returns full paths for the songs named $string.
 
 In scalar context, returns the number of songs named $string.
+
+=back
 
 =head1 SEE ALSO
 

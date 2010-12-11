@@ -109,7 +109,9 @@ server to the local machine.
 
 =head1 EXPORTS
 
-=head2 cp()
+=over
+
+=item cp()
 
   cp($location);
 
@@ -118,7 +120,7 @@ Parameters: $path | NONE
 Copy the currently playing song to B<$location>. If $location is omitted, uses
 the B<$target_directory> variable from the configuration file.
 
-=head2 cp_album()
+=item cp_album()
 
   cp_album($location);
 
@@ -126,6 +128,8 @@ Parameters: $path | NONE
 
 Copy the songs from the currently playing album to $location. If $location is 
 omitted, uses the $target_directory variable from the configuration file.
+
+=back
 
 =head1 SEE ALSO
 

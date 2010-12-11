@@ -60,7 +60,9 @@ playlist.
 
 =head1 EXPORTS
 
-=head2 search_playlist()
+=over
+
+=item search_playlist()
 
 Parameters: $regex
 
@@ -69,6 +71,8 @@ Returns:    \%position_and_files
 Build up a hash where the playlist position IDs are mapped to the filenames.
 
 The result is returned as a hash reference.
+
+=pod
 
 =head1 SEE ALSO
 

@@ -87,7 +87,9 @@ playlist in random ways.
 
 =head1 EXPORTS
 
-=head2 randomize()
+=over
+
+=item randomize()
 
   my @randoms = randomize(42);
   my $randoms = randomize();
@@ -102,7 +104,7 @@ In scalar context, returns an array reference.
 
 If called with zero arguments, a default value of 100 songs is used.
 
-=head2 random_albums();
+=item random_albums();
 
   my @random_albums       = random_albums(42);
   my $random_albums_songs = random_albums();
@@ -117,7 +119,7 @@ In scalar context, returns the number of B<songs> found on the n random albums.
 
 If called with zero arguments, a default value of 10 albums is used.
 
-=head2 random_track_in_playlist()
+=item random_track_in_playlist()
 
   my $position = random_track_in_playlist();
   $mpd->play($position);
@@ -127,6 +129,8 @@ Parameters: NONE
 Returns:    $playlist_pos
 
 Returns a valid playlist position id, used to reference a song in the playlist.
+
+=back
 
 =head1 SEE ALSO
 

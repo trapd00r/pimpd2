@@ -352,9 +352,13 @@ tabcompletion support that can handle most of this programs options.
 
 =head1 EXPORTS
 
-=head2 spawn_shell()
+=over
+
+=item spawn_shell()
 
 Spawn the shell.
+
+=back
 
 =head1 SEE ALSO
 

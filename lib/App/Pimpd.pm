@@ -136,28 +136,30 @@ the $mpd object and a couple of configuration variables.
 
 =head1 EXPORTS
 
-=head2 $mpd
+=over
+
+=item $mpd
 
 The base object used to communicate with mpd.
 
-=head2 $mpd_host, $mpd_port, $mpd_user, $mpd_pass
+=item $mpd_host, $mpd_port, $mpd_user, $mpd_pass
 
 MPD connection details, grabbed from environment variables and/or configuration
 file.
 
-=head2 $ssh_host, $ssh_port, $ssh_user
+=item $ssh_host, $ssh_port, $ssh_user
 
 SSH connection details. Used in B<App::Pimpd::Transfer>.
 
-=head2 $music_directory, $playlist_directory
+=item $music_directory, $playlist_directory
 
 As specified in mpd.conf
 
-=head2 $target_directory
+=item $target_directory
 
 The directory where B<App::Pimpd::Transfer> will place all files.
 
-=head2 @c
+=item @c
 
 List of colors, from configuration file.
 
@@ -171,6 +173,7 @@ Contains valid arguments to B<Term::ExtendedColor>, like so:
 
     $c[15] = 'purple3';
 
+=back
 
 =head1 SEE ALSO
 

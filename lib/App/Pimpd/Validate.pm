@@ -164,7 +164,9 @@ crucial for other functions.
 
 =head1 EXPORTS
 
-=head2 remote_host()
+=over
+
+=item remote_host()
 
 Returns true if the MPD server is located on a remote host.
 
@@ -177,27 +179,27 @@ or
 or
   equals '127.0.0.1'
 
-=head2 invalid_regex()
+=item invalid_regex()
 
 Parameters: $regex
 
 Returns true if the provided regex is invalid.
 
-=head2 empty_playlist()
+=item empty_playlist()
 
 Returns true if the current playlist is empty.
 
-=head2 to_terminal()
+=item to_terminal()
 
 Returns true if output is going to a TTY.
 
-=head2 invalid_playlist_pos()
+=item invalid_playlist_pos()
 
 Parameters: $integer
 
 Returns true if supplied argument is an invalid playlist position.
 
-=head2 escape()
+=item escape()
 
 Parameters: $string
 Returns:    $string
@@ -205,7 +207,7 @@ Returns:    $string
 Takes the supplied string and escapes it from evil chars the shell might
 otherwise munch.
 
-=head2 get_valid_lists()
+=item get_valid_lists()
 
 Parameters: @playlists
 Returns:    @valid_playlists
@@ -214,6 +216,8 @@ Takes a list and traverses it, checking if every playlist exists.
 
 If a playlist is found to be non-existant, tries to match the string against
 all known playlists. If a partial match is found, prompts for validation.
+
+=back
 
 =head1 SEE ALSO
 

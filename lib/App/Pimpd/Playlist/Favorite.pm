@@ -89,7 +89,9 @@ functionality.
 
 =head1 EXPORTS
 
-=head2 add_to_favlist()
+=over
+
+=item add_to_favlist()
 
 Parameters: $playlist_name | NONE
 
@@ -97,6 +99,8 @@ Saves the currently playing song to a special playlist, 'favlist'.
 
 If called without arguments, the playlist naming template is
 C<%year-%month-%genre>, else the argument is used.
+
+=back
 
 =head1 SEE ALSO
 

@@ -167,13 +167,17 @@ playing on a remote MPD server.
 
 =head1 EXPORTS
 
-=head2 play()
+=over
+
+=item play()
 
 Starts remote and local playback.
 
-=head2 stop()
+=item stop()
 
 Stops remote and local playback.
+
+=back
 
 =head1 SEE ALSO
 
