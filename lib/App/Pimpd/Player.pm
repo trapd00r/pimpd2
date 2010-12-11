@@ -2,7 +2,7 @@
 package App::Pimpd::Player;
 
 use vars qw($VERSION);
-$VERSION = 0.06;
+$VERSION = 0.10;
 
 require Exporter;
 @ISA = 'Exporter';
@@ -18,43 +18,27 @@ our @EXPORT = qw(
 
 use strict;
 use Carp;
-use Data::Dumper;
 use Term::ExtendedColor;
-$Data::Dumper::Terse     = 1;
-$Data::Dumper::Indent    = 1;
-$Data::Dumper::Useqq     = 1;
-$Data::Dumper::Deparse   = 1;
-$Data::Dumper::Quotekeys = 0;
-$Data::Dumper::Sortkeys  = 1;
 
 use App::Pimpd;
 
 # NOTE To config
-my $player          = 'mplayer';
-my $player_stream   = 'http://192.168.1.100:9999';
-my $player_temp_log = '/tmp/pimpd2_player.log';
-my $pidfile_pimpd   = '/tmp/pimpd2.pod';
+my $pidfile_pimpd   = '/tmp/pimpd2.pid';
 my $pidfile_player  = '/tmp/pimpd2-player.pid';
+my $player_tmp_log  = '/tmp/pimpd2.log';
+
+my $cmdline = player_cmdline();
 
 sub player_init {
-  if(!defined($player)) {
-    #print STDERR "No player configured\n";
-    return 1;
-  }
-  if(!defined($player_stream)) {
-    #print STDERR "No stream configured\n";
-    return 1;
-  }
-
   my $fails = 0;
 
   # Not playing!
-  if(! -e $player_temp_log) {
-    player_daemonize($player_temp_log);
-    exec($player, $player_stream);
+  if(! -e $player_tmp_log) {
+    player_daemonize($player_tmp_log);
+    exec($cmdline);
   }
   else {
-    open(my $fh, '<', $player_temp_log);
+    open(my $fh, '<', $player_tmp_log);
     while(<$fh>) {
       if(/Exiting\.\.\. \(End of file\)/) {
         $fails++;
@@ -69,13 +53,13 @@ sub player_init {
     close($fh);
   }
   if($fails == 20) {
-    unlink($player_temp_log);
+    unlink($player_tmp_log);
     #player_destruct();
     return 0;
   }
   else {
-    player_daemonize($player_temp_log);
-    exec($player, $player_stream);
+    player_daemonize($player_tmp_log);
+    exec($cmdline);
   }
   return 0;
 }
@@ -104,7 +88,8 @@ sub player_daemonize {
     # This means that MPD is in a state where it's not sending any data
     # We try to reconnect 15 times with a delay, and if the stream is still
     # down, we exit. See player_init()
-    player_init($player_stream);
+
+    player_init();
     exit(0);
   }
   elsif($PID == 0) { # child
@@ -130,7 +115,7 @@ sub play {
 
 sub stop {
   $mpd->stop;
-  #unlink($player_temp_log);
+  #unlink($player_tmp_log);
   player_destruct();
 }
 
@@ -140,7 +125,7 @@ sub player_destruct {
   close($fh);
 
   if(kill(9, $pimpd_player)) {
-    unlink($player_temp_log);
+    unlink($player_tmp_log);
     #printf("%s %s\n", fg('bold', $pimpd_player), 'terminated');
   }
 
