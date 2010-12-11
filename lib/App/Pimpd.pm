@@ -27,9 +27,6 @@ our @EXPORT = qw(
 
 );
 
-# NOTE
-# Call get_color_support() directly here?
-
 use strict;
 use Audio::MPD;
 
@@ -60,6 +57,7 @@ our(
 
 config_init();
 mpd_init();
+get_color_support();
 
 sub player_cmdline {
   if(defined($c_player)) {
@@ -74,16 +72,11 @@ sub player_cmdline {
 }
 
 sub get_color_support {
-  if($c_extended_colors) {
-    return 256;
+  if( not($c_extended_colors) and not($c_ansi_colors) ) {
+    # Clear the color array.
+    @c = ();
+    return 0;
   }
-  elsif($c_ansi_colors) {
-    return 16;
-  }
-
-  # Clear the color array.
-  @c = ();
-  return 0;
 }
 
 sub mpd_init {
