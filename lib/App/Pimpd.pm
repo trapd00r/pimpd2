@@ -77,6 +77,9 @@ sub color_support {
   elsif($c_ansi_colors) {
     return 16;
   }
+
+  # Clear the color array.
+  @c = ();
   return 0;
 }
 
