@@ -2,13 +2,8 @@
 package App::Pimpd;
 
 use vars qw($VERSION);
-$VERSION = 0.06;
+$VERSION = 0.10;
 
-my $config;
-BEGIN {
-  $config = '/home/scp1/devel/pimpd-ng2/pimpd.conf';
-  require($config);
-}
 
 require Exporter;
 @ISA = 'Exporter';
@@ -26,18 +21,17 @@ our @EXPORT = qw(
   $music_directory
   $playlist_directory
   $target_directory
-);
 
-use lib '/home/scp1/devel/pimpd-ng2/lib';
+  color_support
+
+);
 
 use strict;
 use Audio::MPD;
 
-our $mpd = Audio::MPD->new(
-  host  => $ENV{MPD_HOST},
-  port  => $ENV{MPD_PORT},
-);
+our $mpd;
 
+# From configuration file
 our(
   @c,
   $mpd_host,
@@ -51,7 +45,58 @@ our(
 
   $music_directory,
   $playlist_directory,
+
+  $c_extended_colors,
+  $c_ansi_colors,
 );
+
+config_init();
+mpd_init();
+
+sub color_support {
+  if($c_extended_colors) {
+    return 256;
+  }
+  elsif($c_ansi_colors) {
+    return 16;
+  }
+  return 0;
+}
+
+sub mpd_init {
+  if( (defined($mpd_host)) or (defined($mpd_port)) ) {
+    $mpd = Audio::MPD->new(
+      host  => $mpd_host,
+      port  => $mpd_port,
+    );
+  }
+}
+
+sub config_init {
+  my $config;
+  if(-e "$ENV{HOME}/.config/pimpd2/pimpd.conf") {
+    $config = "$ENV{HOME}/.config/pimpd2/pimpd.conf";
+  }
+  elsif(-e "$ENV{HOME}/.pimpd.conf") {
+    $config = "$ENV{HOME}/.pimpd.conf";
+  }
+  elsif(-e "$ENV{HOME}/pimpd.conf") {
+    $config = "$ENV{HOME}/pimpd.conf";
+  }
+  elsif(-e './pimpd.conf') {
+    $config = './pimpd.conf';
+  }
+  elsif(-e '/etc/pimpd.conf') {
+    $config = '/etc/pimpd.conf';
+  }
+  else {
+    print STDERR "No configuration file found\n";
+    return 1;
+  }
+
+  require($config);
+  warn $@ if $@;
+}
 
 =pod
 
