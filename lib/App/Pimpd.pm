@@ -22,7 +22,8 @@ our @EXPORT = qw(
   $playlist_directory
   $target_directory
 
-  color_support
+  &color_support
+  &player_cmdline
 
 );
 
@@ -48,10 +49,26 @@ our(
 
   $c_extended_colors,
   $c_ansi_colors,
+
+  $c_player,
+  @c_player_opts,
+  $c_player_url,
 );
 
 config_init();
 mpd_init();
+
+sub player_cmdline {
+  if(defined($c_player)) {
+    if(!defined($c_player_url)) {
+      print STDERR "No remote MPD adress specified in pimpd.conf. Exiting...\n";
+      return 1;
+    }
+    return "$c_player $c_player_url @c_player_opts";
+  }
+  print STDERR "No player configured\n";
+  return 1;
+}
 
 sub color_support {
   if($c_extended_colors) {
