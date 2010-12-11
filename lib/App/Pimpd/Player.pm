@@ -18,7 +18,6 @@ our @EXPORT = qw(
 
 use strict;
 use Carp;
-use Term::ExtendedColor;
 
 use App::Pimpd;
 
@@ -77,14 +76,14 @@ sub player_daemonize {
   exit(1) if(!defined($PID));
 
   if($PID) { # parent
-    open(my $fh, '>', $pidfile_pimpd) or die($!);
+    open(my $fh, '>', $pidfile_pimpd) or confess($!);
     print $fh $$;
     close($fh);
 
     waitpid($PID, 0);
-    #unlink($pidfile); # remove the lock when child have died
+    #unlink($pidfile); # remove the lock when child have confessd
 
-    # Child have died/returned.
+    # Child have confessd/returned.
     # This means that MPD is in a state where it's not sending any data
     # We try to reconnect 15 times with a delay, and if the stream is still
     # down, we exit. See player_init()
@@ -93,7 +92,7 @@ sub player_daemonize {
     exit(0);
   }
   elsif($PID == 0) { # child
-    open(my $fh, '>', "$pidfile_player") or die("pidfile $pidfile_player: $!");
+    open(my $fh, '>', "$pidfile_player") or confess("pidfile $pidfile_player: $!");
     print $fh $$;
     close($fh);
     open(STDOUT, '>>',  $daemon_log);
@@ -129,7 +128,7 @@ sub player_destruct {
     #printf("%s %s\n", fg('bold', $pimpd_player), 'terminated');
   }
 
-  open(my $fh, '<', $pidfile_player) or die($!);
+  open(my $fh, '<', $pidfile_player) or confess($!);
   my $pimpd_target = <$fh>;
   close($fh);
 
