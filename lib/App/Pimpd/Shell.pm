@@ -256,6 +256,7 @@ sub spawn_shell {
     'clear'            => sub { clear_playlist() },
     'crop'             => sub { $mpd->playlist->crop; },
     'stop'             => sub { stop(); },
+    'kill'             => sub { player_destruct(); },
     'play'             => sub {
       if(empty_playlist()) {
         print STDERR "Nothing is playing - playlist is empty\n";
@@ -324,6 +325,8 @@ Controls:
       random        toggle random on/off
       clear         clear playlist
       crop          remove all tracks but the current one from playlist
+
+      kill          stop local playback
 
       help          show this help
       exit          exit pimpd2
