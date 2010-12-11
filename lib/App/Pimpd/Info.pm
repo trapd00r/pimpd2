@@ -2,30 +2,25 @@
 package App::Pimpd::Info;
 
 use vars qw($VERSION);
-$VERSION = 0.06;
+$VERSION = 0.10;
 
 require Exporter;
 @ISA = 'Exporter';
 
-our @EXPORT = qw(current info);
+our @EXPORT = qw(
+  current
+  info
+);
 
 use strict;
-use Carp;
-use Data::Dumper;
-$Data::Dumper::Terse     = 1;
-$Data::Dumper::Indent    = 1;
-$Data::Dumper::Useqq     = 1;
-$Data::Dumper::Deparse   = 1;
-$Data::Dumper::Quotekeys = 0;
-$Data::Dumper::Sortkeys  = 1;
 
 use App::Pimpd;
 use App::Pimpd::Validate;
 use Term::ExtendedColor;
 
-# NOTE To config
-my $config_extended_colors = 1;
-my $config_ansi_colors     = undef;
+if(color_support() == 2) {
+  print "EXT!\n";
+}
 
 
 my(%current, %status, ,%stats);
@@ -64,12 +59,11 @@ sub current {
 
   _current_update();
 
-  if(not to_terminal()) {
-    $config_extended_colors = 0;
-    $config_ansi_colors     = 0;
-  }
 
-  if( ($config_extended_colors) or ($config_ansi_colors) ) {
+  if( (color_support() ==  256)
+      or (color_support() == 16)
+      and (to_terminal())
+  ) {
     $output = sprintf("%s - %s on %s from %s [%s]",
       fg($c[3], fg('bold',  $current{artist})),
       fg($c[11], $current{title}),
@@ -97,6 +91,9 @@ sub info {
 
   _current_update();
 
+  if(color_support() == 0) {
+    @c = (); #FIXME
+  }
 
   for(keys(%current)) {
     $current{$_} = fg($c[14], 'N/A') if(!defined($current{$_}));
