@@ -3,7 +3,7 @@ use vars qw($VERSION);
 my $APP;
 
 $APP     = 'pimpd2';
-$VERSION = 0.10;
+$VERSION = '0.10';
 
 use strict;
 
@@ -40,6 +40,7 @@ GetOptions(
   'aa|add-album'         => sub { @_ = map { $_->file } songs_on_album; add(@_); },
   'a|apl|add-playlist'   => sub { add_playlist(@ARGV); },
   'lsp|playlists'        => sub { print "$_\n" for list_all_playlists(); },
+  'pls|playlist'         => sub { show_playlist(); },
 
   'p|play'               => sub { play(); },
   's|stop'               => sub { stop(); },
@@ -130,7 +131,7 @@ pimpd2
 
 =head1 DESCRIPTION
 
-The B<best> MPD client out there. Yes, really.
+Perl Interface for the Music Player Daemon 2
 
 =head1 OPTIONS
 
@@ -138,17 +139,23 @@ The B<best> MPD client out there. Yes, really.
   -i,    --info             full song info
   -lsa,  --songs            list songs on album
   -l,    --albums           list albums by artist
-  -r,    --randomize        randomize a new playlist with n tracks
-  -ra,   --random-album     add n random full albums
-  -af,   --add-files        add files to playlist
-  -a,    --add-playlist     add playlist
-  -rma,  --remove-album     remove album matching pattern from playlist
   -cp,   --copy             copy the current track to destination
   -cpa,  --copy-album       copy the current album to destination
   -sh,   --shell            spawn the interactive shell
   -q,    --queue            queue tracks
+
+=head2 Playlist
+
+  -pls,  --playlist         show the current playlist
+  -lsp,  --playlists        list all known playlists
+  -af,   --add-files        add files to playlist
+  -a,    --add-playlist     add playlist
+  -r,    --randomize        randomize a new playlist with n tracks
+  -ra,   --random-album     add n random full albums
+  -rma,  --remove-album     remove album matching pattern from playlist
   -f,    --love             love song
   -sip,  --external         list songs in playlists
+
 
 =head2 Search
 
@@ -161,10 +168,10 @@ The B<best> MPD client out there. Yes, really.
 
 =head2 Controls
 
-  -cl,   --clear            clear the playlist
-  -cr,   --crop             remove all songs but the current one from playlist
   -n,    --next             next track in playlist
   -p,    --previous         previous track in playlist
+  -cl,   --clear            clear the playlist
+  -cr,   --crop             remove all songs but the current one from playlist
   -x,    --xfade            set crossfade
          --pause            toggle playback status
          --repeat           toggle repeat mode
