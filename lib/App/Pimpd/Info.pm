@@ -53,33 +53,15 @@ sub _current_update {
 }
 
 sub current {
-  my $output;
-
   _current_update();
 
-
-  if( (color_support() ==  256)
-      or (color_support() == 16)
-      and (to_terminal())
-  ) {
-    $output = sprintf("%s - %s on %s from %s [%s]",
+  my $output = sprintf("%s - %s on %s from %s [%s]",
       fg($c[3], fg('bold',  $current{artist})),
       fg($c[11], $current{title}),
       fg($c[0], $current{album}),
       fg($c[4], fg('bold', $current{date})),
       $current{genre},
     );
-  }
-  else {
-    $output = sprintf("%s - %s on %s from %s [%s]",
-      $current{artist},
-      $current{title},
-      $current{album},
-      $current{date},
-      $current{genre},
-    );
-  }
-
   return $output;
 }
 
@@ -88,10 +70,6 @@ sub info {
   $crnt_year += 1900;
 
   _current_update();
-
-  if(color_support() == 0) {
-    @c = (); #FIXME
-  }
 
   for(keys(%current)) {
     $current{$_} = fg($c[14], 'N/A') if(!defined($current{$_}));
