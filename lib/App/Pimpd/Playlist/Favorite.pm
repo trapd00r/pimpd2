@@ -28,8 +28,6 @@ sub add_to_favlist {
 
   $genre =~ s/\s+/_/g; # evil whitespace
 
-  get_color_support();
-
   my(undef, undef, undef, undef, $month, $year) = localtime(time);
   $month += 1;
   $year  += 1900;

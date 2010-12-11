@@ -26,7 +26,6 @@ sub get_valid_lists {
   my @lists       = @_;
   my @valid_lists = sort($mpd->collection->all_playlists);
 
-  get_color_support();
 
   for my $list(@lists) {
     if($list ~~ @valid_lists) {

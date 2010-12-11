@@ -23,7 +23,6 @@ use App::Pimpd;
 use App::Pimpd::Validate;
 use Term::ExtendedColor;
 
-get_color_support();
 
 sub remove_album_from_playlist {
   my $search_str = shift;
