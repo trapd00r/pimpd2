@@ -72,6 +72,7 @@ GetOptions(
 
   'debug'                => sub { _debug(); },
   'help'                 => \&usage,
+  'version'              => sub { print "$APP v$VERSION\n" and exit 0; },
   'man'                  => sub { pod2usage( verbose => 3 ); },
 );
 
