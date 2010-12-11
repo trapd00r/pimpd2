@@ -18,9 +18,7 @@ use App::Pimpd;
 use App::Pimpd::Validate;
 use Term::ExtendedColor;
 
-if(color_support() == 2) {
-  print "EXT!\n";
-}
+get_color_support();
 
 
 my(%current, %status, ,%stats);
