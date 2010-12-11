@@ -22,10 +22,13 @@ our @EXPORT = qw(
   $playlist_directory
   $target_directory
 
-  &color_support
+  &get_color_support
   &player_cmdline
 
 );
+
+# NOTE
+# Call get_color_support() directly here?
 
 use strict;
 use Audio::MPD;
@@ -70,7 +73,7 @@ sub player_cmdline {
   return 1;
 }
 
-sub color_support {
+sub get_color_support {
   if($c_extended_colors) {
     return 256;
   }
