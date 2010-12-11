@@ -2,7 +2,7 @@
 package App::Pimpd::Collection::Album;
 
 use vars qw($VERSION);
-$VERSION = 0.06;
+$VERSION = 0.10;
 
 require Exporter;
 @ISA = 'Exporter';
@@ -13,25 +13,8 @@ our @EXPORT = qw(
   );
 
 use strict;
-use App::Pimpd qw($mpd);
+use App::Pimpd;
 
-=pod
-
-=head1 NAME
-
-App::Pimpd::Collection::Album - send album related queries to MPD
-
-=head1 EXPORTS
-
-=head2 albums_by_artist()
-
-  my @albums = albums_by_artist('laleh');
-
-In list context, return all albums by artist as L<strings>.
-
-In scalar context, return number of albums by artist.
-
-=cut
 
 sub albums_by_artist {
   my $artist = shift // $mpd->current->artist;
@@ -41,22 +24,6 @@ sub albums_by_artist {
     : scalar($mpd->collection->albums_by_artist($artist))
     ;
 }
-
-=head2 songs_on_album()
-
-  my @songs = songs_on_album('Me and Simon', 'Laleh');
-
-In list context, returns a list with Audio::MPD::Common::Item::Song objects.
-
-In scalar context, returns the number of songs found on album.
-
-If called without arguments, use the current album.
-
-If called with a second argument, it's interpreted as the artist name.
-This narrows down the result a bit, since a query for C<The Best of> probably
-would return more then one result.
-
-=cut
 
 sub songs_on_album {
   my($album, $artist) = @_;
