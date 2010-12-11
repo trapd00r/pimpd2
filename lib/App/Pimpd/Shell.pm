@@ -2,7 +2,7 @@
 package App::Pimpd::Shell;
 
 use vars qw($VERSION);
-$VERSION = 0.06;
+$VERSION = 0.10;
 
 require Exporter;
 @ISA = 'Exporter';
@@ -33,6 +33,8 @@ use Term::Complete;
 sub spawn_shell {
   my $option = shift;
   my($cmd, $arg, @cmd_args); # for later use
+
+  get_color_support();
   _shell_msg_help();
 
 
