@@ -2,7 +2,7 @@
 package App::Pimpd::Playlist::Favorite;
 
 use vars qw($VERSION);
-$VERSION = 0.06;
+$VERSION = 0.10;
 
 require Exporter;
 @ISA = 'Exporter';
@@ -27,6 +27,8 @@ sub add_to_favlist {
   #my $file   = $basedir . '/' . $mpd->current->file;
 
   $genre =~ s/\s+/_/g; # evil whitespace
+
+  get_color_support();
 
   my(undef, undef, undef, undef, $month, $year) = localtime(time);
   $month += 1;
