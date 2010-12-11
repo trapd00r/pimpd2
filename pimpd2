@@ -3,9 +3,7 @@ use vars qw($VERSION);
 my $APP;
 
 $APP     = 'pimpd2';
-$VERSION = 0.06;
-
-use lib '/home/scp1/devel/pimpd-ng2/lib';
+$VERSION = 0.10;
 
 use strict;
 
@@ -20,8 +18,6 @@ use App::Pimpd::Collection::Search;
 use App::Pimpd::Collection::Album;
 use App::Pimpd::Playlist;
 use App::Pimpd::Playlist::Search;
-use App::Pimpd::Playlist::Add;
-use App::Pimpd::Playlist::Remove;
 use App::Pimpd::Playlist::Favorite;
 use App::Pimpd::Playlist::Randomize;
 
