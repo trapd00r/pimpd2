@@ -34,7 +34,6 @@ sub spawn_shell {
   my $option = shift;
   my($cmd, $arg, @cmd_args); # for later use
 
-  get_color_support();
   _shell_msg_help();
 
 
