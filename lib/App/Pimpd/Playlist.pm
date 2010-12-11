@@ -2,7 +2,7 @@
 package App::Pimpd::Playlist;
 
 use vars qw($VERSION);
-$VERSION = 0.06;
+$VERSION = 0.10;
 
 require Exporter;
 @ISA = 'Exporter';
@@ -18,10 +18,12 @@ our @EXPORT = qw(
 );
 
 use strict;
-use Term::ExtendedColor;
 
 use App::Pimpd;
 use App::Pimpd::Validate;
+use Term::ExtendedColor;
+
+get_color_support();
 
 sub remove_album_from_playlist {
   my $search_str = shift;
@@ -128,7 +130,6 @@ sub queue {
   print fg('bold', 'Queueing'), ":\n";
   for(@to_play) {
     printf("%-50.50s %s\n", fg($c[3], $list{$_}), "( $_ => $next_pos )");
-    #print "$_ => ", fg('bold', $next_pos), "\n" if($DEBUG);
 
     $mpd->playlist->move($_, $next_pos);
     $next_pos++;
@@ -155,7 +156,7 @@ sub show_playlist {
       # bg('red4', $i) will add another 17 chars
 
       printf("%19s %51.51s |@{[fg('bold', 'x')]}| %-47.47s\n",
-        bg('red4', $i), fg('red1', fg('bold',  $artist)), $title);
+        bg($c[4], $i), fg($c[5], fg('bold',  $artist)), $title);
 
     }
     else {
