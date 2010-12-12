@@ -13,12 +13,15 @@ our @EXPORT = qw(
 
 use strict;
 
+use Carp 'confess';
 use App::Pimpd;
 use App::Pimpd::Validate;
 use Term::ExtendedColor;
 
 sub add_to_favlist {
   my $favlist_m3u = shift; # arbitary playlist name
+
+  my $fav_db = "$ENV{HOME}/.config/pimpd/fav.db";
   my $artist = $mpd->current->artist // 'undef';
   my $album  = $mpd->current->album  // 'undef';
   my $title  = $mpd->current->title  // 'undef';
@@ -40,6 +43,11 @@ sub add_to_favlist {
     $favlist_m3u = $playlist_directory . "/"
       . sprintf("%d-%02d-%s.m3u", $year, $month, lc($genre));
   }
+
+  # Write the db locally.
+  open(my $fh, '>>', $fav_db) or confess("Cant open '$fav_db': $!");
+  print $fh "$file\n";
+  close($fh);
 
   if(remote_host()) {
     # Sometimes this yells 'Illegal seek at [ ... ].
