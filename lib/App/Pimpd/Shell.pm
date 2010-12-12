@@ -161,7 +161,9 @@ sub spawn_shell {
 
     'sap'             => sub {
       my $search = join(' ', @_);
-      search_all_playlists($search);
+      my @result = search_all_playlists($search);
+      print "$_\n" for @result;
+      add_to_playlist(@result);
     },
 
 
