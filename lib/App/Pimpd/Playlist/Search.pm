@@ -7,13 +7,17 @@ $VERSION = 0.10;
 require Exporter;
 @ISA = 'Exporter';
 
-our @EXPORT = qw(search_playlist);
+our @EXPORT = qw(
+  search_playlist
+  search_all_playlists
+);
 
 use strict;
 use Carp;
 
 use App::Pimpd;
 use App::Pimpd::Validate;
+use Term::ExtendedColor;
 
 
 sub search_playlist {
@@ -24,12 +28,13 @@ sub search_playlist {
   }
 
   if(invalid_regex($query)) {
-    confess("Invalid regex '$query'");
+    $query =~ s;^\Q;;;
   }
 
   my %result;
   for($mpd->playlist->as_items) {
     my $str = join(' - ', $_->artist, $_->album, $_->title);
+
     if($str =~ /$query/gpi) {
       $result{$_->pos} = $_->file;
     }
@@ -37,6 +42,39 @@ sub search_playlist {
 
   return \%result;
 }
+
+
+sub search_all_playlists {
+  my $query = shift;
+  if(!defined($query)) {
+    confess("You must specify a query for search_all_playlists()");
+  }
+
+  if(invalid_regex($query)) {
+    $query =~ s;\Q;;;
+  }
+
+  my @matched_files;
+
+  open(my $fh, '<', "$ENV{HOME}/.config/pimpd/fav.db")
+    or print "No DB found\n" and return 1;
+  chomp(my @tracks = <$fh>);
+
+  for(@tracks) {
+    if(invalid_regex($query)) {
+      if($_ =~ /\Q$query/i) {
+        print "YES: $_\n";
+      }
+    }
+    else {
+      if($_ =~ /$query/i) {
+        print "YES:: $_\n";
+      }
+    }
+  }
+  close($fh);
+}
+
 
 =pod
 
@@ -64,15 +102,25 @@ playlist.
 
 =item search_playlist()
 
-Parameters: $regex
+Parameters: $query
 
-Returns:    \%position_and_files
+Returns:    \%result
 
-Build up a hash where the playlist position IDs are mapped to the filenames.
+Given a query (possibly a regular expression), return a hash whose keys are
+the playlist position IDs and the values the paths (relative to MPD).
 
-The result is returned as a hash reference.
+=item search_all_playlists()
 
-=pod
+Parameters: $query
+
+Returns:    @paths
+
+Given a query (possibly a regular expression), search through all playlists for
+matches.
+
+In list context, returns the matched paths.
+
+In scalar context, returns the number of matched files.
 
 =head1 SEE ALSO
 
