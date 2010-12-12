@@ -106,7 +106,7 @@ sub spawn_shell {
       cp($target_directory);
     },
 
-    'copy-album'      => sub {
+    'copya'      => sub {
       if(empty_playlist()) {
         print STDERR "Nothing is playing - playlist is empty\n";
         return 1;
@@ -306,7 +306,7 @@ Options:
       add           add playlist
       delalbum      remove album from playlist
       copy          copy song to destination
-      copy-album    copy album to destination
+      copya         copy album to destination
       queue         put songs in a queue
       love          love song
 
