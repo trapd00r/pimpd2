@@ -63,16 +63,17 @@ sub search_all_playlists {
   for(@tracks) {
     if(invalid_regex($query)) {
       if($_ =~ /\Q$query/i) {
-        print "YES: $_\n";
+        push(@matched_files, $_);
       }
     }
     else {
       if($_ =~ /$query/i) {
-        print "YES:: $_\n";
+        push(@matched_files, $_);
       }
     }
   }
   close($fh);
+  return @matched_files;
 }
 
 
