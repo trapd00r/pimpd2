@@ -90,20 +90,20 @@ sub mpd_init {
 
 sub config_init {
   my $config;
-  if(-e "$ENV{HOME}/.config/pimpd2/pimpd.conf") {
-    $config = "$ENV{HOME}/.config/pimpd2/pimpd.conf";
+  if(-e "$ENV{HOME}/.config/pimpd2/pimpd2.conf") {
+    $config = "$ENV{HOME}/.config/pimpd2/pimpd2.conf";
   }
-  elsif(-e "$ENV{HOME}/.pimpd.conf") {
-    $config = "$ENV{HOME}/.pimpd.conf";
+  elsif(-e "$ENV{HOME}/.pimpd2.conf") {
+    $config = "$ENV{HOME}/.pimpd2.conf";
   }
-  elsif(-e "$ENV{HOME}/pimpd.conf") {
-    $config = "$ENV{HOME}/pimpd.conf";
+  elsif(-e "$ENV{HOME}/pimpd2.conf") {
+    $config = "$ENV{HOME}/pimpd2.conf";
   }
-  elsif(-e './pimpd.conf') {
-    $config = './pimpd.conf';
+  elsif(-e './pimpd2.conf') {
+    $config = './pimpd2.conf';
   }
-  elsif(-e '/etc/pimpd.conf') {
-    $config = '/etc/pimpd.conf';
+  elsif(-e '/etc/pimpd2.conf') {
+    $config = '/etc/pimpd2.conf';
   }
   else {
     print STDERR "No configuration file found\n";
