@@ -17,9 +17,10 @@ WriteMakefile(
         'Audio::MPD' => 0,
         'Term::ExtendedColor' => 0.16,
     },
-    #MAN1PODS            => {
-    #    'pimpd' => 'blib/man1/pimpd.1',
-    #  },
+    MAN1PODS            => {
+        'pimpd2.conf' => 'blib/man1/pimpd2.conf.1',
+        'pimpd2'      => 'blib/man1/pimpd2.1',
+      },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean               => { FILES => 'pimpd-*' },
 );
