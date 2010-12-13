@@ -5,7 +5,7 @@ use ExtUtils::MakeMaker;
 WriteMakefile(
     NAME                => 'App::Pimpd',
     AUTHOR              => q{Magnus Woldrich <trapd00r@trapd00r.se>},
-    # VERSION_FROM        => 'pimpd',
+    VERSION_FROM        => 'lib/App/Pimpd.pm',
     #ABSTRACT_FROM       => 'pimpd',
     ($ExtUtils::MakeMaker::VERSION >= 6.3002
       ? ('LICENSE'=> 'perl')

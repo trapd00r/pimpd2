@@ -1,9 +1,6 @@
 #!/usr/bin/perl
 package App::Pimpd::Playlist::Favorite;
 
-use vars qw($VERSION);
-$VERSION = 0.10;
-
 require Exporter;
 @ISA = 'Exporter';
 

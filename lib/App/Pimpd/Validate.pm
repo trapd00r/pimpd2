@@ -1,9 +1,6 @@
 #!/usr/bin/perl
 package App::Pimpd::Validate;
 
-use vars qw($VERSION);
-$VERSION = 0.10;
-
 require Exporter;
 @ISA = 'Exporter';
 
@@ -18,6 +15,7 @@ our @EXPORT = qw(
 );
 
 use strict;
+use Carp 'croak';
 use App::Pimpd;
 use Term::ExtendedColor;
 
@@ -51,6 +49,9 @@ sub get_valid_lists {
         return;
       }
 
+      
+      print "'all' uses all playlists\n\n";
+
       my $i = 0;
       for my $choice(@choices) {
         print fg('bold', sprintf("%3d", $i)), " $choice\n";
@@ -59,22 +60,22 @@ sub get_valid_lists {
       print "choice: ";
       chomp(my $answer = <STDIN>);
 
-      if($answer eq 'all') {
-        return(@choices); # return all matched lists
+      if( ($answer eq 'all') or ($answer eq '') ) {
+        return @choices;
       }
       elsif($answer eq 'current') {
         return(undef);
       }
+
       if($answer ~~ @valid_lists) {
         $list = $answer;
       }
       # Make sure the number selected is in fact valid
-      elsif($answer >= 0 and $answer <= scalar(@valid_lists)) {
+      elsif($answer >= 0 and $answer < scalar(@valid_lists)) {
         $list = $choices[$answer];
       }
       else {
-        print STDERR "Playlist $answer is not valid\n";
-        return 1;
+        croak("Playlist '$answer' is not valid\n");
       }
     }
   }
