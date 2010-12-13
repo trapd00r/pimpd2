@@ -171,6 +171,10 @@ configuration file.
 
 Spawn the interactive pimpd2 shell.
 
+All the regular features can be used. Commands that return data that can be
+added to the current playlist will do so automagically for convenience, since
+we can not read from standard input while being interactive.
+
 =item -q, --queue
 
 Queue tracks. Arguments must be valid playlist position IDs as shown in the
