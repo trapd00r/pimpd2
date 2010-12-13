@@ -3,7 +3,7 @@ use vars qw($VERSION);
 my $APP;
 
 $APP     = 'pimpd2';
-$VERSION = '0.10';
+$VERSION = '0.12';
 
 use strict;
 
@@ -134,11 +134,262 @@ sub _debug {
 
 =head1 NAME
 
-pimpd2
+pimpd2 - Perl Interface for the Music Player Daemon 2
 
 =head1 DESCRIPTION
 
-Perl Interface for the Music Player Daemon 2
+pimpd2 is a command-line based MPD client that implements all the features
+the author was missing from the other awesome client, mpc.
+
+=head1 FEATURES
+
+=over 8
+
+=item -np, --now-playing
+
+Show basic song information on a single line.
+
+=item -i, --info
+
+Show all available song information and MPD server status.
+
+=item -cp, --copy
+
+Copy the currently playing song to destination.
+
+If destination is omitted, uses the C<$target_directory> variable from the
+configuration file.
+
+=item -cpa, --copy-album
+
+Copy the currently playing album to destination.
+
+If destination is omitted, uses the C<$target_directory> variable from the
+configuration file.
+
+=item -sh, --shell
+
+Spawn the interactive pimpd2 shell.
+
+=item -q, --queue
+
+Queue tracks. Arguments must be valid playlist position IDs as shown in the
+C<--playlist> output.
+
+You can also use the C<--search-playlist> command if the tracks to be queued
+follows a pattern.
+
+=back
+
+=head2 PLAYLIST INTERACTION
+
+=over 8
+
+=item -pls, --playlist
+
+Show the current playlist.
+
+=item -lsp, --playlists
+
+List all playlists known by MPD.
+
+=item -af, --add-files
+
+Add files to the current playlist.
+
+Can read from standard input:
+
+  pimpd2 --randomize 42 Nirvana | pimpd2 -af
+
+Accepts file arguments:
+
+  pimpd2 -af ~/music/Nirvana/Bleach/*.flac
+
+=item -a, --add-playlist
+
+Add playlist to the current playlist.
+
+If not given a full name, and the name partially matches existing playlists,
+prompts for input:
+
+  pimpd2 -a 2010
+
+    0 2010-12-indie
+    1 2010-12-other
+    2 2010-12-pop
+    3 2010-12-punk_rock
+    4 2010-12-rock
+    5 2010-12-undef
+  choice:
+
+If choice equals 'all', all matching playlists are added.
+
+=item -r, --randomize
+
+Return B<n> random songs from the collection.
+The first argument is the number of songs, the second argument is an optional
+artist name. If an artist name is specified, will only return random songs from
+that particular artist.
+
+If no arguments are specified, returns 100 random songs.
+
+If you want to add the results to the current playlist, pipe it to C<--add-files>:
+
+  pimpd2 -r 12 | pimpd2 -af
+
+Or use the interactive shell ( C<-sh> ) which does this for you automatically.
+
+=item -ra, --random-album
+
+Return B<n> random full albums.
+
+A pipe to C<--add-files> will add the results to the current playlist.
+
+=item -rma, --rmalbum
+
+Given a string, searches the current playlist for matching albums, and remove
+them from the playlist. The string can be a regular expression.
+
+=item -f, --love
+
+Favorize, or love, the current song.
+
+If called with zero arguments, the song will be saved to a playlist following
+this naming scheme:
+
+  %year-%month-%genre.m3u
+
+Else, the argument is used for the playlist name, thus:
+
+  pimpd2 --love lovesongs
+
+adds the song to lovesongs.m3u
+
+=item -sip, --external
+
+List songs in external playlists. The logic from C<--add-playlist> is used here
+as well:
+
+  pimpd2 -sip 2010
+
+    0 2010-12-indie
+    1 2010-12-other
+    2 2010-12-pop
+    3 2010-12-punk_rock
+    4 2010-12-rock
+    5 2010-12-undef
+  Choice:
+
+thus 'all' or simply hitting enter will list all songs in all playlists
+matching '2010'.
+
+=item -spl, --search-playlist
+
+Search the current playlist for string, possibly a regular expression.
+
+If more then one song is found, queues up the results. See C<--queue>.
+
+=back
+
+=head2 COLLECTION INTERACTION
+
+=over 8
+
+=item -lsa, --songs
+
+List all songs on album.
+
+If no argument is specified, use the album tag from the currently playing song.
+
+A pipe to C<--add-files> will add the results to the current playlist:
+
+  pimpd2 -lsa Stripped | pimpd2 -af
+
+=item -l, --albums
+
+List all albums where artist is featured.
+
+If no argument is specified, use the artist tag from the currently playing song.
+
+=item -sdb, --search-db
+
+Search the database for string, possibly a regular expression.
+
+A pipe to C<--add-files> will add the results to the current playlist:
+
+=item -sar, --search-artist
+
+Search the database for artist.
+
+A pipe to C<--add-files> will add the results to the current playlist:
+
+=item -sal, --search-album
+
+Search the database for album.
+
+A pipe to C<--add-files> will add the results to the current playlist:
+
+=item -set, --search-title
+
+Search the database for title.
+
+A pipe to C<--add-files> will add the results to the current playlist:
+
+=back
+
+=head2 CONTROLS
+
+=over 8
+
+=item -n, --next
+
+Play the next track in the playlist.
+
+=item -p, --previous
+
+Play the previous track in the playlist.
+
+=item -cl, --clear
+
+Clear the current playlist.
+
+=item -cr, --crop
+
+Remove all songs but the current one from the playlist.
+
+=item -x, --xfade
+
+Set crossfade.
+
+=item --pause
+
+Toggle playback status.
+
+=item --repeat
+
+Toggle repeat on/off
+
+=item --random
+
+Toggle random on/off
+
+=item --play
+
+Start playback.
+
+If a remote stream URL and an external player is specified in the
+configuration file, starts playback on the local machine as well as the
+MPD server.
+
+=item --stop
+
+Stop playback, locally and remote.
+
+=item --kill
+
+Stop local playback.
+
+=back
 
 =head1 OPTIONS
 
@@ -186,20 +437,40 @@ Perl Interface for the Music Player Daemon 2
   -s,    --stop             stop playback (locally and remote)
   -k,    --kill             stop playback (locally)
 
-  -h,    --help             show this help
+  -h,    --help             show the help and exit
+  -m,    --man              show the manual and exit
+  -v,    --version          show version info and exit
+
+=head1 ENVIRONMENT
+
+pimpd2 will look for a configuration file in the following locations, in this
+order:
+
+  ~/.config/pimpd2/pimpd.conf
+  ~/.pimpd2.conf
+  ~/pimpd2.conf
+  ./pimpd2.conf
+  /etc/pimpd2.conf
 
 =head1 AUTHOR
 
-Written by Magnus Woldrich
+  Magnus Woldrich
+  CPAN ID: WOLDRICH
+  magnus@trapd00r.se
+  http://japh.se
 
 =head1 REPORTING BUGS
 
-Report bugs to trapd00r@trapd00r.se
+Report bugs and/or feature requests to <magnus@trapd00r.se>
 
 =head1 COPYRIGHT
 
-Copyright (C) 2010 Magnus Woldrich
+Copyright (C) 2010 Magnus Woldrich. All right reserved.
+This program is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
 
-License GPLv2
+=head1 SEE ALSO
+
+pimpd2.conf(1), mpd(1)
 
 =cut
