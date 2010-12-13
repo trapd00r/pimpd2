@@ -18,11 +18,24 @@ use List::Util 'shuffle';
 
 
 sub randomize {
-  my $no_songs = shift // 100;
+  my($no_songs, $artist) = (100, undef);
+  my(@songs, @random);
 
-  my @songs  = shuffle($mpd->collection->all_pathes);
-  my @random = (@songs[0 .. $no_songs - 1]);
+  # artist provided.
+  # Dont allow randomize(undef, 'Laleh');
+  if( (defined($_[1])) and (defined($_[0])) ) {
+    $no_songs = shift(@_);
+    $artist   = shift(@_);
 
+    use App::Pimpd::Collection::Search;
+    @songs = shuffle(search_db_artist($artist));
+    @random = @songs[0 .. $no_songs -1];
+  }
+  else {
+    $no_songs = shift(@_) // 100;
+    @songs  = shuffle($mpd->collection->all_pathes);
+    @random = (@songs[0 .. $no_songs - 1]);
+  }
   return (wantarray()) ? @random : \@random;
 }
 
@@ -91,15 +104,18 @@ playlist in random ways.
   my @randoms = randomize(42);
   my $randoms = randomize();
 
-Parameters: $integer | NONE
+Parameters: $integer, $artist
 
 Returns:    @songs   | \@songs
 
 In list context, returns a list with n random paths ( all relative to MPD ).
+If a second argument is provided it's interpreted as an artist name. The list
+will be crafted together with random paths from that artist.
 
 In scalar context, returns an array reference.
 
-If called with zero arguments, a default value of 100 songs is used.
+If called with zero arguments, a default value of 100 totally random songs is
+used.
 
 =item random_albums();
 
