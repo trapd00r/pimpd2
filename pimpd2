@@ -45,8 +45,8 @@ GetOptions(
   'p|play'               => sub { play(); },
   's|stop'               => sub { stop(); },
   'k|kill'               => sub { player_destruct(); },
-  'sh|shell'             => sub { spawn_shell(@ARGV); },
-  'rma|remove-album'     => sub { remove_album_from_playlist(@ARGV); },
+  'sh|shell'             => sub { \&spawn_shell(@ARGV); },
+  'rma|rmalbum'          => sub { remove_album_from_playlist(@ARGV); },
 
   'cp'                   => sub { cp(@ARGV ? @ARGV : $target_directory) },
   'cpa'                  => sub { cp_album(@ARGV ? @ARGV : $target_directory) },
@@ -154,7 +154,7 @@ Perl Interface for the Music Player Daemon 2
   -a,    --add-playlist     add playlist
   -r,    --randomize        randomize a new playlist with n tracks
   -ra,   --random-album     add n random full albums
-  -rma,  --remove-album     remove album matching pattern from playlist
+  -rma,  --rmalbum          remove album matching pattern from playlist
   -f,    --love             love song
   -sip,  --external         list songs in playlists
 
