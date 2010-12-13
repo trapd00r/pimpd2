@@ -1,9 +1,6 @@
 #!/usr/bin/perl
 package App::Pimpd::Shell;
 
-use vars qw($VERSION);
-$VERSION = 0.10;
-
 require Exporter;
 @ISA = 'Exporter';
 
@@ -267,7 +264,7 @@ sub spawn_shell {
       play();
     },
 
-    'delalbum'         => sub { remove_album_from_playlist(@_); },
+    'rmalbum'          => sub { remove_album_from_playlist(@_); },
     'help'             => sub { _shell_msg_help(); },
     'exit'             => sub { exit(0); },
   };
@@ -296,30 +293,35 @@ sub spawn_shell {
 }
 
 sub _shell_msg_help {
-  printf("%s %s\n%s
-
-Options:
+  # Expand function calls in a string
+  # perldoc -q string / expand
+  printf("\n%s", "
+@{[fg('bold', 'OPTIONS')]}
       np            show the current song
       info          show all current information
-      songs         list songs on album
-      albums        list albums by artist
-      randomize     add n random songs to playlist
-      randomalbum   add n random albums to playlist
-      add           add playlist
-      delalbum      remove album from playlist
       copy          copy song to destination
       copya         copy album to destination
       queue         put songs in a queue
+
+@{[fg('bold', '  Playlist')]}
+      playlists     list all known playlists
+      add           add playlist
+      rmalbum       remove album from playlist
+      randomize     randomize a new track with n tracks
+      randomalbum   and n random full albums
       love          love song
 
-Search:
+      splaylist     search the current playlist for str
+
+@{[fg('bold', '  Collection')]}
+      songs         list songs on album
+      albums        list albums by artist
       sartist       search for artist str
       salbum        search for album str
       stitle        search for title str
       sany          search database for str
-      splaylist     search the current playlist for str
 
-Controls:
+@{[fg('bold', '  Controls')]}
       next          next track in playlist
       previous      previous track in playlist
       pause         toggle playback
