@@ -117,7 +117,7 @@ sub spawn_shell {
     # FIXME
     'copy-list'       => sub { cp_list(@_); },
 
-    'i'               => sub {
+    'info'               => sub {
       if(empty_playlist()) {
         print STDERR "Nothing is playing - playlist is empty\n";
         return 1;
