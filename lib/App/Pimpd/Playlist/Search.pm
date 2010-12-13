@@ -120,6 +120,8 @@ In list context, returns the matched paths.
 
 In scalar context, returns the number of matched files.
 
+=back
+
 =head1 SEE ALSO
 
 App::Pimpd::Playlist
