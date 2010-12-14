@@ -33,7 +33,8 @@ sub spawn_shell {
   my $option = shift;
   my($cmd, $arg, @cmd_args); # for later use
 
-  _shell_msg_help();
+
+  #print help('shell');
 
 
   $opts = {
@@ -273,7 +274,7 @@ sub spawn_shell {
         print help($_[0]);
       }
       else {
-        _shell_msg_help();
+        print help('shell');
       }
     },
   };
@@ -283,6 +284,7 @@ sub spawn_shell {
 
     #chomp(my $choice = <STDIN>);
     my @available_cmd = keys(%{$opts});
+    push(@available_cmd, 'shell');
 
     my $term = Term::ReadLine->new('pimpd2');
     my $attr = $term->Attribs;
@@ -316,55 +318,6 @@ sub spawn_shell {
   exit(0);
 }
 
-sub _shell_msg_help {
-  # Yes, this is evil.
-  # perldoc -q string / expand
-  printf("\n%s%s",
-  "@{[fg('bold', fg($c[8], 'OPTIONS'))]}\t\t    " .
-  "@{[fg('bold', fg($c[3], 'DESCRIPTION'))]} \t\t\t\t   " .
-  "@{[fg('bold', fg($c[6], 'ARG'))]}",
-"
-      np            show the current song                          none
-      info          show all current information                   none
-      copy          copy song to destination                       (dir)
-      copya         copy album to destination                      (dir)
-      queue         put songs in a queue                           int
-
-@{[fg('bold', fg($c[0], '  Playlist'))]}
-      playlists     list all known playlists                       none
-      add           add playlist                                   (string)
-      rmalbum       remove album from playlist                     regex
-      randomize     randomize a new playlist with n tracks         int, (artist)
-      randomalbum   and n random full albums                       (int)
-      love          love song                                      (playlist)
-
-      splaylist     search the current playlist for str            regex
-
-@{[fg('bold', fg($c[0], '  Collection'))]}
-      songs         list songs on album                            (string)
-      albums        list albums by artist                          (string)
-      sartist       search for artist str                          string
-      salbum        search for album str                           string
-      stitle        search for title str                           string
-      sany          search database for str                        regex
-
-@{[fg('bold', fg($c[0], '  Controls'))]}
-      next          next track in playlist                         None
-      previous      previous track in playlist                     None
-      pause         toggle playback                                None
-      repeat        toggle repeat on/off                           None
-      random        toggle random on/off                           None
-      clear         clear playlist                                 None
-      crop          remove all tracks but the current one          None
-
-      kill          stop local playback                            None
-
-      help          show this help                                 None
-      exit          exit pimpd2                                    None
-
-        \n", shift,
-      );
-}
 
 =pod
 
