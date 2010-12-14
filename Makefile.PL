@@ -15,6 +15,7 @@ WriteMakefile(
     PREREQ_PM => {
         'Test::More' => 0,
         'Audio::MPD' => 0,
+        'Term::ReadLine::Gnu' => 0,
         'Term::ExtendedColor' => 0.16,
     },
     MAN1PODS            => {
