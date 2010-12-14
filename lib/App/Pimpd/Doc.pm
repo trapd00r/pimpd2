@@ -43,6 +43,7 @@ sub help {
     'add-playlist'  => \&_help_add_playlist,
     'randomize'     => \&_help_randomize,
     'randomalbum'   => \&_help_randomize_albums,
+    'randomtrack'   => \&_help_random_track,
     'rmalbum'       => \&_help_rm_album,
     'love'          => \&_help_love,
     'external'      => \&_help_external,
@@ -64,6 +65,14 @@ sub help {
   else {
     return "No such topic.\n";
   }
+}
+
+sub _help_random_track {
+  return << "EOF"
+@{[fg('bold', 'Usage')]}: randomtrack
+
+Play a random song from the current playlist.
+EOF
 }
 
 sub _help_stop {
