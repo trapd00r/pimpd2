@@ -14,7 +14,10 @@ use App::Pimpd;
 
 
 sub albums_by_artist {
-  my $artist = shift // $mpd->current->artist;
+  my $artist = shift;
+  if( (!defined($artist)) or ($artist eq '') ) {
+    $artist = $mpd->current->artist;
+  }
 
   return wantarray()
     ? sort($mpd->collection->albums_by_artist($artist))
