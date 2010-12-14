@@ -3,7 +3,7 @@ use vars qw($VERSION);
 my $APP;
 
 $APP     = 'pimpd2';
-$VERSION = '0.12';
+$VERSION = '0.14';
 
 use strict;
 
@@ -31,9 +31,9 @@ use Data::Dumper;
 GetOptions(
   'np|now-playing'       => sub { print current(), "\n"; },
   'i|info'               => \&info,
-  'lsa|songs'            => sub { _lsa(@ARGV); }, #YES
+  'lsa|songs'            => sub { _lsa(@ARGV); },
 
-  'l|laa|albums'         => sub { #YES
+  'l|laa|albums'         => sub {
     print "$_\n" for albums_by_artist(join(' ',@ARGV));
   },
 
