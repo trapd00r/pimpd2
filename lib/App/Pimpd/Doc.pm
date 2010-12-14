@@ -308,46 +308,43 @@ EOF
 sub _help_shell {
   return sprintf("\n%s%s",
   "@{[fg('bold', fg($c[8], 'OPTIONS'))]}\t\t    " .
-  "@{[fg('bold', fg($c[3], 'DESCRIPTION'))]} \t\t\t\t   " .
-  "@{[fg('bold', fg($c[6], 'ARG'))]}",
-"
-      np            show the current song                          none
-      info          show all current information                   none
-      copy          copy song to destination                       (dir)
-      copya         copy album to destination                      (dir)
-      queue         put songs in a queue                           int
+  "@{[fg('bold', fg($c[3], 'DESCRIPTION'))]} \t\t\t\t   "
+,"
+      np            show the current song
+      info          show all current information
+      copy          copy song to destination
+      copya         copy album to destination
+      queue         put songs in a queue
 
 @{[fg('bold', fg($c[0], '  Playlist'))]}
-      playlists     list all known playlists                       none
-      add           add playlist                                   (string)
-      rmalbum       remove album from playlist                     regex
-      randomize     randomize a new playlist with n tracks         int, (artist)
-      randomalbum   and n random full albums                       (int)
-      love          love song                                      (playlist)
-
-      splaylist     search the current playlist for str            regex
+      playlists     list all known playlists
+      add           add playlist
+      rmalbum       remove album from playlist
+      randomize     randomize a new playlist with n tracks
+      randomalbum   and n random full albums
+      love          love song
+      splaylist     search the current playlist for str
 
 @{[fg('bold', fg($c[0], '  Collection'))]}
-      songs         list songs on album                            (string)
-      albums        list albums by artist                          (string)
-      sartist       search for artist str                          string
-      salbum        search for album str                           string
-      stitle        search for title str                           string
-      sany          search database for str                        regex
+      songs         list songs on album
+      albums        list albums by artist
+      sartist       search for artist str
+      salbum        search for album str
+      stitle        search for title str
+      sany          search database for str
 
 @{[fg('bold', fg($c[0], '  Controls'))]}
-      next          next track in playlist                         None
-      previous      previous track in playlist                     None
-      pause         toggle playback                                None
-      repeat        toggle repeat on/off                           None
-      random        toggle random on/off                           None
-      clear         clear playlist                                 None
-      crop          remove all tracks but the current one          None
+      next          next track in playlist
+      previous      previous track in playlist
+      pause         toggle playback
+      repeat        toggle repeat on/off
+      random        toggle random on/off
+      clear         clear playlist
+      crop          remove all tracks but the current one
+      kill          stop local playback
 
-      kill          stop local playback                            None
-
-      help          show this help                                 None
-      exit          exit pimpd2                                    None
+      help          show help for command
+      exit          exit pimpd2
 
         \n", shift,
       );
