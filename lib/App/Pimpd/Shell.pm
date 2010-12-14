@@ -11,6 +11,7 @@ our @EXPORT = qw(
 use strict;
 
 use App::Pimpd;
+use App::Pimpd::Doc;
 use App::Pimpd::Info;
 use App::Pimpd::Player;
 use App::Pimpd::Commands;
@@ -25,8 +26,9 @@ use App::Pimpd::Playlist::Add;
 use App::Pimpd::Playlist::Search;
 use App::Pimpd::Validate;
 use Term::ExtendedColor;
-use Term::Complete;
+use Term::ReadLine; # Term::ReadLine::Gnu
 
+my $opts;
 sub spawn_shell {
   my $option = shift;
   my($cmd, $arg, @cmd_args); # for later use
@@ -34,7 +36,7 @@ sub spawn_shell {
   _shell_msg_help();
 
 
-  my $opts = {
+  $opts = {
 
     'randomize'      => sub {
       if(!defined($_[0])) {
@@ -265,16 +267,38 @@ sub spawn_shell {
     },
 
     'rmalbum'          => sub { remove_album_from_playlist(@_); },
-    'help'             => sub { _shell_msg_help(); },
     'exit'             => sub { exit(0); },
+    'help'             => sub {
+      if( defined($opts->{$_[0]}) ) {
+        print help($_[0]);
+      }
+      else {
+        _shell_msg_help();
+      }
+    },
   };
 
   while(1) {
-    print fg($c[6], 'pimpd'), fg('bold', '> ');
+    #print fg($c[6], 'pimpd'), fg('bold', '> ');
 
     #chomp(my $choice = <STDIN>);
     my @available_cmd = keys(%{$opts});
-    my $choice = Complete(undef, \@available_cmd);
+
+    my $term = Term::ReadLine->new('pimpd2');
+    my $attr = $term->Attribs;
+    $attr->{completion_function} = sub {
+      my($text, $line, $start) = @_;
+      return @available_cmd;
+    };
+
+    my $choice;
+
+    while(defined($_ = $term->readline(fg($c[6],'pimpd') . fg('bold','> ')))) {
+      $choice = $_;
+      $term->addhistory($_) if /\S/;
+      last;
+    }
+
     ($cmd) = $choice =~ m/^(\w+)/;
     ($arg) = $choice =~ m/\s+(.+)$/;
     @cmd_args  = split(/\s+/, $arg);
