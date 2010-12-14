@@ -269,6 +269,7 @@ sub spawn_shell {
 
     'rmalbum'          => sub { remove_album_from_playlist(@_); },
     'exit'             => sub { exit(0); },
+    ':q'               => sub { exit(0); },
     'help'             => sub {
       if( defined($opts->{$_[0]}) ) {
         print help($_[0]);
@@ -301,7 +302,7 @@ sub spawn_shell {
       last;
     }
 
-    ($cmd) = $choice =~ m/^(\w+)/;
+    ($cmd) = $choice =~ m/^(\S+)/;
     ($arg) = $choice =~ m/\s+(.+)$/;
     @cmd_args  = split(/\s+/, $arg);
 
