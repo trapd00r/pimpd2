@@ -176,6 +176,14 @@ sub spawn_shell {
       queue( keys % { search_playlist($search) } );
     },
 
+    'slove'           => sub {
+      my $search = join(' ', @_);
+      my @files = search_favlist($search);
+      print "$_\n" for @files;
+      add_to_playlist(@files);
+    },
+
+
     'sap'             => sub {
       my $search = join(' ', @_);
       my @result = search_all_playlists($search);
