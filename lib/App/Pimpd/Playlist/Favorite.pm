@@ -37,6 +37,11 @@ sub search_favlist {
   chomp(my @songs = <$fh>);
   close($fh);
 
+  if(!defined($query)) {
+    print "$_\n" for sort(@songs);
+    return;
+  }
+
   my @results;
   for(@songs) {
     if(invalid_regex($query)) {
