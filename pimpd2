@@ -3,7 +3,7 @@ use vars qw($VERSION);
 my $APP;
 
 $APP     = 'pimpd2';
-$VERSION = '0.14';
+$VERSION = '0.15';
 
 use strict;
 
@@ -57,6 +57,24 @@ GetOptions(
   'cpa'                  => sub { cp_album(@ARGV ? @ARGV : $target_directory) },
 
   'fav|favorite|love'    => sub { add_to_favlist(@ARGV); }, # FIXME
+  'loved'                => sub {
+    if(already_loved($mpd->current->file)) {
+      printf("%s, %s by %s is loved.\n",
+        fg('bold', 'Yes'),
+        fg($c[10], $mpd->current->title),
+        fg($c[2],  fg('bold', $mpd->current->artist)),
+      );
+    }
+
+    else {
+      printf("%s, %s by %s is not loved yet.\n",
+        fg('bold', 'No'),
+        fg($c[10], $mpd->current->title),
+        fg($c[2],  fg('bold', $mpd->current->artist)),
+      );
+    }
+  },
+
   'sip|external'         => sub { songs_in_playlist(@ARGV); },
 
   'spl|search-playlist'  => sub { _search_playlist(@ARGV); },
@@ -269,6 +287,10 @@ Else, the argument is used for the playlist name, thus:
 
 adds the song to lovesongs.m3u
 
+=item --loved
+
+Check if the currently playing song is already loved or not.
+
 =item -sip, --external
 
 List songs in external playlists. The logic from C<--add-playlist> is used here
@@ -414,6 +436,7 @@ Stop local playback.
   -ra,   --random-album     add n random full albums
   -rma,  --rmalbum          remove album matching pattern from playlist
   -f,    --love             love song
+         --loved            check if the current song is loved
   -sip,  --external         list songs in playlists
   -spl,  --search-playlist  search the current playlist for str
 
