@@ -49,7 +49,7 @@ sub get_valid_lists {
         return;
       }
 
-      
+
       print "'all' uses all playlists\n\n";
 
       my $i = 0;

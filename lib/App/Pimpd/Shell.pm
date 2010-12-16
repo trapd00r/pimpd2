@@ -92,6 +92,23 @@ sub spawn_shell {
       add_to_favlist(@_);
     },
 
+    'loved?'          => sub {
+      if(already_loved($mpd->current->file)) {
+        printf("%s, %s by %s is loved.\n",
+          fg('bold', 'Yes'),
+          fg($c[10], $mpd->current->title),
+          fg($c[2],  fg('bold', $mpd->current->artist)),
+        );
+      }
+      else {
+        printf("%s, %s by %s is not loved yet.\n",
+          fg('bold', 'No'),
+          fg($c[10], $mpd->current->title),
+          fg($c[2],  fg('bold', $mpd->current->artist)),
+        );
+      }
+    },
+
 
     'track'           => sub {
       $_[0] = 1 if $_[0] !~ /^\d+$/;

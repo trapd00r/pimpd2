@@ -6,6 +6,7 @@ require Exporter;
 
 our @EXPORT = qw(
   add_to_favlist
+  already_loved
 );
 
 use strict;
@@ -15,16 +16,35 @@ use App::Pimpd;
 use App::Pimpd::Validate;
 use Term::ExtendedColor;
 
+sub already_loved {
+  my $file = shift;
+
+  open(my $fh, '<', $loved_database)
+    or confess("Cant open '$loved_database': $!");
+
+  chomp(my @songs = <$fh>);
+  close($fh);
+
+  return ($file ~~ @songs) ? 1 : 0;
+}
+
+
+
+
 sub add_to_favlist {
   my $favlist_m3u = shift; # arbitary playlist name
 
-  my $fav_db = "$ENV{HOME}/.config/pimpd/fav.db";
   my $artist = $mpd->current->artist // 'undef';
   my $album  = $mpd->current->album  // 'undef';
   my $title  = $mpd->current->title  // 'undef';
   my $genre  = $mpd->current->genre  // 'undef';
   my $file   = $mpd->current->file;
   #my $file   = $basedir . '/' . $mpd->current->file;
+
+  if(already_loved($file)) {
+    print STDERR "This song is already loved\n";
+    return;
+  }
 
   $genre =~ s/\s+/_/g; # evil whitespace
 
@@ -42,7 +62,7 @@ sub add_to_favlist {
   }
 
   # Write the db locally.
-  open(my $fh, '>>', $fav_db) or confess("Cant open '$fav_db': $!");
+  open(my $fh, '>>', $loved_database) or confess("Cant open '$loved_database': $!");
   print $fh "$file\n";
   close($fh);
 
@@ -55,7 +75,7 @@ sub add_to_favlist {
                          "echo '$file' >> $favlist_m3u",
                        ),
     ) == 0 and do {
-      printf("'%s' >> %s:%s\n", 
+      printf("'%s' >> %s:%s\n",
         fg($c[3], $title), fg('bold', $ssh_host), fg($c[4], $favlist_m3u),
       );
       return 0;
