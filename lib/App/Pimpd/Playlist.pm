@@ -17,7 +17,6 @@ our @EXPORT = qw(
 #TODO
 #  List content in all playlist
 #  Search all playlist, without args, search for the current song
-#  If a song already is loved, ask if we want to doublelove it
 
 use strict;
 
