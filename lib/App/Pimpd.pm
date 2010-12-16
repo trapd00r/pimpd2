@@ -21,6 +21,7 @@ our @EXPORT = qw(
   $music_directory
   $playlist_directory
   $target_directory
+  $loved_database
 
   &get_color_support
   &player_cmdline
@@ -46,6 +47,7 @@ our(
 
   $music_directory,
   $playlist_directory,
+  $loved_database,
 
   $c_extended_colors,
   $c_ansi_colors,
@@ -109,6 +111,7 @@ sub config_init {
     print STDERR "No configuration file found\n";
     return 1;
   }
+  #print "Config found: $config\n";
 
   require($config);
   warn $@ if $@;
