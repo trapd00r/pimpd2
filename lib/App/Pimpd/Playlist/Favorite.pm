@@ -7,6 +7,7 @@ require Exporter;
 our @EXPORT = qw(
   add_to_favlist
   already_loved
+  search_favlist
 );
 
 use strict;
@@ -28,6 +29,30 @@ sub already_loved {
   return ($file ~~ @songs) ? 1 : 0;
 }
 
+sub search_favlist {
+  my $query = shift;
+
+  open(my $fh, '<', $loved_database)
+    or confess("Cant open '$loved_database': $!");
+  chomp(my @songs = <$fh>);
+  close($fh);
+
+  my @results;
+  for(@songs) {
+    if(invalid_regex($query)) {
+      if($_ =~ m/\Q$query/i) {
+        push(@results, $_);
+      }
+    }
+    else {
+      if($_ =~ m/$query/i) {
+        push(@results, $_);
+      }
+    }
+  }
+
+  return (wantarray()) ? @results : scalar(@results);
+}
 
 
 
