@@ -35,6 +35,7 @@ sub help {
     'sartist'       => \&_help_sartist,
     'salbum'        => \&_help_salbum,
     'stitle'        => \&_help_stitle,
+    'slove'         => \&_help_slove,
 
   # Playlist
     'playlist'      => \&_help_playlist,
@@ -66,6 +67,16 @@ sub help {
   else {
     return "No such topic.\n";
   }
+}
+
+sub _help_slove {
+  return << "EOF"
+@{[fg('bold', 'Usage')]}: slove [PATTERN]
+
+Search the database with loved songs for PATTERN.
+
+If PATTERN is omitted, uses the currently playing filename.
+EOF
 }
 
 sub _help_random_track {
