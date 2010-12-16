@@ -71,11 +71,13 @@ sub help {
 
 sub _help_slove {
   return << "EOF"
-@{[fg('bold', 'Usage')]}: slove [PATTERN]
+@{[fg('bold', 'Usage')]}: slove PATTERN
 
 Search the database with loved songs for PATTERN.
 
-If PATTERN is omitted, uses the currently playing filename.
+If PATTERN is omitted, returns all loved songs.
+
+The results are added to the current playlist.
 EOF
 }
 
