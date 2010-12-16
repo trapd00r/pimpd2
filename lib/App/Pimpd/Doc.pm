@@ -354,6 +354,7 @@ sub _help_shell {
       salbum        search for album str
       stitle        search for title str
       sany          search database for str
+      slove         search the database with loved songs for pattern
 
 @{[fg('bold', fg($c[0], '  Controls'))]}
       next          next track in playlist
