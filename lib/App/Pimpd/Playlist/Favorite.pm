@@ -42,7 +42,9 @@ sub add_to_favlist {
   #my $file   = $basedir . '/' . $mpd->current->file;
 
   if(already_loved($file)) {
-    print STDERR "This song is already loved\n";
+    printf("%s by %s is already loved!\n",
+      fg($c[11], $title), fg($c[2], $artist),
+    );
     return;
   }
 
