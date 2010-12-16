@@ -77,6 +77,11 @@ GetOptions(
 
   'sip|external'         => sub { songs_in_playlist(@ARGV); },
 
+  'slove'                => sub {
+    my @files = search_favlist(@ARGV);
+    print "$_\n" for @files;
+  },
+
   'spl|search-playlist'  => sub { _search_playlist(@ARGV); },
   'sap|search-all-pls'   => sub { search_all_playlists(@ARGV); },
   'sdb|search-db'        => sub { print "$_\n" for search_db_quick(@ARGV); },
@@ -309,6 +314,12 @@ as well:
 thus 'all' or simply hitting enter will list all songs in all playlists
 matching '2010'.
 
+=item --slove
+
+Search the database with loved songs for PATTERN.
+
+If PATTERN is omitted, returns all loved songs.
+
 =item -spl, --search-playlist
 
 Search the current playlist for string, possibly a regular expression.
@@ -444,10 +455,11 @@ Stop local playback.
 
   -lsa,  --songs            list songs on album
   -l,    --albums           list albums by artist
-  -sdb,  --search-db        search database for str
+  -sdb,  --search-db        search database for pattern
   -sar,  --search-artist    search database for artist
   -sal,  --search-album     search database for album
   -set,  --search-title     search database for title
+         --slove            search the database with loved songs for pattern
 
 =head2 Controls
 
