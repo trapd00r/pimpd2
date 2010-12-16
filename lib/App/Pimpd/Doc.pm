@@ -46,6 +46,7 @@ sub help {
     'randomtrack'   => \&_help_random_track,
     'rmalbum'       => \&_help_rm_album,
     'love'          => \&_help_love,
+    'loved?'        => \&_help_loved,
     'external'      => \&_help_external,
     'splaylist'     => \&_help_splaylist,
 
@@ -275,6 +276,13 @@ If a genre tag is missing, the string 'undef' is used in its place.
 EOF
 }
 
+sub _help_loved {
+  return << "EOF"
+@{[fg('bold', 'Usage')]}: loved?
+
+Check if the current song is already loved.
+EOF
+}
 
 sub _help_rm_album {
   return << "EOF"
@@ -323,6 +331,7 @@ sub _help_shell {
       randomize     randomize a new playlist with n tracks
       randomalbum   and n random full albums
       love          love song
+      loved?        check if the current song is loved
       splaylist     search the current playlist for str
 
 @{[fg('bold', fg($c[0], '  Collection'))]}
