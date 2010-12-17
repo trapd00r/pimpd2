@@ -42,7 +42,7 @@ GetOptions(
   'rt|random-track'      => sub { _rt(); },
 
   'af|add'               => sub { _add_files(@ARGV); },
-  'aa|add-album'         => sub { @_ = map { $_->file } songs_on_album; add(@_); },
+  'aa|add-album'         => sub { @_ = map{$_->file} songs_on_album; add(@_); },
   'a|apl|add-playlist'   => sub { add_playlist(@ARGV); },
   'lsp|playlists'        => sub { print "$_\n" for list_all_playlists(); },
   'pls|playlist'         => sub { show_playlist(); },
