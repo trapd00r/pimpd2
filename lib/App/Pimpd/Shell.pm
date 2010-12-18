@@ -70,6 +70,7 @@ sub spawn_shell {
         }
       }
       print "\n";
+      clear_playlist();
       add_to_playlist(@albums);
     },
 
@@ -318,6 +319,7 @@ sub spawn_shell {
       my($text, $line, $start) = @_;
       return @available_cmd;
     };
+
 
     my $choice;
 

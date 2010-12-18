@@ -44,7 +44,7 @@ GetOptions(
   'af|add'               => sub { _add_files(@ARGV); },
   'aa|add-album'         => sub { @_ = map{$_->file} songs_on_album; add(@_); },
   'a|apl|add-playlist'   => sub { add_playlist(@ARGV); },
-  'lsp|playlists'        => sub { print "$_\n" for list_all_playlists(); },
+  'playlists'            => sub { print "$_\n" for list_all_playlists(); },
   'pls|playlist'         => sub { show_playlist(); },
 
   'p|play'               => sub { play(); },
@@ -75,7 +75,7 @@ GetOptions(
     }
   },
 
-  'sip|external'         => sub { songs_in_playlist(@ARGV); },
+  'lsp|lsplaylist'         => sub { songs_in_playlist(@ARGV); },
 
   'slove'                => sub {
     my @files = search_favlist(@ARGV);
@@ -216,7 +216,7 @@ follows a pattern.
 
 Show the current playlist.
 
-=item -lsp, --playlists
+=item --playlists
 
 List all playlists known by MPD.
 
@@ -296,7 +296,7 @@ adds the song to lovesongs.m3u
 
 Check if the currently playing song is already loved or not.
 
-=item -sip, --external
+=item -lsp, --lsplaylist
 
 List songs in external playlists. The logic from C<--add-playlist> is used here
 as well:
@@ -440,7 +440,7 @@ Stop local playback.
 =head2 Playlist
 
   -pls,  --playlist         show the current playlist
-  -lsp,  --playlists        list all known playlists
+         --playlists        list all known playlists
   -af,   --add-files        add files to playlist
   -a,    --add-playlist     add playlist
   -r,    --randomize        randomize a new playlist with n tracks
@@ -448,7 +448,7 @@ Stop local playback.
   -rma,  --rmalbum          remove album matching pattern from playlist
   -f,    --love             love song
          --loved            check if the current song is loved
-  -sip,  --external         list songs in playlists
+  -lsp,  --lsplaylist         list songs in playlists
   -spl,  --search-playlist  search the current playlist for str
 
 =head2 Collection
