@@ -108,8 +108,9 @@ sub config_init {
     $config = '/etc/pimpd2.conf';
   }
   else {
-    print STDERR "No configuration file found\n";
-    return 1;
+    warn "No configuration file found.\n";
+    warn "See docs/pimpd2.conf.example for an example configuration file.\n";
+    exit 1;
   }
   #print "Config found: $config\n";
 
