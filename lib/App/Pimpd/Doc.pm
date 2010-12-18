@@ -48,7 +48,7 @@ sub help {
     'rmalbum'       => \&_help_rm_album,
     'love'          => \&_help_love,
     'loved?'        => \&_help_loved,
-    'external'      => \&_help_external,
+    'lsplaylist'    => \&_help_lsplaylist,
     'splaylist'     => \&_help_splaylist,
 
 
@@ -249,16 +249,16 @@ See 'help queue'.
 EOF
 }
 
-sub _help_external {
+sub _help_lsplaylist {
   return << "EOF"
-@{[fg('bold', 'Usage')]}: external PLAYLISTs
+@{[fg('bold', 'Usage')]}: lsplaylist PLAYLISTs
 
-List songs in external, by MPD known playlists.
+List songs in external,  by MPD known, playlists.
 
 PLAYLIST can be a partial name, or a regular expression.
 Thus;
 
-  @{[fg($c[0], 'external 2010-12')]}
+  @{[fg($c[0], 'lsplaylist 2010-12')]}
 
 might resolve to something like;
 
@@ -339,6 +339,7 @@ sub _help_shell {
 
 @{[fg('bold', fg($c[0], '  Playlist'))]}
       playlists     list all known playlists
+      lsplaylist    list files in playlist
       add           add playlist
       rmalbum       remove album from playlist
       randomize     randomize a new playlist with n tracks
