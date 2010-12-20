@@ -204,7 +204,20 @@ sub spawn_shell {
 
     'songs'           => sub { print $_->file, "\n" for songs_on_album(@_); },
     'playlists'       => sub { print "$_\n" for list_all_playlists(); },
-    'add'             => sub { add_playlist(@_); },
+    'add'             => sub {
+
+      if($_[0] eq 'songs') {
+        local $\ = "\n";
+        my @songs = map { $_->file } songs_on_album();
+        printf("Adding %d songs from %s\n",
+          scalar(@songs), fg('bold', $mpd->current->album),
+        );
+        add_to_playlist(@songs);
+      }
+      else {
+        add_playlist(@_);
+      }
+    },
 
     'next'            => sub {
       if(empty_playlist()) {

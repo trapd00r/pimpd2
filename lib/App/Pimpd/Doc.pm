@@ -40,8 +40,9 @@ sub help {
   # Playlist
     'playlist'      => \&_help_playlist,
     'playlists'     => \&_help_playlists,
-    'add-files'     => \&_help_add_files,
-    'add-playlist'  => \&_help_add_playlist,
+    'add'           => \&_help_add,
+    #'add-files'     => \&_help_add_files,
+    #'add-playlist'  => \&_help_add_playlist,
     'randomize'     => \&_help_randomize,
     'randomalbum'   => \&_help_randomize_albums,
     'randomtrack'   => \&_help_random_track,
@@ -67,6 +68,18 @@ sub help {
   else {
     return "No such topic.\n";
   }
+}
+sub _help_add {
+  return << "EOF"
+@{[fg('bold', 'Usage')]}: add FILES || PLAYLIST
+
+Argument can be either a playlist or a command that produces file lists.
+Those commands include;
+
+  songs   add all songs from the current album
+  slove   add all songs matching pattern given to slove
+
+EOF
 }
 
 sub _help_slove {
@@ -340,7 +353,7 @@ sub _help_shell {
 @{[fg('bold', fg($c[0], '  Playlist'))]}
       playlists     list all known playlists
       lsplaylist    list files in playlist
-      add           add playlist
+      add           add playlists or songs to the current playlist
       rmalbum       remove album from playlist
       randomize     randomize a new playlist with n tracks
       randomalbum   and n random full albums
