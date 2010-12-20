@@ -214,11 +214,26 @@ sub spawn_shell {
         );
         add_to_playlist(@songs);
       }
+
       elsif($_[0] eq 'slove') {
-        shift @_;
+        shift @_; # so we can grab the PATTERN
         my @result = search_favlist(@_);
-        print "$_\n" for @result;
-        add_to_playlist(@result);
+
+        if(scalar(@result) > 0) {
+          print "$_\n" for @result;
+
+          add_to_playlist(@result);
+          printf("\nAdded %s loved %s matching '%s'\n",
+            fg('bold', scalar(@result)),
+            (scalar(@result) > 1) ? 'songs' : 'song',
+            fg($c[4], fg('bold', $_[0])),
+          );
+        }
+        else {
+          printf("No songs matching '%s' were found\n",
+            fg($c[4], fg('bold', $_[0])),
+          );
+        }
       }
 
       else {
