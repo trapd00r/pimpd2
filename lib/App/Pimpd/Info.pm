@@ -22,30 +22,33 @@ my(%current, %status, ,%stats);
 
 sub _current_update {
   if($mpd->status->state ne 'stop') {
-    %current = ('artist'     =>  $mpd->current->artist,
-                   'album'      =>  $mpd->current->album,
-                   'title'      =>  $mpd->current->title,
-                   'genre'      =>  $mpd->current->genre,
-                   'file'       =>  $mpd->current->file,
-                   'date'       =>  $mpd->current->date,
-                   'time'       =>  $mpd->status->time->sofar.'/'.
-                                    $mpd->status->time->total,
-                   'bitrate'    =>  $mpd->status->bitrate,
-                   'audio'      =>  $mpd->status->audio,
-                   );
-    %status  = ('repeat'     =>  $mpd->status->repeat,
-                   'shuffle'    =>  $mpd->status->random,
-                   'xfade'      =>  $mpd->status->xfade,
-                   'volume'     =>  $mpd->status->volume,
-                   'state'      =>  $mpd->status->state,
-                   'list'       =>  $mpd->status->playlist,
-                   );
-    %stats   = ('song'       =>  $mpd->status->song,
-                   'length'     =>  $mpd->status->playlistlength,
-                   'songs'      =>  $mpd->stats->songs,
-                   'albums'     =>  $mpd->stats->albums,
-                   'artists'    =>  $mpd->stats->artists,
-                   );
+    %current = (
+      'artist'     =>  $mpd->current->artist     // 'N/A',
+      'album'      =>  $mpd->current->album      // 'N/A',
+      'title'      =>  $mpd->current->title      // 'N/A',
+      'genre'      =>  $mpd->current->genre      // 'N/A',
+      'file'       =>  $mpd->current->file       // 'N/A',
+      'date'       =>  $mpd->current->date       // 'N/A',
+      'time'       =>  $mpd->status->time->sofar.'/'.
+                       $mpd->status->time->total,
+      'bitrate'    =>  $mpd->status->bitrate     // 'N/A',
+      'audio'      =>  $mpd->status->audio       // 'N/A',
+    );
+    %status  = (
+      'repeat'     =>  _on_off( $mpd->status->repeat ),
+      'shuffle'    =>  _on_off( $mpd->status->random ),
+      'xfade'      =>  _on_off( $mpd->status->xfade ),
+      'volume'     =>  $mpd->status->volume,
+      'state'      =>  $mpd->status->state,
+      'list'       =>  $mpd->status->playlist,
+    );
+    %stats   = (
+      'song'       =>  $mpd->status->song,
+      'length'     =>  $mpd->status->playlistlength,
+      'songs'      =>  $mpd->stats->songs,
+      'albums'     =>  $mpd->stats->albums,
+      'artists'    =>  $mpd->stats->artists,
+    );
   }
 }
 
@@ -85,9 +88,9 @@ sub info {
     $current{$_} = fg($c[14], 'N/A') if(!defined($current{$_}));
   }
 
-  $status{state} = 'Playing' if($status{state} eq 'play');
-  $status{state} = 'Paused'  if($status{state} eq 'pause');
-  $status{state} = 'Stopped' if($status{state} eq 'stop');
+  $status{'state'} = 'Playing' if($status{'state'} eq 'play');
+  $status{'state'} = 'Paused'  if($status{'state'} eq 'pause');
+  $status{'state'} = 'Stopped' if($status{'state'} eq 'stop');
 
   if($status{volume} < 0) {
     $status{volume} = 'N/A (Software Mixer)';
@@ -163,6 +166,18 @@ sub info {
   printf("%s %8s: %.66s\n", fg('bold', fg('234', 'S')),
    'Artists', $stats{artists}
   );
+}
+
+sub _on_off {
+  my $state = shift;
+
+  if($state > 1) {
+    return "ON ($state)";
+  }
+  elsif($state == 1) {
+    return 'ON';
+  }
+  return 'OFF';
 }
 
 =pod
