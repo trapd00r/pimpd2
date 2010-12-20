@@ -214,6 +214,13 @@ sub spawn_shell {
         );
         add_to_playlist(@songs);
       }
+      elsif($_[0] eq 'slove') {
+        shift @_;
+        my @result = search_favlist(@_);
+        print "$_\n" for @result;
+        add_to_playlist(@result);
+      }
+
       else {
         add_playlist(@_);
       }
