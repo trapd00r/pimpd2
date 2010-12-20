@@ -1,6 +1,8 @@
 #!/usr/bin/perl
 package App::Pimpd::Player;
 
+use vars qw($VERSION);
+
 require Exporter;
 @ISA = 'Exporter';
 
@@ -13,6 +15,7 @@ our @EXPORT = qw(
   player_destruct
 );
 
+my $DEBUG = $ENV{PIMPD2_DEBUG};
 use strict;
 use Carp;
 
@@ -92,9 +95,9 @@ sub player_daemonize {
     open(my $fh, '>', "$pidfile_player") or confess("pidfile $pidfile_player: $!");
     print $fh $$;
     close($fh);
-    open(STDOUT, '>>',  $daemon_log);
-    open(STDERR, '>', '/dev/null');
-    open(STDIN,  '<', '/dev/null');
+    open(STDOUT, '>>',  $daemon_log) unless $DEBUG;
+    open(STDERR, '>', '/dev/null')   unless $DEBUG;
+    open(STDIN,  '<', '/dev/null')   unless $DEBUG;
   }
   return 0;
 }
