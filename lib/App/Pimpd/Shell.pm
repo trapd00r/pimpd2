@@ -148,37 +148,71 @@ sub spawn_shell {
         print STDERR "Playlist is empty - there's nothing to monitor\n";
         return 1;
       }
-      monitor();
+      #monitor();
+      #FIXME
     },
 
     'sartist'         => sub {
       my $artist = join(' ', @_);
+      if(!$artist) {
+        print help('sartist');
+        return;
+      }
       add_to_playlist(search_db_artist($artist));
     },
 
     'salbum'          => sub {
       my $album = join(' ', @_);
+      if(!$album) {
+        print help('salbum');
+        return;
+      }
       add_to_playlist(search_db_album($album));
     },
 
     'stitle'          => sub {
       my $title = join(' ', @_);
-      add_to_playlist(search_db_title($title));
+      if(!$title) {
+        print help('stitle');
+        return;
+      }
+
+      my @result = search_db_title($title);
+      if(@result) {
+        add_to_playlist(@result);
+      }
+      else {
+        printf("No titles matching '%s'\n",
+          fg($c[5], $title),
+        );
+      }
     },
 
     'sany'            => sub {
       my $search = join(' ', @_);
+      if(!$search) {
+        print help('sany');
+        return;
+      }
       add_to_playlist(search_db_quick($search));
     },
 
     'splaylist'       => sub {
       my $search = join(' ', @_);
+      if(!$search) {
+        print help('splaylist');
+        return;
+      }
       print "$_\n" for values %{ search_playlist($search) };
       queue( keys % { search_playlist($search) } );
     },
 
     'slove'           => sub {
       my $search = join(' ', @_);
+      if(!$search) {
+        print help('slove');
+        return;
+      }
       my @files = search_favlist($search);
       print "$_\n" for @files;
       add_to_playlist(@files);
@@ -187,6 +221,10 @@ sub spawn_shell {
 
     'sap'             => sub {
       my $search = join(' ', @_);
+      if(!$search) {
+        print help('slove');
+        return;
+      }
       my @result = search_all_playlists($search);
       print "$_\n" for @result;
       add_to_playlist(@result);

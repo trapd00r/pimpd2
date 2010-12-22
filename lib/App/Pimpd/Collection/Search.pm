@@ -19,6 +19,7 @@ use Carp 'confess';
 
 sub search_db_quick {
   my $query = shift;
+  return undef if !$query;
 
   if(invalid_regex($query)) {
     confess("Invalid regex: '$query'");
@@ -35,6 +36,7 @@ sub search_db_quick {
 
 sub search_db_artist {
   my $artist  = shift; # Not a regex
+  return undef if !$artist;
 
   my @tracks = $mpd->collection->songs_by_artist_partial($artist);
 
@@ -49,6 +51,8 @@ sub search_db_artist {
 
 sub search_db_title {
   my $title  = shift;
+  return undef if !$title;
+
   my @titles = $mpd->collection->songs_with_title_partial($title);
 
   if(!@titles) {
@@ -62,6 +66,7 @@ sub search_db_title {
 
 sub search_db_album {
   my $album  = shift;
+  return undef if !$album;
   my @albums = $mpd->collection->songs_from_album_partial($album);
 
   if(!@albums) {
