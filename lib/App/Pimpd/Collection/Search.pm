@@ -39,7 +39,7 @@ sub search_db_artist {
   my @tracks = $mpd->collection->songs_by_artist_partial($artist);
 
   if(!@tracks) {
-    return "0";
+    return undef;
   }
 
   map{ $_ = $_->file } @tracks;
@@ -52,7 +52,7 @@ sub search_db_title {
   my @titles = $mpd->collection->songs_with_title_partial($title);
 
   if(!@titles) {
-    return "0";
+    return undef;
   }
 
   map{ $_ = $_->file } @titles;
@@ -65,7 +65,7 @@ sub search_db_album {
   my @albums = $mpd->collection->songs_from_album_partial($album);
 
   if(!@albums) {
-    return "0";
+    return undef;
   }
   map { $_ = $_->file } @albums;
 
