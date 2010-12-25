@@ -209,10 +209,6 @@ sub spawn_shell {
 
     'slove'           => sub {
       my $search = join(' ', @_);
-      if(!$search) {
-        print help('slove');
-        return;
-      }
       my @files = search_favlist($search);
       print "$_\n" for @files;
       add_to_playlist(@files);
