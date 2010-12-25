@@ -82,7 +82,7 @@ GetOptions(
     print "$_\n" for @files;
   },
 
-  'spl|search-playlist'  => sub { _search_playlist(@ARGV); },
+  'spl|search-playlist|splaylist'  => sub { _search_playlist(@ARGV); },
   'sap|search-all-pls'   => sub { search_all_playlists(@ARGV); },
   'sdb|search-db'        => sub { print "$_\n" for search_db_quick(@ARGV); },
 
