@@ -179,6 +179,7 @@ sub spawn_shell {
 
       my @result = search_db_title($title);
       if(@result) {
+        print "$_\n" for @result;
         add_to_playlist(@result);
       }
       else {
