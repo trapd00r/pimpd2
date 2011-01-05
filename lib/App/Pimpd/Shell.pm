@@ -410,7 +410,7 @@ sub spawn_shell {
     }
     else {
       $opts->{help}->();
-      print STDERR "No such option ", fg($c[5], $cmd), "\n";
+      print STDERR "No such option '", fg($c[5], $cmd), "'.\n";
     }
   }
   exit(0);
