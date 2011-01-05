@@ -3,7 +3,7 @@ use vars qw($VERSION);
 my $APP;
 
 $APP     = 'pimpd2';
-$VERSION = '0.16';
+$VERSION = '0.162';
 
 use strict;
 
@@ -24,7 +24,7 @@ use App::Pimpd::Playlist::Randomize;
 use Term::ExtendedColor;
 use Getopt::Long;
 use Pod::Usage;
-use Data::Dumper;
+#use Data::Dumper;
 
 @ARGV or usage();
 
@@ -42,7 +42,8 @@ GetOptions(
   'rt|random-track'      => sub { _rt(); },
 
   'af|add'               => sub { _add_files(@ARGV); },
-  'aa|add-album'         => sub { @_ = map{$_->file} songs_on_album; add(@_); },
+  #'aa|add-album'         => sub { @_ = map{$_->file} songs_on_album; _add_files(@_); },
+  #'aa|add-album'         => sub { shift; add_album_to_playlist(shift); },
   'a|apl|add-playlist'   => sub { add_playlist(@ARGV); },
   'playlists'            => sub { print "$_\n" for list_all_playlists(); },
   'pls|playlist'         => sub { show_playlist(); },
@@ -75,6 +76,9 @@ GetOptions(
     }
   },
 
+  'aa|add-album'           => sub {
+    add_to_playlist( map{ $_->file } get_album_songs(@ARGV) );
+  },
   'lsp|lsplaylist'         => sub { songs_in_playlist(@ARGV); },
 
   'slove'                => sub {
