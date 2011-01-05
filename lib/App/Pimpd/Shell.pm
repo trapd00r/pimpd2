@@ -321,7 +321,7 @@ sub spawn_shell {
     },
 
     'queue'            => sub {
-      if(invalid_pos(@_)) {
+      if(invalid_playlist_pos(@_)) {
         printf("No such song%s\n", (@_ < 1) ? 's' : '');
         return 1;
       }
