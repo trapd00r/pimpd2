@@ -12,6 +12,7 @@ our @EXPORT = qw(
   add_playlist
   list_all_playlists
   add_to_playlist
+  get_album_songs
 );
 
 #TODO
@@ -24,6 +25,15 @@ use App::Pimpd;
 use App::Pimpd::Validate;
 use Term::ExtendedColor;
 
+sub get_album_songs {
+  my $album = shift // $mpd->current->album;
+  if( (!defined($album)) or ($album eq '') ) {
+    return undef;
+  }
+
+  my @tracks = $mpd->collection->songs_from_album($album);
+  return wantarray() ? @tracks : scalar(@tracks);
+}
 
 sub remove_album_from_playlist {
   my $search_str = shift;
