@@ -238,6 +238,9 @@ sub spawn_shell {
     },
 
     'songs'           => sub { print $_->file, "\n" for songs_on_album(@_); },
+    'add-album'       => sub {
+      add_to_playlist( map{ $_->file } get_album_songs(@_));
+    },
     'playlists'       => sub { print "$_\n" for list_all_playlists(); },
     'add'             => sub {
 
@@ -349,7 +352,6 @@ sub spawn_shell {
       print current(), "\n";
     },
 
-    'add-album'        => sub { add_current_album(); },
     'external'         => sub { songs_in_playlist(@_); },
     'clear'            => sub { clear_playlist() },
     'crop'             => sub { $mpd->playlist->crop; },
