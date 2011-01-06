@@ -15,7 +15,8 @@ use App::Pimpd;
 use App::Pimpd::Validate;
 use Term::ExtendedColor;
 
-get_color_support();
+# FIXME
+#get_color_support();
 
 
 my(%current, %status, ,%stats);
