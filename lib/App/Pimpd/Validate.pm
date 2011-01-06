@@ -90,8 +90,8 @@ sub escape {
 }
 
 sub remote_host {
-  not defined($mpd_host) and $mpd_host = 'localhost';
-  if( ($mpd_host eq 'localhost') or ($mpd_host eq '127.0.0.1')) {
+  not exists($config{mpd_host}) and $config{mpd_host} = 'localhost';
+  if(($config{mpd_host} eq 'localhost') or ($config{mpd_host} eq '127.0.0.1')) {
     return 0;
   }
   return 1;
@@ -171,7 +171,7 @@ crucial for other functions.
 
 Returns true if the MPD server is located on a remote host.
 
-The MPD server is assumed to be remote if the B<$mpd_host> configuration file
+The MPD server is assumed to be remote if the B<mpd_host> configuration file
 variable is:
 
   not defined
