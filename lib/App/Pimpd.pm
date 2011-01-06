@@ -8,18 +8,26 @@ $VERSION = '0.16';
 require Exporter;
 @ISA = 'Exporter';
 our @EXPORT = qw(
+  @c
+  $mpd
   %config
 
   &get_color_support
   &player_cmdline
-
 );
 
 use strict;
 use Audio::MPD;
 use Config::General;
+#use Data::Dumper;
+#$Data::Dumper::Terse     = 1;
+#$Data::Dumper::Indent    = 1;
+#$Data::Dumper::Useqq     = 1;
+#$Data::Dumper::Deparse   = 1;
+#$Data::Dumper::Quotekeys = 0;
+#$Data::Dumper::Sortkeys  = 1;
 
-our ($mpd, %config);
+our ($mpd, %config, @c);
 
 # Load the configuration file and fill %config with keys and values
 config_init();
@@ -82,8 +90,11 @@ sub config_init {
   }
   #print "Config found: $config\n";
 
+  #FIXME 
+  $config = './pimpd2.conf';
+
   my $conf = Config::General->new(
-    '-ConfigFile'        => 'iniconfig.conf',
+    '-ConfigFile'        => $config,
     '-AllowMultiOptions' => 1,
     '-LowerCaseNames'    => 1,
     '-AutoTrue'          => 1,
@@ -93,6 +104,12 @@ sub config_init {
   );
 
   %config = $conf->getall;
+
+  for my $color( sort grep{ /color/ } keys(%config) ) {
+    # color0 => green8
+    # color1 => purple14
+    push(@c, $config{$color});
+  }
 }
 
 =pod
