@@ -121,7 +121,7 @@ sub spawn_shell {
         print STDERR "Nothing is playing - playlist is empty\n";
         return 1;
       }
-      cp($target_directory);
+      cp($config{target_directory});
     },
 
     'copya'      => sub {
@@ -129,7 +129,7 @@ sub spawn_shell {
         print STDERR "Nothing is playing - playlist is empty\n";
         return 1;
       }
-      cp_album($target_directory);
+      cp_album($config{target_directory});
     },
 
     # FIXME
