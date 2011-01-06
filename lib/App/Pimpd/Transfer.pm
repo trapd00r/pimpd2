@@ -23,7 +23,7 @@ sub cp_album {
   my $album  = $mpd->current->album;
 
   my @tracks = map {
-    $music_directory . '/' . $_->file
+    $config{music_directory} . '/' . $_->file
     } $mpd->collection->songs_from_album($album);
 
 
@@ -56,11 +56,11 @@ sub cp {
   }
 
   my $file; # = $mpd->current->file;
-  if($music_directory =~ m|.+/$|) {
-    $file = $music_directory .= $mpd->current->file;
+  if($config{music_directory} =~ m|.+/$|) {
+    $file = $config{music_directory} .= $mpd->current->file;
   }
   else {
-    $file = "$music_directory/" . $mpd->current->file;
+    $file = $config{music_directory} . '/' . $mpd->current->file;
   }
 
   if(remote_host()) {
@@ -81,8 +81,10 @@ sub cp {
 sub _scp {
   my($source, $dest) = @_;
 
-  system('scp', '-r',  "-P $ssh_port", "$ssh_host:'$source'", $dest)
-    == 0 or confess("scp: $!");
+  system('scp', '-r',
+    "-P $config{ssh_port}",
+    "$config{ssh_host}:'$source'", $dest
+  ) == 0 or confess("scp: $!");
 }
 
 =pod
@@ -115,7 +117,7 @@ server to the local machine.
 Parameters: $path | NONE
 
 Copy the currently playing song to B<$location>. If $location is omitted, uses
-the B<$target_directory> variable from the configuration file.
+the B<target_directory> variable from the configuration file.
 
 =item cp_album()
 
@@ -124,7 +126,7 @@ the B<$target_directory> variable from the configuration file.
 Parameters: $path | NONE
 
 Copy the songs from the currently playing album to $location. If $location is 
-omitted, uses the $target_directory variable from the configuration file.
+omitted, uses the target_directory variable from the configuration file.
 
 =back
 
