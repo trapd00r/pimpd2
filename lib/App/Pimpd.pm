@@ -2,26 +2,13 @@
 package App::Pimpd;
 
 use vars qw($VERSION);
-$VERSION = '0.10';
+$VERSION = '0.16';
 
 
 require Exporter;
 @ISA = 'Exporter';
 our @EXPORT = qw(
-  $mpd
-  @c
-  $mpd_host
-  $mpd_port
-  $mpd_pass
-  $mpd_user
-  $ssh_host
-  $ssh_port
-  $ssh_user
-
-  $music_directory
-  $playlist_directory
-  $target_directory
-  $loved_database
+  %config
 
   &get_color_support
   &player_cmdline
@@ -30,62 +17,43 @@ our @EXPORT = qw(
 
 use strict;
 use Audio::MPD;
+use Config::General;
 
-our $mpd;
+our ($mpd, %config);
 
-# From configuration file
-our(
-  @c,
-  $mpd_host,
-  $mpd_port,
-  $mpd_pass,
-  $mpd_user,
-
-  $ssh_host,
-  $ssh_port,
-  $ssh_user,
-
-  $music_directory,
-  $playlist_directory,
-  $loved_database,
-
-  $c_extended_colors,
-  $c_ansi_colors,
-
-  $c_player,
-  @c_player_opts,
-  $c_player_url,
-);
-
+# Load the configuration file and fill %config with keys and values
 config_init();
+# Initialize the connection to the MPD server
 mpd_init();
-get_color_support();
+
+#get_color_support();
 
 sub player_cmdline {
-  if(defined($c_player)) {
-    if(!defined($c_player_url)) {
+  if(exists($config{player})) {
+    if(!exists($config{player_stream})) {
       print STDERR "No remote MPD adress specified in pimpd.conf. Exiting...\n";
       return 1;
     }
-    return "$c_player $c_player_url @c_player_opts";
+    return "$config{player} $config{player_stream} $config{player_opts}";
   }
   print STDERR "No player configured\n";
   return 1;
 }
 
-sub get_color_support {
-  if( not($c_extended_colors) and not($c_ansi_colors) ) {
-    # Clear the color array.
-    @c = ();
-    return 0;
-  }
-}
+#sub get_color_support {
+#  if( not($c_extended_colors) and not($c_ansi_colors) ) {
+#    # Clear the color array.
+#    @c = ();
+#    return 0;
+#  }
+#}
 
 sub mpd_init {
-  if( (defined($mpd_host)) or (defined($mpd_port)) ) {
+  if( (exists($config{mpd_host})) or (exists($config{mpd_port})) ) {
     $mpd = Audio::MPD->new(
-      host  => $mpd_host,
-      port  => $mpd_port,
+      host      => $config{mpd_host},
+      port      => $config{mpd_port},
+      #password  => $mpd_pass, #FIXME
     );
   }
 }
@@ -114,8 +82,17 @@ sub config_init {
   }
   #print "Config found: $config\n";
 
-  require($config);
-  warn $@ if $@;
+  my $conf = Config::General->new(
+    '-ConfigFile'        => 'iniconfig.conf',
+    '-AllowMultiOptions' => 1,
+    '-LowerCaseNames'    => 1,
+    '-AutoTrue'          => 1,
+    #'-DefaultConfig'     => \%default_config,
+    '-InterPolateEnv'    => 1,
+    'CComments'          => 1,
+  );
+
+  %config = $conf->getall;
 }
 
 =pod
