@@ -90,9 +90,6 @@ sub config_init {
   }
   #print "Config found: $config\n";
 
-  #FIXME 
-  $config = './pimpd2.conf';
-
   my $conf = Config::General->new(
     '-ConfigFile'        => $config,
     '-AllowMultiOptions' => 1,
