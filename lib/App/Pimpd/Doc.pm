@@ -41,6 +41,7 @@ sub help {
     'playlist'      => \&_help_playlist,
     'playlists'     => \&_help_playlists,
     'add'           => \&_help_add,
+    'add-album'     => \&_help_add_album,
     #'add-files'     => \&_help_add_files,
     #'add-playlist'  => \&_help_add_playlist,
     'randomize'     => \&_help_randomize,
@@ -69,6 +70,18 @@ sub help {
     return "No such topic.\n";
   }
 }
+
+sub _help_add_album {
+  return << "EOF"
+@{[fg('bold', 'Usage')]}: add-album ALBUM
+
+Add all songs from ALBUM to playlist.
+If ALBUM is omitted, use albumtag from the current song.
+
+EOF
+}
+
+
 sub _help_add {
   return << "EOF"
 @{[fg('bold', 'Usage')]}: add FILES || PLAYLIST
@@ -354,6 +367,7 @@ sub _help_shell {
       playlists     list all known playlists
       lsplaylist    list files in playlist
       add           add playlists or songs to the current playlist
+      add-album     add songs from album to playlist
       rmalbum       remove album from playlist
       randomize     randomize a new playlist with n tracks
       randomalbum   and n random full albums
