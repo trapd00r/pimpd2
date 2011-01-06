@@ -3,9 +3,11 @@ use vars qw($VERSION);
 my $APP;
 
 $APP     = 'pimpd2';
-$VERSION = '0.162';
+$VERSION = '0.165';
 
 use strict;
+
+#use lib 'lib';
 
 use App::Pimpd;
 use App::Pimpd::Player;
@@ -54,8 +56,10 @@ GetOptions(
   'sh|shell'             => sub { \&spawn_shell(@ARGV); },
   'rma|rmalbum'          => sub { remove_album_from_playlist(@ARGV); },
 
-  'cp'                   => sub { cp(@ARGV ? @ARGV : $target_directory) },
-  'cpa'                  => sub { cp_album(@ARGV ? @ARGV : $target_directory) },
+  'cp'                   => sub { cp(@ARGV ? @ARGV : $config{target_directory}) },
+  'cpa'                  => sub {
+    cp_album(@ARGV ? @ARGV : $config{target_directory})
+  },
 
   'fav|favorite|love'    => sub { add_to_favlist(@ARGV); }, # FIXME
   'loved'                => sub {
