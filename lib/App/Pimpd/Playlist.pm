@@ -83,12 +83,14 @@ sub songs_in_playlist {
 
   @playlists = get_valid_lists(@playlists);
   for my $playlist(@playlists) {
-    my $full_path = "$playlist_directory/$playlist\.m3u";
+    my $full_path = $config{playlist_directory} . "/$playlist.m3u";
 
     my $fh = undef;
     if(remote_host()) {
-      open($fh, "ssh -p $ssh_port $ssh_user\@$ssh_host \"/bin/cat '$full_path'\"|")
-        or die("$ssh_host:$ssh_port: $!");
+      #FIXME 80c !
+      open($fh,
+        "ssh -p $config{ssh_port} $config{ssh_user}\@$config{ssh_host} \"/bin/cat '$full_path'\"|"
+      ) or die("ssh: $config{ssh_host}:$config{ssh_port}:\n$!\n");
     }
     else {
       open($fh, '<', $full_path) or die("Can not open $full_path: $!");
