@@ -20,8 +20,8 @@ use Term::ExtendedColor;
 sub already_loved {
   my $file = shift;
 
-  open(my $fh, '<', $loved_database)
-    or confess("Cant open '$loved_database': $!");
+  open(my $fh, '<', $config{loved_database})
+    or confess("Cant open '$config{loved_database}': $!");
 
   chomp(my @songs = <$fh>);
   close($fh);
@@ -32,8 +32,8 @@ sub already_loved {
 sub search_favlist {
   my $query = shift;
 
-  open(my $fh, '<', $loved_database)
-    or confess("Cant open '$loved_database': $!");
+  open(my $fh, '<', $config{loved_database})
+    or confess("Cant open '$config{loved_database}': $!");
   chomp(my @songs = <$fh>);
   close($fh);
 
@@ -85,16 +85,17 @@ sub add_to_favlist {
   $year  += 1900;
 
   if($favlist_m3u) {
-    $favlist_m3u = "$playlist_directory/" . $favlist_m3u . '.m3u';
+    $favlist_m3u = "$config{playlist_directory}/" . $favlist_m3u . '.m3u';
   }
   else {
     # 2010-12-rock.m3u
-    $favlist_m3u = $playlist_directory . "/"
+    $favlist_m3u = $config{playlist_directory} . "/"
       . sprintf("%d-%02d-%s.m3u", $year, $month, lc($genre));
   }
 
   # Write the db locally.
-  open(my $fh, '>>', $loved_database) or confess("Cant open '$loved_database': $!");
+  open(my $fh, '>>', $config{loved_database})
+    or confess("Cant open '$config{loved_database}': $!");
   print $fh "$file\n";
   close($fh);
 
@@ -103,12 +104,15 @@ sub add_to_favlist {
     # No idea why. It works anyway. Lets fail silently here until
     # we find a proper solution.
 
-    system('ssh', ('-p', $ssh_port, "$ssh_user\@$ssh_host",
-                         "echo '$file' >> $favlist_m3u",
-                       ),
+    system('ssh',
+      ('-p', $config{ssh_port},
+        "$config{ssh_user}\@$config{ssh_host}", "echo '$file' >> $favlist_m3u",
+      ),
     ) == 0 and do {
       printf("'%s' >> %s:%s\n",
-        fg($c[3], $title), fg('bold', $ssh_host), fg($c[4], $favlist_m3u),
+        fg($c[3], $title),
+        fg('bold', $config{ssh_host}),
+        fg($c[4], $favlist_m3u),
       );
       return 0;
     };
