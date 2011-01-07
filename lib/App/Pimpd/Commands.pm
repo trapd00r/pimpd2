@@ -28,7 +28,7 @@ sub next_track {
 }
 
 sub previous_track {
-  $mpd->previous;
+  $mpd->prev;
 }
 
 sub clear_playlist {
