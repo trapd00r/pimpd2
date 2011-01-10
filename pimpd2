@@ -50,14 +50,14 @@ GetOptions(
   'playlists'            => sub { print "$_\n" for list_all_playlists(); },
   'pls|playlist'         => sub { show_playlist(); },
 
-  'p|play'               => sub { play(); },
+  'p|play'               => sub { play(@ARGV); },
   's|stop'               => sub { stop(); },
   'k|kill'               => sub { player_destruct(); },
   'sh|shell'             => sub { \&spawn_shell(@ARGV); },
   'rma|rmalbum'          => sub { remove_album_from_playlist(@ARGV); },
 
   'cp'                   => sub { cp(@ARGV ? @ARGV : $config{target_directory}) },
-  'cpa'                  => sub {
+  'cpa|copy-album'       => sub {
     cp_album(@ARGV ? @ARGV : $config{target_directory})
   },
 
@@ -107,6 +107,13 @@ GetOptions(
   'repeat'               => sub { toggle_repeat; },
   'random'               => sub { toggle_random; },
 
+
+  'host'               => sub {
+    # FIXME one way, or another...
+    my($host, $port, $password, $stream) = @ARGV;
+    App::Pimpd::mpd_init($host, $port, $password);
+    
+  },
   'debug'                => sub { _debug(); },
   'help'                 => \&usage,
   'version'              => sub { print "$APP v$VERSION\n" and exit 0; },
