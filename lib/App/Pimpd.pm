@@ -19,13 +19,13 @@ our @EXPORT = qw(
 use strict;
 use Audio::MPD;
 use Config::General;
-#use Data::Dumper;
-#$Data::Dumper::Terse     = 1;
-#$Data::Dumper::Indent    = 1;
-#$Data::Dumper::Useqq     = 1;
-#$Data::Dumper::Deparse   = 1;
-#$Data::Dumper::Quotekeys = 0;
-#$Data::Dumper::Sortkeys  = 1;
+use Data::Dumper;
+$Data::Dumper::Terse     = 1;
+$Data::Dumper::Indent    = 1;
+$Data::Dumper::Useqq     = 1;
+$Data::Dumper::Deparse   = 1;
+$Data::Dumper::Quotekeys = 0;
+$Data::Dumper::Sortkeys  = 1;
 
 our ($mpd, %config, @c);
 
@@ -39,6 +39,7 @@ mpd_init();
 sub player_cmdline {
   if(exists($config{player})) {
     if(!exists($config{player_stream})) {
+      #chomp($config{player_stream} = <STDIN>);
       print STDERR "No remote MPD adress specified in pimpd.conf. Exiting...\n";
       return 1;
     }
@@ -57,12 +58,34 @@ sub player_cmdline {
 #}
 
 sub mpd_init {
-  if( (exists($config{mpd_host})) or (exists($config{mpd_port})) ) {
+  my($host, $port, $password) = @_;
+  if(defined($host)) {
     $mpd = Audio::MPD->new(
-      host      => $config{mpd_host},
-      port      => $config{mpd_port},
-      #password  => $mpd_pass, #FIXME
+      host     => $host,
+      port     => $port,
+      password => $password,
     );
+    return;
+  }
+
+  if( (exists($config{mpd_host})) or (exists($config{mpd_port})) ) {
+    if( (exists($config{mpd_pass}))
+        and ($config{mpd_pass} ne '')
+        and ($config{mpd_pass} ne "''")
+        and ($config{mpd_pass} ne '""')
+    ) {
+      $mpd = Audio::MPD->new(
+        host      => $config{mpd_host},
+        port      => $config{mpd_port},
+        password  => $config{mpd_pass},
+      );
+    }
+    else {
+      $mpd = Audio::MPD->new(
+        host      => $config{mpd_host},
+        port      => $config{mpd_port},
+      );
+    }
   }
 }
 
@@ -88,6 +111,7 @@ sub config_init {
     warn "See docs/pimpd2.conf.example for an example configuration file.\n";
     exit 1;
   }
+
   #print "Config found: $config\n";
 
   my $conf = Config::General->new(
@@ -101,6 +125,7 @@ sub config_init {
   );
 
   %config = $conf->getall;
+  $config{_filename} = $config;
 
   for my $color( sort grep{ /color/ } keys(%config) ) {
     # color0 => green8
