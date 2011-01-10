@@ -29,6 +29,9 @@ my $player_tmp_log  = '/tmp/pimpd2.log';
 my $cmdline = player_cmdline();
 
 sub player_init {
+  if(@_) {
+    $cmdline = "@_";
+  }
   my $fails = 0;
 
   # Not playing!
@@ -85,7 +88,7 @@ sub player_daemonize {
 
     # Child have confessd/returned.
     # This means that MPD is in a state where it's not sending any data
-    # We try to reconnect 15 times with a delay, and if the stream is still
+    # We try to reconnect 20 times with a delay, and if the stream is still
     # down, we exit. See player_init()
 
     player_init();
@@ -95,9 +98,9 @@ sub player_daemonize {
     open(my $fh, '>', "$pidfile_player") or confess("pidfile $pidfile_player: $!");
     print $fh $$;
     close($fh);
-    open(STDOUT, '>>',  $daemon_log) unless $DEBUG;
-    open(STDERR, '>', '/dev/null')   unless $DEBUG;
-    open(STDIN,  '<', '/dev/null')   unless $DEBUG;
+    open(STDOUT, '>>',  $daemon_log) unless $ENV{DEBUG};
+    open(STDERR, '>', '/dev/null')   unless $ENV{$DEBUG};
+    open(STDIN,  '<', '/dev/null')   unless $ENV{$DEBUG};
   }
   return 0;
 }
@@ -105,7 +108,7 @@ sub player_daemonize {
 sub play {
   player_destruct(); # FIXME
   $mpd->play;
-  player_init();
+  player_init(@_);
 
   #if(player_init() == 1) {
   #  $mpd->play;
