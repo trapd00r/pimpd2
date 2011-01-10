@@ -12,6 +12,7 @@ our @EXPORT = qw(
   remote_host
   escape
   get_valid_lists
+  isa_valid_playlist
 );
 
 use strict;
@@ -80,6 +81,12 @@ sub get_valid_lists {
     }
   }
   return(@lists);
+}
+
+sub isa_valid_playlist {
+  my @lists = $mpd->collection->all_playlists;
+  map { s/^\s+// } @lists;
+  return ($_[0] ~~ @lists) ? 1 : 0;
 }
 
 sub escape {
@@ -217,6 +224,8 @@ Takes a list and traverses it, checking if every playlist exists.
 
 If a playlist is found to be non-existant, tries to match the string against
 all known playlists. If a partial match is found, prompts for validation.
+
+=item isa_valid_playlist
 
 =back
 

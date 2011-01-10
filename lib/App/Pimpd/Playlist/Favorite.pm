@@ -18,10 +18,26 @@ use App::Pimpd::Validate;
 use Term::ExtendedColor;
 
 sub already_loved {
-  my $file = shift;
+  my($file, $playlist) = @_;
 
-  open(my $fh, '<', $config{loved_database})
-    or confess("Cant open '$config{loved_database}': $!");
+  my $fh;
+  # Ok, we have not specified an arbitary playlist name, let's see if this
+  # song have been loved yet!
+  if(!defined($playlist)) {
+    open($fh, '<', $config{loved_database})
+      or confess("Cant open '$config{loved_database}': $!");
+  }
+
+  # See if the song is loved in the arbitary playlist
+  else {
+    if(isa_valid_playlist($playlist)) {
+      open($fh, '<', "$config{playlist_directory}/$playlist.m3u")
+        or confess("Can not open $config{playlist_directory}/$playlist: $!");
+    }
+    else {
+      return;
+    }
+  }
 
   chomp(my @songs = <$fh>);
   close($fh);
@@ -72,12 +88,24 @@ sub add_to_favlist {
   #my $file   = $basedir . '/' . $mpd->current->file;
 
   # Do not complain if an arbitary playlist name is specified.
-  if( (already_loved($file) and (!defined($favlist_m3u)) ) {
-    printf("%s by %s is already loved!\n",
-      fg($c[11], $title), fg($c[2], $artist),
-    );
-    return;
+  if(!defined($favlist_m3u)) {
+    if(already_loved($file)) {
+      printf("%s by %s is already loved!\n",
+        fg($c[11], $title), fg($c[2], $artist),
+      );
+
+      return;
+    }
   }
+  else {
+    if(already_loved($file, $favlist_m3u)) {
+      printf("%s by %s is already loved in %s\n",
+        fg($c[11], $title), fg($c[2], $artist), fg('bold', $favlist_m3u),
+      );
+      return;
+    }
+  }
+
 
   $genre =~ s/\s+/_/g; # evil whitespace
 
@@ -112,7 +140,7 @@ sub add_to_favlist {
     ) == 0 and do {
       printf("'%s' >> %s:%s\n",
         fg($c[3], $title),
-        fg('bold', $config{ssh_host}),
+        $config{ssh_host},
         fg($c[4], $favlist_m3u),
       );
       return 0;
