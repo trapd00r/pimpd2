@@ -71,7 +71,8 @@ sub add_to_favlist {
   my $file   = $mpd->current->file;
   #my $file   = $basedir . '/' . $mpd->current->file;
 
-  if(already_loved($file)) {
+  # Do not complain if an arbitary playlist name is specified.
+  if( (already_loved($file) and (!defined($favlist_m3u)) ) {
     printf("%s by %s is already loved!\n",
       fg($c[11], $title), fg($c[2], $artist),
     );
