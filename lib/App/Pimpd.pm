@@ -14,6 +14,7 @@ our @EXPORT = qw(
 
   &get_color_support
   &player_cmdline
+  &abs_playlist_path
 );
 
 use strict;
@@ -87,6 +88,12 @@ sub mpd_init {
       );
     }
   }
+}
+
+sub abs_playlist_path {
+  my $list = shift;
+  return $config{playlist_directory} . "/$list.m3u";
+  #unless(!App::Pimpd::Validate::isa_valid_playlist($list));
 }
 
 sub config_init {

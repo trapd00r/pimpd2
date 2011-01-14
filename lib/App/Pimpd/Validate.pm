@@ -84,6 +84,7 @@ sub get_valid_lists {
 }
 
 sub isa_valid_playlist {
+  my @playlists = @_;
   my @lists = $mpd->collection->all_playlists;
   map { s/^\s+// } @lists;
   return ($_[0] ~~ @lists) ? 1 : 0;
