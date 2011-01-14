@@ -20,12 +20,14 @@ use App::Pimpd::Validate;
 sub cp_album {
   my $destination = shift;
 
-  my $album  = $mpd->current->album;
+  my $album   = $mpd->current->album;
+  my $artist  = $mpd->current->artist;
 
-  my @tracks = map {
-    $config{music_directory} . '/' . $_->file
-    } $mpd->collection->songs_from_album($album);
+  my @tracks = grep {
+    $artist eq $_->artist
+  } $mpd->collection->songs_from_album($album);;
 
+  @tracks = map { $config{music_directory} . '/' . $_->file } @tracks;
 
   if(remote_host()) {
     for(@tracks) {
