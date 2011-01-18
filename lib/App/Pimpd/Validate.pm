@@ -18,7 +18,7 @@ our @EXPORT = qw(
 use strict;
 use Carp 'croak';
 use App::Pimpd;
-use Term::ExtendedColor;
+use Term::ExtendedColor qw(fg);
 
 
 sub get_valid_lists {

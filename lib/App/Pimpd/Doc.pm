@@ -10,7 +10,7 @@ our @EXPORT = qw(
 
 use strict;
 use App::Pimpd;
-use Term::ExtendedColor;
+use Term::ExtendedColor qw(fg);
 
 sub help {
   my $cmd = shift;

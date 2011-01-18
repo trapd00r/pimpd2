@@ -23,7 +23,7 @@ use strict;
 
 use App::Pimpd;
 use App::Pimpd::Validate;
-use Term::ExtendedColor;
+use Term::ExtendedColor qw(fg bg);
 
 sub get_album_songs {
   my $album = shift // $mpd->current->album;

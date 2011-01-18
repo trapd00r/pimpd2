@@ -23,7 +23,7 @@ use App::Pimpd::Playlist::Search;
 use App::Pimpd::Playlist::Favorite;
 use App::Pimpd::Playlist::Randomize;
 
-use Term::ExtendedColor;
+use Term::ExtendedColor qw(fg);
 use Getopt::Long;
 use Pod::Usage;
 #use Data::Dumper;

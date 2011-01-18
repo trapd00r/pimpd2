@@ -23,7 +23,7 @@ use App::Pimpd::Playlist::Favorite;
 use App::Pimpd::Playlist::Randomize;
 use App::Pimpd::Playlist::Search;
 use App::Pimpd::Validate;
-use Term::ExtendedColor;
+use Term::ExtendedColor qw(fg);
 use Term::ReadLine; # Term::ReadLine::Gnu
 
 my $opts;
