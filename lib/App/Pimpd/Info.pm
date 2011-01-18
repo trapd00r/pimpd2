@@ -13,7 +13,7 @@ use strict;
 
 use App::Pimpd;
 use App::Pimpd::Validate;
-use Term::ExtendedColor qw(fg);
+use Term::ExtendedColor qw(fg clear);
 
 # FIXME
 #get_color_support();
