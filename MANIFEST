@@ -16,7 +16,7 @@ lib/App/Pimpd/Validate.pm
 Makefile.PL
 MANIFEST			This list of files
 pimpd2
-README
+README.pod
 t/00-load.t
 t/01-pod.t
 t/02-pod-coverage.t
