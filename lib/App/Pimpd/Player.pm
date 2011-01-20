@@ -99,8 +99,8 @@ sub player_daemonize {
     print $fh $$;
     close($fh);
     open(STDOUT, '>>',  $daemon_log) unless $ENV{DEBUG};
-    open(STDERR, '>', '/dev/null')   unless $ENV{$DEBUG};
-    open(STDIN,  '<', '/dev/null')   unless $ENV{$DEBUG};
+    open(STDERR, '>', '/dev/null')   unless $ENV{DEBUG};
+    open(STDIN,  '<', '/dev/null')   unless $ENV{DEBUG};
   }
   return 0;
 }
