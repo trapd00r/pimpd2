@@ -3,7 +3,7 @@ use vars qw($VERSION);
 my $APP;
 
 $APP     = 'pimpd2';
-$VERSION = '0.168';
+$VERSION = '0.170';
 
 use strict;
 
@@ -29,6 +29,7 @@ use Pod::Usage;
 #use Data::Dumper;
 
 @ARGV or usage();
+
 
 GetOptions(
   'np|now-playing'       => sub { print current(), "\n"; },
