@@ -24,7 +24,7 @@ use App::Pimpd::Playlist::Randomize;
 use App::Pimpd::Playlist::Search;
 use App::Pimpd::Validate;
 use Term::ExtendedColor qw(fg);
-use Term::ReadLine; # Term::ReadLine::Gnu
+use Term::ReadLine; # Term::ReadLine::Gnu prefered
 
 my $opts;
 sub spawn_shell {
@@ -385,32 +385,35 @@ sub spawn_shell {
 
     my $term = Term::ReadLine->new('pimpd2');
     my $attr = $term->Attribs;
+
     $attr->{completion_function} = sub {
       my($text, $line, $start) = @_;
       return @available_cmd;
     };
 
+    $attr->{autolist} = 0;
+    $attr->{maxcomplete} = 0;
+    # Sane keymap please.
+    $term->set_keymap('vi');
 
     my $choice;
 
-    while(defined($_ = $term->readline(fg($c[6],'pimpd') . fg('bold','> ')))) {
-      $choice = $_;
-      $term->addhistory($_) if /\S/;
-      last;
-    }
+    while(1) {
+      $choice = $term->readline(fg($c[6], 'pimpd') . fg('bold', '> '));
+      $term->addhistory($choice) if $choice =~ /\S/;
 
-    ($cmd) = $choice =~ m/^(\S+)/;
-    ($arg) = $choice =~ m/\s+(.+)$/;
-    @cmd_args  = split(/\s+/, $arg);
+      ($cmd) = $choice =~ m/^(\S+)/;
+      ($arg) = $choice =~ m/\s+(.+)$/;
+      @cmd_args  = split(/\s+/, $arg);
 
-
-    if(defined($opts->{$cmd})) {
-      $mpd->play;
-      $opts->{$cmd}->(@cmd_args);
-    }
-    else {
-      $opts->{help}->();
-      print STDERR "No such option '", fg($c[5], $cmd), "'.\n";
+      if(defined($opts->{$cmd})) {
+        $mpd->play;
+        $opts->{$cmd}->(@cmd_args);
+      }
+      else {
+        $opts->{help}->();
+        print STDERR "No such option '", fg($c[5], $cmd), "'.\n";
+      }
     }
   }
   exit(0);
