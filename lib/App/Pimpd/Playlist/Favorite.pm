@@ -15,7 +15,7 @@ use strict;
 use Carp 'confess';
 use App::Pimpd;
 use App::Pimpd::Validate;
-use Term::ExtendedColor;
+use Term::ExtendedColor qw(fg bg);
 
 sub already_loved {
   my($file, $playlist) = @_;
