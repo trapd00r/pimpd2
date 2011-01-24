@@ -3,7 +3,7 @@ use vars qw($VERSION);
 my $APP;
 
 $APP     = 'pimpd2';
-$VERSION = '0.172';
+$VERSION = '0.173';
 
 use strict;
 

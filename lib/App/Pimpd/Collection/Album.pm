@@ -32,11 +32,19 @@ sub delete_album {
   $path = "$config{music_directory}/$path";
 
   if(remote_host()) {
+    open(OLD_STDOUT, '>&', STDOUT) or die("Cant dupe STDOUT: $!");
+    close(STDOUT);
     system(
       'ssh', "-p $config{ssh_port}",
       "$config{ssh_user}\@$config{ssh_host}",
       "rm -rv '$path'",
-    );
+    ) == 0 and do {
+      open(STDOUT, '>&', OLD_STDOUT) or die("Cant reopen STDOUT: $!");
+      printf("Removed %s successfully\n", fg('bold', $path));
+      return;
+    };
+    open(STDOUT, '>&', OLD_STDOUT) or die("Cant reopen STDOUT: $!");
+
   }
   else {
     if(remove_path($path)) {
