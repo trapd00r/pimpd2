@@ -7,10 +7,46 @@ require Exporter;
 our @EXPORT = qw(
   songs_on_album
   albums_by_artist
+  delete_album
   );
 
 use strict;
 use App::Pimpd;
+use App::Pimpd::Validate;
+use Term::ExtendedColor qw(fg);
+
+sub delete_album {
+  my $file = $mpd->current->file;
+
+  my($path) = $file =~ m|(.+)/.+$|;
+  my @songs = $mpd->collection->all_items_simple($path);
+
+
+  printf("Remove %s ? [y/N] ", fg('bold', $path));
+
+  chomp(my $answer = <STDIN>);
+  if(lc($answer) ne 'y') {
+    return 1;
+  }
+
+  $path = "$config{music_directory}/$path";
+
+  if(remote_host()) {
+    system(
+      'ssh', "-p $config{ssh_port}",
+      "$config{ssh_user}\@$config{ssh_host}",
+      "rm -rv '$path'",
+    );
+  }
+  else {
+    if(remove_path($path)) {
+      printf("removed '%s'\n", fg('bold', $path));
+      return;
+    }
+    print STDERR "remove_path($path): $!\n";
+    return;
+  }
+}
 
 
 sub albums_by_artist {

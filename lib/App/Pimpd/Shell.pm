@@ -363,6 +363,8 @@ sub spawn_shell {
       play();
     },
 
+    'delete-album'     => \&delete_album,
+
     'rmalbum'          => sub { remove_album_from_playlist(@_); },
     'exit'             => sub { exit(0); },
     ':q'               => sub { exit(0); },

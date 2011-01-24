@@ -48,6 +48,7 @@ sub help {
     'randomalbum'   => \&_help_randomize_albums,
     'randomtrack'   => \&_help_random_track,
     'rmalbum'       => \&_help_rm_album,
+    'delete-album'  => \&_help_delete_album,
     'love'          => \&_help_love,
     'loved?'        => \&_help_loved,
     'lsplaylist'    => \&_help_lsplaylist,
@@ -322,6 +323,15 @@ sub _help_loved {
 Check if the current song is already loved.
 EOF
 }
+
+sub _help_delete_album {
+  return << "EOF"
+@{[fg('bold', 'Usage')]}: delete_album
+
+Deletes the current album from disk.
+EOF
+}
+
 
 sub _help_rm_album {
   return << "EOF"

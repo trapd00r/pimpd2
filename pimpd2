@@ -3,7 +3,7 @@ use vars qw($VERSION);
 my $APP;
 
 $APP     = 'pimpd2';
-$VERSION = '0.170';
+$VERSION = '0.172';
 
 use strict;
 
@@ -50,6 +50,7 @@ GetOptions(
   'a|apl|add-playlist'   => sub { add_playlist(@ARGV); },
   'playlists'            => sub { print "$_\n" for list_all_playlists(); },
   'pls|playlist'         => sub { show_playlist(); },
+  'da|delete-album'      => sub { delete_album(); },
 
   'p|play'               => sub { play(@ARGV); },
   's|stop'               => sub { stop(); },
@@ -116,7 +117,7 @@ GetOptions(
     
   },
   'debug'                => sub { _debug(); },
-  'help'                 => \&usage,
+  'h|help'               => \&usage,
   'version'              => sub { print "$APP v$VERSION\n" and exit 0; },
   'man'                  => sub { pod2usage( verbose => 3 ); },
 );
@@ -293,6 +294,10 @@ A pipe to C<--add-files> will add the results to the current playlist.
 Given a string, searches the current playlist for matching albums, and remove
 them from the playlist. The string can be a regular expression.
 
+=item -da, --delete-album
+
+Delete the current album from disk.
+
 =item -f, --love
 
 Favorize, or love, the current song.
@@ -462,6 +467,7 @@ Stop local playback.
   -r,    --randomize        randomize a new playlist with n tracks
   -ra,   --random-album     add n random full albums
   -rma,  --rmalbum          remove album matching pattern from playlist
+  -da,   --delete-album     delete the current album from disk
   -f,    --love             love song
          --loved            check if the current song is loved
   -lsp,  --lsplaylist         list songs in playlists
