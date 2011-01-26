@@ -1,14 +1,15 @@
-#!/usr/bin/perl
 package App::Pimpd::Doc;
-
-require Exporter;
-@ISA = 'Exporter';
-
-our @EXPORT = qw(
-  help
-);
-
 use strict;
+
+BEGIN {
+  use Exporter;
+  use vars qw(@ISA @EXPORT);
+  @ISA = qw(Exporter);
+  @EXPORT = qw(
+    help
+  );
+}
+
 use App::Pimpd;
 use Term::ExtendedColor qw(fg);
 
@@ -467,3 +468,7 @@ Add n random full albums to the current playlist.
 Defaults to 10 albums.
 EOF
 }
+
+1;
+
+__END__

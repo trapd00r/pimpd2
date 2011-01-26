@@ -1,16 +1,18 @@
-#!/usr/bin/perl
 package App::Pimpd::Playlist::Favorite;
-
-require Exporter;
-@ISA = 'Exporter';
-
-our @EXPORT = qw(
-  add_to_favlist
-  already_loved
-  search_favlist
-);
-
 use strict;
+
+BEGIN {
+  use Exporter;
+  use vars qw(@ISA @EXPORT);
+
+  @ISA         = qw(Exporter);
+  @EXPORT      = qw(
+    add_to_favlist
+    already_loved
+    search_favlist
+  );
+}
+
 
 use Carp 'confess';
 use App::Pimpd;
@@ -61,12 +63,12 @@ sub search_favlist {
   my @results;
   for(@songs) {
     if(invalid_regex($query)) {
-      if($_ =~ m/\Q$query/i) {
+      if($_ =~ m/\Q$query/im) {
         push(@results, $_);
       }
     }
     else {
-      if($_ =~ m/$query/i) {
+      if($_ =~ m/$query/im) {
         push(@results, $_);
       }
     }
@@ -107,7 +109,7 @@ sub add_to_favlist {
   }
 
 
-  $genre =~ s/\s+/_/g; # evil whitespace
+  $genre =~ s/\s+/_/gm; # evil whitespace
 
   my(undef, undef, undef, undef, $month, $year) = localtime(time);
   $month += 1;
@@ -154,7 +156,14 @@ sub add_to_favlist {
   close($fh);
 
   print fg($c[8], fg('bold', $title)), ' => ', fg($c[6], $favlist_m3u), "\n";
+
+  return;
 }
+
+
+1;
+
+__END__
 
 =pod
 
@@ -205,14 +214,8 @@ App::Pimpd::Playlist
 
 =head1 COPYRIGHT
 
-Copyright (C) 2010 Magnus Woldrich. All right reserved.
+Copyright (C) 2010, 2011 Magnus Woldrich. All right reserved.
 This program is free software; you can redistribute it and/or modify it under
 the same terms as Perl itself.
 
 =cut
-
-1;
-
-
-
-1;

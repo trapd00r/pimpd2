@@ -1,25 +1,25 @@
-#!/usr/bin/perl
 package App::Pimpd::Playlist;
+use strict;
 
-require Exporter;
-@ISA = 'Exporter';
-
-our @EXPORT = qw(
-  show_playlist
-  play_pos_from_playlist
-  queue
-  songs_in_playlist
-  add_playlist
-  list_all_playlists
-  add_to_playlist
-  get_album_songs
-);
+BEGIN {
+  use Exporter;
+  use vars qw(@ISA @EXPORT);
+  @ISA = qw(Exporter);
+  @EXPORT = qw(
+    show_playlist
+    play_pos_from_playlist
+    queue
+    songs_in_playlist
+    add_playlist
+    list_all_playlists
+    add_to_playlist
+    get_album_songs
+  );
+}
 
 #TODO
 #  List content in all playlist
 #  Search all playlist, without args, search for the current song
-
-use strict;
 
 use App::Pimpd;
 use App::Pimpd::Validate;
@@ -28,7 +28,7 @@ use Term::ExtendedColor qw(fg bg);
 sub get_album_songs {
   my $album = shift // $mpd->current->album;
   if( (!defined($album)) or ($album eq '') ) {
-    return undef;
+    return;
   }
 
   my @tracks = $mpd->collection->songs_from_album($album);
@@ -40,12 +40,13 @@ sub remove_album_from_playlist {
 
   my @removed;
   for($mpd->playlist->as_items) {
-    if($_->album =~ m/$search_str/gi) {
+    if($_->album =~ m/$search_str/gim) {
       if(not(invalid_playlist_pos($_->pos))) {
         $mpd->playlist->delete($_->pos);
       }
     }
   }
+  return;
 }
 
 sub add_to_playlist {
@@ -111,6 +112,7 @@ sub play_pos_from_playlist {
     return 1;
   }
   $mpd->play($track_no);
+  return;
 }
 
 sub queue {
@@ -146,6 +148,7 @@ sub queue {
     $mpd->playlist->move($_, $next_pos);
     $next_pos++;
   }
+  return;
 }
 
 sub show_playlist {
@@ -159,10 +162,10 @@ sub show_playlist {
 
     my $crnt_title  = $mpd->current->title // undef;
     my $crnt_artist = $mpd->current->artist // undef;
-    $title       =~ s/(\w+)/\u\L$1/g;
-    $artist      =~ s/(\w+)/\u\L$1/g;
-    $crnt_title  =~ s/(\w+)/\u\L$1/g;
-    $crnt_artist =~ s/(\w+)/\u\L$1/g;
+    $title       =~ s/(\w+)/\u\L$1/gm;
+    $artist      =~ s/(\w+)/\u\L$1/gm;
+    $crnt_title  =~ s/(\w+)/\u\L$1/gm;
+    $crnt_artist =~ s/(\w+)/\u\L$1/gm;
 
     if($mpd->current->pos == $i) {
       # bg('red4', $i) will add another 17 chars
@@ -177,6 +180,7 @@ sub show_playlist {
     }
     $i++;
   }
+  return;
 }
 
 sub list_all_playlists {
@@ -185,6 +189,11 @@ sub list_all_playlists {
     : scalar($mpd->collection->all_playlists)
     ;
 }
+
+
+1;
+
+__END__
 
 
 =pod
@@ -285,10 +294,8 @@ App::Pimpd
 
 =head1 COPYRIGHT
 
-Copyright (C) 2010 Magnus Woldrich. All right reserved.
+Copyright (C) 2010, 2011 Magnus Woldrich. All right reserved.
 This program is free software; you can redistribute it and/or modify it under
 the same terms as Perl itself.
 
 =cut
-
-1;

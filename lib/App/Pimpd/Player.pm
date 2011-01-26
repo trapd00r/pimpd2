@@ -1,24 +1,22 @@
-#!/usr/bin/perl
 package App::Pimpd::Player;
+use strict;
 
-use vars qw($VERSION);
-
-require Exporter;
-@ISA = 'Exporter';
-
-#FIXME
-our @EXPORT = qw(
-  play
-  stop
-  player_init
-  player_daemonize
-  player_destruct
-);
+BEGIN {
+  use Exporter;
+  use vars qw(@ISA @EXPORT);
+  @ISA = qw(Exporter);
+  @EXPORT = qw(
+    play
+    stop
+    player_init
+    player_daemonize
+    player_destruct
+  );
+}
 
 my $DEBUG = $ENV{PIMPD2_DEBUG};
-use strict;
-use Carp;
 
+use Carp;
 use App::Pimpd;
 
 # NOTE To config
@@ -42,7 +40,7 @@ sub player_init {
   else {
     open(my $fh, '<', $player_tmp_log);
     while(<$fh>) {
-      if(/Exiting\.\.\. \(End of file\)/) {
+      if(/Exiting\.\.\. \(End of file\)/m) {
         $fails++;
         # fulhack. Time::HiRes
         select(undef, undef, undef, 0.50);
@@ -113,12 +111,15 @@ sub play {
   #if(player_init() == 1) {
   #  $mpd->play;
   #}
+  return;
 }
 
 sub stop {
   $mpd->stop;
   #unlink($player_tmp_log);
   player_destruct();
+
+  return;
 }
 
 sub player_destruct {
@@ -144,6 +145,11 @@ sub player_destruct {
   }
   return 0;
 }
+
+
+1;
+
+__END__
 
 =pod
 
@@ -195,10 +201,8 @@ App::Pimpd
 
 =head1 COPYRIGHT
 
-Copyright (C) 2010 Magnus Woldrich. All right reserved.
+Copyright (C) 2010, 2011 Magnus Woldrich. All right reserved.
 This program is free software; you can redistribute it and/or modify it under
 the same terms as Perl itself.
 
 =cut
-
-1;

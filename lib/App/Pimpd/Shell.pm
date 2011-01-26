@@ -1,14 +1,14 @@
-#!/usr/bin/perl
 package App::Pimpd::Shell;
-
-require Exporter;
-@ISA = 'Exporter';
-
-our @EXPORT = qw(
-  spawn_shell
-);
-
 use strict;
+
+BEGIN {
+  use Exporter;
+  use vars qw(@ISA @EXPORT);
+  @ISA = qw(Exporter);
+  @EXPORT = qw(
+    spawn_shell
+  );
+}
 
 use App::Pimpd;
 use App::Pimpd::Doc;
@@ -41,7 +41,7 @@ sub spawn_shell {
       if(!defined($_[0])) {
         $_[0] = 100;
       }
-      elsif(defined($_[0]) and $_[0] !~ /^\d+$/) {
+      elsif(defined($_[0]) and $_[0] !~ /^\d+$/m) {
         print STDERR "Need a valid integer\n";
         $_[0] = 100;
       }
@@ -61,7 +61,7 @@ sub spawn_shell {
 
       my $old = undef;
       for(@albums) {
-        my($album_dir) = $_ =~ m|(.+)/.+|;
+        my($album_dir) = $_ =~ m|(.+)/.+|m;
         if($old ne $album_dir) {
           print "> $album_dir\n";
           $old = $album_dir;
@@ -110,7 +110,7 @@ sub spawn_shell {
 
 
     'track'           => sub {
-      $_[0] = 1 if $_[0] !~ /^\d+$/;
+      $_[0] = 1 if $_[0] !~ /^\d+$/m;
       play_pos_from_playlist(@_);
     },
 
@@ -402,11 +402,11 @@ sub spawn_shell {
 
     while(1) {
       $choice = $term->readline(fg($c[6], 'pimpd') . fg('bold', '> '));
-      $term->addhistory($choice) if $choice =~ /\S/;
+      $term->addhistory($choice) if $choice =~ /\S/m;
 
-      ($cmd) = $choice =~ m/^(\S+)/;
-      ($arg) = $choice =~ m/\s+(.+)$/;
-      @cmd_args  = split(/\s+/, $arg);
+      ($cmd) = $choice =~ m/^(\S+)/m;
+      ($arg) = $choice =~ m/\s+(.+)$/m;
+      @cmd_args  = split(/\s+/m, $arg);
 
       if(defined($opts->{$cmd})) {
         $mpd->play;
@@ -421,6 +421,11 @@ sub spawn_shell {
   exit(0);
 }
 
+
+
+1;
+
+__END__
 
 =pod
 
@@ -463,10 +468,8 @@ App::Pimpd
 
 =head1 COPYRIGHT
 
-Copyright (C) 2010 Magnus Woldrich. All right reserved.
+Copyright (C) 2010, 2011 Magnus Woldrich. All right reserved.
 This program is free software; you can redistribute it and/or modify it under
 the same terms as Perl itself.
 
 =cut
-
-1;

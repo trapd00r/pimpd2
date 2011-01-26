@@ -1,17 +1,18 @@
-#!/usr/bin/perl
 package App::Pimpd::Collection::Search;
-
-require Exporter;
-@ISA = 'Exporter';
-
-our @EXPORT = qw(
-  search_db_quick
-  search_db_artist
-  search_db_album
-  search_db_title
-  );
-
 use strict;
+
+BEGIN {
+  use Exporter;
+  use vars qw(@ISA @EXPORT);
+  @ISA = qw(Exporter);
+  @EXPORT = qw(
+    search_db_quick
+    search_db_artist
+    search_db_album
+    search_db_title
+  );
+}
+
 use App::Pimpd;
 use App::Pimpd::Validate;
 use Carp 'confess';
@@ -19,7 +20,7 @@ use Carp 'confess';
 
 sub search_db_quick {
   my $query = shift;
-  return undef if !$query;
+  return if !$query;
 
   if(invalid_regex($query)) {
     confess("Invalid regex: '$query'");
@@ -27,7 +28,7 @@ sub search_db_quick {
 
   my @result;
   for($mpd->collection->all_pathes) {
-    if($_ =~ /$query/i) {
+    if($_ =~ /$query/im) {
       push(@result, $_);
     }
   }
@@ -36,12 +37,12 @@ sub search_db_quick {
 
 sub search_db_artist {
   my $artist  = shift; # Not a regex
-  return undef if !$artist;
+  return if !$artist;
 
   my @tracks = $mpd->collection->songs_by_artist_partial($artist);
 
   if(!@tracks) {
-    return undef;
+    return;
   }
 
   map{ $_ = $_->file } @tracks;
@@ -51,12 +52,12 @@ sub search_db_artist {
 
 sub search_db_title {
   my $title  = shift;
-  return undef if !$title;
+  return if !$title;
 
   my @titles = $mpd->collection->songs_with_title_partial($title);
 
   if(!@titles) {
-    return undef;
+    return;
   }
 
   map{ $_ = $_->file } @titles;
@@ -66,16 +67,21 @@ sub search_db_title {
 
 sub search_db_album {
   my $album  = shift;
-  return undef if !$album;
+  return if !$album;
   my @albums = $mpd->collection->songs_from_album_partial($album);
 
   if(!@albums) {
-    return undef;
+    return;
   }
   map { $_ = $_->file } @albums;
 
   return (wantarray()) ? @albums : scalar(@albums);
 }
+
+
+1;
+
+__END__
 
 =pod
 
@@ -162,10 +168,8 @@ App::Pimpd::Collection
 
 =head1 COPYRIGHT
 
-Copyright (C) 2010 Magnus Woldrich. All right reserved.
+Copyright (C) 2010, 2011 Magnus Woldrich. All right reserved.
 This program is free software; you can redistribute it and/or modify it under
 the same terms as Perl itself.
 
 =cut
-
-1;

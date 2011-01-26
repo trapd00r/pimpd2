@@ -1,23 +1,23 @@
-#!/usr/bin/perl
 package App::Pimpd;
-
-use vars qw($VERSION);
-$VERSION = '0.16';
-
-
-require Exporter;
-@ISA = 'Exporter';
-our @EXPORT = qw(
-  @c
-  $mpd
-  %config
-
-  &get_color_support
-  &player_cmdline
-  &abs_playlist_path
-);
-
 use strict;
+
+BEGIN {
+  use Exporter;
+  use vars qw($VERSION @ISA @EXPORT);
+
+  $VERSION = '0.250';
+  @ISA = qw(Exporter);
+  @EXPORT = qw(
+    @c
+    $mpd
+    %config
+
+    &get_color_support
+    &player_cmdline
+    &abs_playlist_path
+  );
+}
+
 use Audio::MPD;
 use Config::General;
 use Data::Dumper;
@@ -88,6 +88,7 @@ sub mpd_init {
       );
     }
   }
+  return;
 }
 
 sub abs_playlist_path {
@@ -134,12 +135,18 @@ sub config_init {
   %config = $conf->getall;
   $config{_filename} = $config;
 
-  for my $color( sort grep{ /color/ } keys(%config) ) {
+  for my $color( sort grep{ /color/m } keys(%config) ) {
     # color0 => green8
     # color1 => purple14
     push(@c, $config{$color});
   }
+  return;
 }
+
+
+1;
+
+__END__
 
 =pod
 
@@ -215,10 +222,8 @@ B<Term::ExtendedColor>
 
 =head1 COPYRIGHT
 
-Copyright (C) 2010 Magnus Woldrich. All right reserved.
+Copyright (C) 2010, 2011 Magnus Woldrich. All right reserved.
 This program is free software; you can redistribute it and/or modify it under
 the same terms as Perl itself.
 
 =cut
-
-1;

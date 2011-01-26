@@ -1,38 +1,40 @@
-#!/usr/bin/perl
 package App::Pimpd::Commands;
-
-require Exporter;
-@ISA = 'Exporter';
-
-# play() and stop() defined in Player.pm
-
-our @EXPORT = qw(
-  next_track
-  previous_track
-  clear_playlist
-  crop
-  crossfade
-  toggle_random
-  toggle_repeat
-  toggle_pause
-  random
-  repeat
-  pause
-);
-
 use strict;
+
+BEGIN {
+  use Exporter;
+  use vars qw(@ISA @EXPORT);
+  @ISA = qw(Exporter);
+  @EXPORT = qw(
+    next_track
+    previous_track
+    clear_playlist
+    crop
+    crossfade
+    toggle_random
+    toggle_repeat
+    toggle_pause
+    random
+    repeat
+    pause
+  );
+}
+
 use App::Pimpd;
 
 sub next_track {
   $mpd->next;
+  return;
 }
 
 sub previous_track {
   $mpd->prev;
+  return;
 }
 
 sub clear_playlist {
   $mpd->playlist->clear;
+  return;
 }
 
 sub crop {
@@ -43,37 +45,50 @@ sub crop {
   else {
     $mpd->playlist->crop($pos);
   }
+  return;
 }
 
 sub crossfade {
   my $sec = shift;
   $mpd->fade($sec);
+  return;
 }
 
 sub toggle_random {
   $mpd->random();
+  return;
 }
 
 sub toggle_repeat {
   $mpd->repeat();
+  return;
 }
 
 sub random {
   $mpd->random(shift);
+  return;
 }
 
 sub toggle_pause {
   $mpd->pause;
+  return;
 }
 
 
 sub repeat {
   $mpd->repeat(shift);
+  return;
 }
 
 sub pause {
   $mpd->pause(shift);
+  return;
 }
+
+
+1;
+
+__END__
 
 =pod
 
@@ -166,10 +181,8 @@ App::Pimpd
 
 =head1 COPYRIGHT
 
-Copyright (C) 2010 Magnus Woldrich. All right reserved.
+Copyright (C) 2010, 2011 Magnus Woldrich. All right reserved.
 This program is free software; you can redistribute it and/or modify it under
 the same terms as Perl itself.
 
 =cut
-
-1;

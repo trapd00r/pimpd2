@@ -1,17 +1,17 @@
-#!/usr/bin/perl
 package App::Pimpd::Playlist::Search;
-
-require Exporter;
-@ISA = 'Exporter';
-
-our @EXPORT = qw(
-  search_playlist
-  search_all_playlists
-);
-
 use strict;
-use Carp;
 
+BEGIN {
+  use Exporter;
+  use vars qw(@ISA @EXPORT);
+  @ISA = qw(Exporter);
+  @EXPORT = qw(
+    search_playlist
+    search_all_playlists
+  );
+}
+
+use Carp;
 use App::Pimpd;
 use App::Pimpd::Validate;
 use Term::ExtendedColor;
@@ -72,6 +72,11 @@ sub search_all_playlists {
   close($fh);
   return @matched_files;
 }
+
+
+1;
+
+__END__
 
 
 =pod
@@ -135,11 +140,8 @@ App::Pimpd::Playlist
 
 =head1 COPYRIGHT
 
-Copyright (C) 2010 Magnus Woldrich. All right reserved.
+Copyright (C) 2010, 2011 Magnus Woldrich. All right reserved.
 This program is free software; you can redistribute it and/or modify it under
 the same terms as Perl itself.
 
 =cut
-
-1;
-

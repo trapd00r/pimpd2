@@ -1,21 +1,22 @@
-#!/usr/bin/perl
 package App::Pimpd::Validate;
-
-require Exporter;
-@ISA = 'Exporter';
-
-our @EXPORT = qw(
-  invalid_regex
-  to_terminal
-  empty_playlist
-  invalid_playlist_pos
-  remote_host
-  escape
-  get_valid_lists
-  isa_valid_playlist
-);
-
 use strict;
+
+BEGIN {
+  use Exporter;
+  use vars qw(@ISA @EXPORT);
+  @ISA = qw(Exporter);
+  @EXPORT = qw(
+    invalid_regex
+    to_terminal
+    empty_playlist
+    invalid_playlist_pos
+    remote_host
+    escape
+    get_valid_lists
+    isa_valid_playlist
+  );
+}
+
 use Carp 'croak';
 use App::Pimpd;
 use Term::ExtendedColor qw(fg);
@@ -35,12 +36,12 @@ sub get_valid_lists {
 
       for my $valid(@valid_lists) {
         if(not invalid_regex($list)) {
-          if($valid =~ /$list/i) {
+          if($valid =~ /$list/im) {
             push(@choices, $valid);
           }
         }
         else {
-          if($valid =~ /\Q$list/i) {
+          if($valid =~ /\Q$list/im) {
             push(@choices, $valid);
           }
         }
@@ -86,13 +87,13 @@ sub get_valid_lists {
 sub isa_valid_playlist {
   my @playlists = @_;
   my @lists = $mpd->collection->all_playlists;
-  map { s/^\s+// } @lists;
+  map { s/^\s+//m } @lists;
   return ($_[0] ~~ @lists) ? 1 : 0;
 }
 
 sub escape {
   my $str = shift;
-  $str =~ s/([;<>\*\|`&\$!#\(\)\[\]\{\}:'"])/\\$1/g;
+  $str =~ s/([;<>\*\|`&\$!#\(\)\[\]\{\}:'"])/\\$1/gm;
 
   return $str;
 }
@@ -107,7 +108,7 @@ sub remote_host {
 
 sub invalid_regex {
   my $re = shift;
-  eval { qr/$re/ };
+  eval { qr/$re/m };
   if($@) {
     return 1;
   }
@@ -144,6 +145,11 @@ sub invalid_playlist_pos {
   }
   return($fail);
 }
+
+
+1;
+
+__END__
 
 =pod
 
@@ -243,10 +249,8 @@ App::Pimpd
 
 =head1 COPYRIGHT
 
-Copyright (C) 2010 Magnus Woldrich. All right reserved.
+Copyright (C) 2010, 2011 Magnus Woldrich. All right reserved.
 This program is free software; you can redistribute it and/or modify it under
 the same terms as Perl itself.
 
 =cut
-
-1;

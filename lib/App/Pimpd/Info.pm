@@ -1,15 +1,15 @@
-#!/usr/bin/perl
 package App::Pimpd::Info;
-
-require Exporter;
-@ISA = 'Exporter';
-
-our @EXPORT = qw(
-  current
-  info
-);
-
 use strict;
+
+BEGIN {
+  use Exporter;
+  use vars qw(@ISA @EXPORT);
+  @ISA = qw(Exporter);
+  @EXPORT = qw(
+    current
+    info
+  );
+}
 
 use App::Pimpd;
 use App::Pimpd::Validate;
@@ -51,6 +51,7 @@ sub _current_update {
       'artists'    =>  $mpd->stats->artists,
     );
   }
+  return;
 }
 
 sub current {
@@ -167,6 +168,7 @@ sub info {
   printf("%s %8s: %.66s\n", fg('bold', fg('234', 'S')),
    'Artists', $stats{artists}
   );
+  return;
 }
 
 sub _on_off {
@@ -180,6 +182,11 @@ sub _on_off {
   }
   return 'OFF';
 }
+
+
+1;
+
+__END_
 
 =pod
 
@@ -236,10 +243,8 @@ App::Pimpd
 
 =head1 COPYRIGHT
 
-Copyright (C) 2010 Magnus Woldrich. All right reserved.
+Copyright (C) 2010, 2011 Magnus Woldrich. All right reserved.
 This program is free software; you can redistribute it and/or modify it under
 the same terms as Perl itself.
 
 =cut
-
-1;

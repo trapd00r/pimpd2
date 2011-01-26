@@ -1,16 +1,17 @@
-#!/usr/bin/perl
 package App::Pimpd::Collection::Album;
-
-require Exporter;
-@ISA = 'Exporter';
-
-our @EXPORT = qw(
-  songs_on_album
-  albums_by_artist
-  delete_album
-  );
-
 use strict;
+
+BEGIN {
+  use Exporter;
+  use vars qw(@ISA @EXPORT);
+  @ISA = qw(Exporter);
+  @EXPORT = qw(
+    songs_on_album
+    albums_by_artist
+    delete_album
+  );
+}
+
 use App::Pimpd;
 use App::Pimpd::Validate;
 use Term::ExtendedColor qw(fg);
@@ -18,7 +19,7 @@ use Term::ExtendedColor qw(fg);
 sub delete_album {
   my $file = $mpd->current->file;
 
-  my($path) = $file =~ m|(.+)/.+$|;
+  my($path) = $file =~ m|(.+)/.+$|m;
   my @songs = $mpd->collection->all_items_simple($path);
 
 
@@ -54,6 +55,7 @@ sub delete_album {
     print STDERR "remove_path($path): $!\n";
     return;
   }
+  return;
 }
 
 
@@ -92,6 +94,11 @@ sub songs_on_album {
 
   return (wantarray()) ? @tracks : scalar(@tracks);
 }
+
+
+1;
+
+__END__
 
 =pod
 
@@ -162,10 +169,8 @@ App::Pimpd::Collection
 
 =head1 COPYRIGHT
 
-Copyright (C) 2010 Magnus Woldrich. All right reserved.
+Copyright (C) 2010, 2011 Magnus Woldrich. All right reserved.
 This program is free software; you can redistribute it and/or modify it under
 the same terms as Perl itself.
 
 =cut
-
-1;

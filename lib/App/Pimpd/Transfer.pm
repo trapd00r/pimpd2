@@ -1,19 +1,19 @@
-#!/usr/bin/perl
 package App::Pimpd::Transfer;
-
-require Exporter;
-@ISA = 'Exporter';
-
-our @EXPORT = qw(
-  cp
-  cp_album
-  cp_list
-);
-
 use strict;
-use Carp 'confess';
-use File::Copy;
 
+BEGIN {
+  use Exporter;
+  use vars qw(@ISA @EXPORT);
+  @ISA = qw(Exporter);
+  @EXPORT = qw(
+    cp
+    cp_album
+    cp_list
+  );
+}
+
+use Carp qw(confess);
+use File::Copy;
 use App::Pimpd;
 use App::Pimpd::Validate;
 
@@ -47,6 +47,7 @@ sub cp_album {
       }
     }
   }
+  return;
 }
 
 sub cp {
@@ -58,7 +59,7 @@ sub cp {
   }
 
   my $file; # = $mpd->current->file;
-  if($config{music_directory} =~ m|.+/$|) {
+  if($config{music_directory} =~ m|.+/$|m) {
     $file = $config{music_directory} .= $mpd->current->file;
   }
   else {
@@ -78,6 +79,7 @@ sub cp {
       confess("cp: $!");
     }
   }
+  return;
 }
 
 sub _scp {
@@ -87,7 +89,14 @@ sub _scp {
     "-P $config{ssh_port}",
     "$config{ssh_host}:'$source'", $dest
   ) == 0 or confess("scp: $!");
+
+  return;
 }
+
+
+1;
+
+__END__
 
 =pod
 
@@ -145,10 +154,8 @@ App::Pimpd
 
 =head1 COPYRIGHT
 
-Copyright (C) 2010 Magnus Woldrich. All right reserved.
+Copyright (C) 2010, 2011 Magnus Woldrich. All right reserved.
 This program is free software; you can redistribute it and/or modify it under
 the same terms as Perl itself.
 
 =cut
-
-1;

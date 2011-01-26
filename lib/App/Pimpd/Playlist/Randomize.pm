@@ -1,14 +1,16 @@
 #!/usr/bin/perl
 package App::Pimpd::Playlist::Randomize;
 
-require Exporter;
-@ISA = 'Exporter';
-
-our @EXPORT = qw(
-  randomize
-  randomize_albums
-  random_track_in_playlist
-);
+BEGIN {
+  use Exporter;
+  use vars qw(@ISA @EXPORT);
+  @ISA = qw(Exporter);
+  @EXPORT = qw(
+    randomize
+    randomize_albums
+    random_track_in_playlist
+  );
+}
 
 use strict;
 
@@ -72,6 +74,11 @@ sub random_track_in_playlist {
 
   return $items[0]->pos;
 }
+
+
+1;
+
+__END__
 
 =pod
 
@@ -158,10 +165,8 @@ App::Pimpd::Playlist
 
 =head1 COPYRIGHT
 
-Copyright (C) 2010 Magnus Woldrich. All right reserved.
+Copyright (C) 2010, 2011 Magnus Woldrich. All right reserved.
 This program is free software; you can redistribute it and/or modify it under
 the same terms as Perl itself.
 
 =cut
-
-1;
