@@ -1,13 +1,13 @@
 #!/usr/bin/perl
+use strict;
 use vars qw($VERSION);
 my $APP;
 
 $APP     = 'pimpd2';
-$VERSION = '0.173';
+$VERSION = '0.180';
 
-use strict;
 
-#use lib 'lib';
+use lib 'lib';
 
 use App::Pimpd;
 use App::Pimpd::Player;
@@ -125,6 +125,8 @@ GetOptions(
 sub _rt {
   play_pos_from_playlist(random_track_in_playlist());
   print current(), "\n";
+
+  return;
 }
 
 # Wrapper for songs_on_album()
@@ -133,6 +135,8 @@ sub _lsa {
 
   $album or $album = $mpd->current->album;
   print $_->file, "\n" for songs_on_album($album, $artist);
+
+  return;
 }
 
 sub _search_playlist {
@@ -142,6 +146,8 @@ sub _search_playlist {
     play_pos_from_playlist( keys(%{$result}) );
   }
   queue(keys(%{$result})); #FIXME queue should take arrayref
+
+  return;
 }
 
 
@@ -154,6 +160,8 @@ sub _add_files {
     }
   }
   add_to_playlist(@files);
+
+  return;
 }
 
 sub usage() {
@@ -168,6 +176,7 @@ sub _debug {
     print fg($_, "\$c[$i]"), "\n";
     $i++;
   }
+  return;
 }
 
 =pod
@@ -526,7 +535,7 @@ Report bugs and/or feature requests to <magnus@trapd00r.se>
 
 =head1 COPYRIGHT
 
-Copyright (C) 2010 Magnus Woldrich. All right reserved.
+Copyright (C) 2009, 2010, 2011 Magnus Woldrich. All right reserved.
 This program is free software; you can redistribute it and/or modify it under
 the same terms as Perl itself.
 
