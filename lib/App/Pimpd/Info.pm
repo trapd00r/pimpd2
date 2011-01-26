@@ -186,7 +186,7 @@ sub _on_off {
 
 1;
 
-__END_
+__END__
 
 =pod
 

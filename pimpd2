@@ -7,7 +7,7 @@ $APP     = 'pimpd2';
 $VERSION = '0.180';
 
 
-use lib 'lib';
+#use lib 'lib';
 
 use App::Pimpd;
 use App::Pimpd::Player;
