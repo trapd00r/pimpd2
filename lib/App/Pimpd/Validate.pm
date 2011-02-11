@@ -1,5 +1,7 @@
 package App::Pimpd::Validate;
 use strict;
+use utf8;
+use encoding 'utf8';
 
 BEGIN {
   use Exporter;

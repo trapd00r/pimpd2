@@ -203,7 +203,14 @@ sub spawn_shell {
         return;
       }
       print "$_\n" for values %{ search_playlist($search) };
-      queue( keys % { search_playlist($search) } );
+      my $result = search_playlist($search);
+      if(scalar(keys(%{ $result })) > 0) {
+        print "$_\n" for values %{ $result };
+        queue( keys % { search_playlist($search) } );
+      }
+      else {
+        print "No match\n";
+      }
     },
 
     'slove'           => sub {

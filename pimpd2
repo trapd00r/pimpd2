@@ -7,8 +7,6 @@ $APP     = 'pimpd2';
 $VERSION = '0.180';
 
 
-#use lib 'lib';
-
 use App::Pimpd;
 use App::Pimpd::Player;
 use App::Pimpd::Info;
@@ -114,7 +112,7 @@ GetOptions(
     # FIXME one way, or another...
     my($host, $port, $password, $stream) = @ARGV;
     App::Pimpd::mpd_init($host, $port, $password);
-    
+
   },
   'debug'                => sub { _debug(); },
   'h|help'               => \&usage,
