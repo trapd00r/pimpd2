@@ -1,4 +1,3 @@
-#!/usr/bin/perl
 package App::Pimpd::Playlist::Randomize;
 
 BEGIN {

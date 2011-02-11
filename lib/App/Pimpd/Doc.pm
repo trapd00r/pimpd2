@@ -19,50 +19,51 @@ sub help {
   my %help = (
 
   # Controls
-    'next'          => \&_help_next,
-    'previous'      => \&_help_previous,
-    'pause'         => \&_help_pause,
-    'repeat'        => \&_help_repeat,
-    'random'        => \&_help_random,
-    'clear'         => \&_help_clear,
-    'crop'          => \&_help_crop,
-    'kill'          => \&_help_kill,
-    'stop'          => \&_help_stop,
+    'next'            => \&_help_next,
+    'previous'        => \&_help_previous,
+    'pause'           => \&_help_pause,
+    'repeat'          => \&_help_repeat,
+    'random'          => \&_help_random,
+    'clear'           => \&_help_clear,
+    'crop'            => \&_help_crop,
+    'kill'            => \&_help_kill,
+    'stop'            => \&_help_stop,
 
   # Collection
-    'songs'         => \&_help_songs,
-    'albums'        => \&_help_albums,
-    'sany'          => \&_help_sany,
-    'sartist'       => \&_help_sartist,
-    'salbum'        => \&_help_salbum,
-    'stitle'        => \&_help_stitle,
-    'slove'         => \&_help_slove,
+    'songs'           => \&_help_songs,
+    'albums'          => \&_help_albums,
+    'sany'            => \&_help_sany,
+    'sartist'         => \&_help_sartist,
+    'salbum'          => \&_help_salbum,
+    'stitle'          => \&_help_stitle,
+    'slove'           => \&_help_slove,
 
   # Playlist
-    'playlist'      => \&_help_playlist,
-    'playlists'     => \&_help_playlists,
-    'add'           => \&_help_add,
-    'add-album'     => \&_help_add_album,
-    #'add-files'     => \&_help_add_files,
-    #'add-playlist'  => \&_help_add_playlist,
-    'randomize'     => \&_help_randomize,
-    'randomalbum'   => \&_help_randomize_albums,
-    'randomtrack'   => \&_help_random_track,
-    'rmalbum'       => \&_help_rm_album,
-    'delete-album'  => \&_help_delete_album,
-    'love'          => \&_help_love,
-    'loved?'        => \&_help_loved,
-    'lsplaylist'    => \&_help_lsplaylist,
-    'splaylist'     => \&_help_splaylist,
+    'playlist'        => \&_help_playlist,
+    'playlists'       => \&_help_playlists,
+    'add'             => \&_help_add,
+    'add-album'       => \&_help_add_album,
+    #'add-files'      => \&_help_add_files,
+    #'add-playlist'   => \&_help_add_playlist,
+    'randomize'       => \&_help_randomize,
+    'randomalbum'     => \&_help_randomize_albums,
+    'randomtrack'     => \&_help_random_track,
+    'rmalbum'         => \&_help_rm_album,
+    'delete-album'    => \&_help_delete_album,
+    'love'            => \&_help_love,
+    'loved?'          => \&_help_loved,
+    'unlove'          => \&_help_unlove,
+    'lsplaylist'      => \&_help_lsplaylist,
+    'splaylist'       => \&_help_splaylist,
 
 
   # Options
-    'queue'         => \&_help_queue,
-    'shell'         => \&_help_shell,
-    'help'          => \&_help_shell,
-    'copy'          => \&_help_copy,
-    'info'          => \&_help_info,
-    'np'            => \&_help_np,
+    'queue'           => \&_help_queue,
+    'shell'           => \&_help_shell,
+    'help'            => \&_help_shell,
+    'copy'            => \&_help_copy,
+    'info'            => \&_help_info,
+    'np'              => \&_help_np,
   );
 
   if(exists($help{$cmd})) {
@@ -71,6 +72,15 @@ sub help {
   else {
     return "No such topic.\n";
   }
+}
+
+sub _help_unlove {
+  return << "EOF"
+@{[fg('bold', 'Usage')]}: unlove PATTERN
+
+Un-love file(s) matching PATTERN.
+
+EOF
 }
 
 sub _help_add_album {
@@ -384,6 +394,7 @@ sub _help_shell {
       randomalbum   and n random full albums
       love          love song
       loved?        check if the current song is loved
+      unlove        unlove file(s) matching PATTERN
       splaylist     search the current playlist for str
 
 @{[fg('bold', fg($c[0], '  Collection'))]}

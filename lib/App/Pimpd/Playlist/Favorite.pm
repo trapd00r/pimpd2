@@ -1,5 +1,6 @@
 package App::Pimpd::Playlist::Favorite;
 use strict;
+use encoding 'utf8';
 
 BEGIN {
   use Exporter;
@@ -10,6 +11,7 @@ BEGIN {
     add_to_favlist
     already_loved
     search_favlist
+    remove_favorite
   );
 }
 
@@ -18,9 +20,12 @@ use Carp 'confess';
 use App::Pimpd;
 use App::Pimpd::Validate;
 use Term::ExtendedColor qw(fg bg);
+use Tie::File;
+use Digest::MD5 qw(md5);
 
 sub already_loved {
   my($file, $playlist) = @_;
+  my $checksum = md5($file);
 
   my $fh;
   # Ok, we have not specified an arbitary playlist name, let's see if this
@@ -45,6 +50,30 @@ sub already_loved {
   close($fh);
 
   return ($file ~~ @songs) ? 1 : 0;
+}
+
+
+sub remove_favorite {
+  my $query = shift;
+  return if !defined($query);
+
+  tie(my @songs, 'Tie::File', $config{loved_database})
+    or confess("Cant TIE '$config{loved_database}': $!");
+  my $i = 0;
+  for my $s(@songs) {
+    if($s =~ m/$query/i) {
+      my $old = $songs[$i];
+      if(splice(@songs,$i, 1)) {
+        printf("%s removed from favlist\n", $old);
+      }
+      else {
+        die("Cant remove $songs[$i]: $!\n");
+      }
+    }
+    $i++;
+  }
+  untie(@songs) or confess("Cant close $config{loved_database}: $!");
+  return;
 }
 
 sub search_favlist {

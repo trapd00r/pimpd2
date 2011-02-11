@@ -108,6 +108,13 @@ sub spawn_shell {
       }
     },
 
+    'unlove'            => sub {
+      if(!@_) {
+        print help('unlove');
+        return;
+      }
+      remove_favorite(@_);
+    },
 
     'track'           => sub {
       $_[0] = 1 if $_[0] !~ /^\d+$/m;
