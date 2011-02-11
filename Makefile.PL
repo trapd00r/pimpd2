@@ -5,45 +5,41 @@ use ExtUtils::MakeMaker;
 WriteMakefile1(
     META_MERGE => {
         resources => {
-            repository => 'https://github.com/trapd00r/pimpd2',
-            bugtracker => 'https://github.com/trapd00r/pimpd2',
+            repository => q{https://github.com/trapd00r/pimpd2},
+            bugtracker => q{https://github.com/trapd00r/pimpd2/issues},
         },
     },
     #BUILD_REQUIRES => {
     #},
 
-    NAME                => 'App::Pimpd',
-    AUTHOR              => q{Magnus Woldrich <trapd00r@trapd00r.se>},
-    ABSTRACT           => 'Perl Interface for the Music Player Daemon 2',
-    VERSION_FROM        => './pimpd2',
-    'LICENSE'           => 'perl',
-    PL_FILES            => {},
-    EXE_FILES =>           ['./pimpd2'],
+    NAME              => q{App::Pimpd},
+    AUTHOR            => q{Magnus Woldrich <trapd00r@trapd00r.se>},
+    ABSTRACT          => q{Perl Interface for the Music Player Daemon 2},
+    VERSION_FROM      => q{./pimpd2},
+    LICENSE           => q{perl},
+    EXE_FILES         => [ q{./pimpd2} ],
     PREREQ_PM => {
-      'Test::More'          => 0,
-      'Audio::MPD'          => 0,
-      'Term::ExtendedColor' => 0,
-      'Term::ReadLine::Gnu' => 0,
-      'Config::General'     => 0,
+      q{Audio::MPD}          => 0,
+      q{Term::ExtendedColor} => 0,
+      q{Term::ReadLine::Gnu} => 0,
+      q{Config::General}     => 0,
     },
     MAN1PODS            => {
-      './pimpd2'        => 'blib/man1/pimpd2.1',
+      q{./pimpd2}       => q{blib/man1/pimpd2.1},
       },
 
-    MAN3PODS            => {
-
-    },
-    dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
-    clean               => { FILES => 'pimpd2-*' },
+    MAN3PODS            => { },
+    dist                => { COMPRESS => q{gzip -9f}, SUFFIX => q{gz}, },
+    clean               => { FILES    => q{pimpd2-*} },
 );
 
 sub WriteMakefile1 {
-    my %params=@_;
-    my $eumm_version=$ExtUtils::MakeMaker::VERSION;
-    $eumm_version=eval $eumm_version;
+    my %params = @_;
+    my $eumm_version = $ExtUtils::MakeMaker::VERSION;
+    $eumm_version = eval $eumm_version;
     die "EXTRA_META is deprecated" if exists $params{EXTRA_META};
     die "License not specified" if not exists $params{LICENSE};
-    if ($params{AUTHOR} and ref($params{AUTHOR}) eq 'ARRAY'
+    if ($params{AUTHOR} and ref($params{AUTHOR}) eq q{ARRAY}
         and $eumm_version < 6.5705) {
           $params{META_ADD}->{author}=$params{AUTHOR};
           $params{AUTHOR}=join(', ',@{$params{AUTHOR}});
@@ -56,13 +52,13 @@ sub WriteMakefile1 {
         delete $params{BUILD_REQUIRES};
     }
     delete $params{CONFIGURE_REQUIRES} if $eumm_version < 6.52;
-    delete $params{MIN_PERL_VERSION} if $eumm_version < 6.48;
-    delete $params{META_MERGE} if $eumm_version < 6.46;
-    delete $params{META_ADD} if $eumm_version < 6.46;
-    delete $params{LICENSE} if $eumm_version < 6.31;
-    delete $params{AUTHOR} if $] < 5.005;
-    delete $params{ABSTRACT_FROM} if $] < 5.005;
-    delete $params{BINARY_LOCATION} if $] < 5.005;
+    delete $params{MIN_PERL_VERSION}   if $eumm_version < 6.48;
+    delete $params{META_MERGE}         if $eumm_version < 6.46;
+    delete $params{META_ADD}           if $eumm_version < 6.46;
+    delete $params{LICENSE}            if $eumm_version < 6.31;
+    delete $params{AUTHOR}             if $] < 5.005;
+    delete $params{ABSTRACT_FROM}      if $] < 5.005;
+    delete $params{BINARY_LOCATION}    if $] < 5.005;
 
     delete $params{MAN3PODS}->{'README.pod'};
 
