@@ -4,7 +4,7 @@ use vars qw($VERSION);
 my $APP;
 
 $APP     = 'pimpd2';
-$VERSION = '0.203';
+$VERSION = '0.206';
 
 
 use App::Pimpd;
@@ -164,10 +164,12 @@ sub _add_files {
   return;
 }
 
-sub usage() {
-  print "$APP v$VERSION\n\n";
-  pod2usage(verbose => 1);
-  exit 0;
+sub usage {
+  pod2usage(
+    msg     => "$APP v$VERSION\n",
+    verbose => 1,
+    exitval => 0,
+  );
 }
 
 sub _debug {
