@@ -1,6 +1,7 @@
 package App::Pimpd::Playlist::Favorite;
 use strict;
 use encoding 'utf8';
+use open qw(:utf8 :std);
 
 BEGIN {
   use Exporter;
@@ -21,11 +22,9 @@ use App::Pimpd;
 use App::Pimpd::Validate;
 use Term::ExtendedColor qw(fg bg);
 use Tie::File;
-use Digest::MD5 qw(md5);
 
 sub already_loved {
   my($file, $playlist) = @_;
-  my $checksum = md5($file);
 
   my $fh;
   # Ok, we have not specified an arbitary playlist name, let's see if this

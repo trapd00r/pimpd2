@@ -1,12 +1,13 @@
 package App::Pimpd;
 use strict;
 use encoding 'utf8';
+use open qw(:utf8 :std);
 
 BEGIN {
   use Exporter;
   use vars qw($VERSION @ISA @EXPORT);
 
-  $VERSION = '0.300';
+  $VERSION = '0.302';
   @ISA = qw(Exporter);
   @EXPORT = qw(
     @c
