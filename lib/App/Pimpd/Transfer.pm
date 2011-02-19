@@ -136,7 +136,7 @@ the B<target_directory> variable from the configuration file.
 
 Parameters: $path | NONE
 
-Copy the songs from the currently playing album to $location. If $location is 
+Copy the songs from the currently playing album to $location. If $location is
 omitted, uses the target_directory variable from the configuration file.
 
 =back
