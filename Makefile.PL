@@ -18,6 +18,7 @@ WriteMakefile1(
     VERSION_FROM      => q{./pimpd2},
     LICENSE           => q{perl},
     EXE_FILES         => [ q{./pimpd2} ],
+    MIN_PERL_VERSION  => q{5.010},
     PREREQ_PM => {
       q{Audio::MPD}          => 0,
       q{Term::ExtendedColor} => 0,

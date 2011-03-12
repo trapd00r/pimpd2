@@ -1,6 +1,11 @@
+#!/usr/bin/perl
 use strict;
 use warnings;
 use Test::More;
+
+unless(exists($ENV{RELEASE_TESTING})) {
+  plan skip_all => 'these tests are for release candidate testing';
+}
 
 # Test::Pod::Coverage doesn't require a minimum Pod::Coverage version,
 # but older versions don't recognize some common documentation styles
