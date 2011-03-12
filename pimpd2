@@ -4,7 +4,7 @@ use vars qw($VERSION);
 my $APP;
 
 $APP     = 'pimpd2';
-$VERSION = '0.210';
+$VERSION = '0.212';
 
 
 use App::Pimpd;
@@ -27,7 +27,6 @@ use Pod::Usage;
 #use Data::Dumper;
 
 @ARGV or usage();
-
 
 GetOptions(
   'np|now-playing'       => sub { print current(), "\n"; },
@@ -56,7 +55,7 @@ GetOptions(
   'sh|shell'             => sub { \&spawn_shell(@ARGV); },
   'rma|rmalbum'          => sub { remove_album_from_playlist(@ARGV); },
 
-  'cp'                   => sub { cp(@ARGV ? @ARGV : $config{target_directory}) },
+  'cp|copy'              => sub { cp(@ARGV ? @ARGV : $config{target_directory}) },
   'cpa|copy-album'       => sub {
     cp_album(@ARGV ? @ARGV : $config{target_directory})
   },
