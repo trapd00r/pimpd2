@@ -38,10 +38,13 @@ sub get_album_songs {
 
 sub remove_album_from_playlist {
   my $search_str = shift;
+  if(!defined($search_str)) {
+    $search_str = $mpd->current->album;
+  }
 
   my @removed;
   for($mpd->playlist->as_items) {
-    if($_->album =~ m/$search_str/gim) {
+    if($_->album =~ m/\Q$search_str\E/gim) {
       if(not(invalid_playlist_pos($_->pos))) {
         $mpd->playlist->delete($_->pos);
       }
