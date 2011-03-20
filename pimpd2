@@ -4,7 +4,7 @@ use vars qw($VERSION);
 my $APP;
 
 $APP     = 'pimpd2';
-$VERSION = '0.212';
+$VERSION = '0.214';
 
 
 use App::Pimpd;

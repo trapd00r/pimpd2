@@ -14,6 +14,7 @@ BEGIN {
     list_all_playlists
     add_to_playlist
     get_album_songs
+    remove_album_from_playlist
   );
 }
 
