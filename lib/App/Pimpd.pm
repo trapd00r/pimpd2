@@ -7,7 +7,7 @@ BEGIN {
   use Exporter;
   use vars qw($VERSION @ISA @EXPORT);
 
-  $VERSION = '0.304';
+  $VERSION = '0.306';
   @ISA = qw(Exporter);
   @EXPORT = qw(
     @c
@@ -101,7 +101,10 @@ sub abs_playlist_path {
 
 sub config_init {
   my $config;
-  if(-e "$ENV{HOME}/.config/pimpd2/pimpd2.conf") {
+  if(-e "$ENV{XDG_CONFIG_HOME}/pimpd2/pimpd2.conf") {
+    $config = "$ENV{XDG_CONFIG_HOME}/pimpd2/pimpd2.conf";
+  }
+  elsif(-e "$ENV{HOME}/.config/pimpd2/pimpd2.conf") {
     $config = "$ENV{HOME}/.config/pimpd2/pimpd2.conf";
   }
   elsif(-e "$ENV{HOME}/.pimpd2.conf") {

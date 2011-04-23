@@ -4,7 +4,7 @@ use vars qw($VERSION);
 my $APP;
 
 $APP     = 'pimpd2';
-$VERSION = '0.214';
+$VERSION = '0.216';
 
 
 use App::Pimpd;
@@ -509,6 +509,7 @@ Stop local playback.
 pimpd2 will look for a configuration file in the following locations, in this
 order:
 
+  $XDG_CONFIG_HOME/pimpd2/pimpd2.conf
   ~/.config/pimpd2/pimpd.conf
   ~/.pimpd2.conf
   ~/pimpd2.conf
