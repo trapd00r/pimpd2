@@ -21,3 +21,4 @@ t/02-pod-coverage.t
 t/10-minimum-version.t
 t/10-strict.t
 t/30-eol.t
+extra/zsh/_pimpd2
