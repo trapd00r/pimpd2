@@ -19,8 +19,8 @@ Example config: L<https://github.com/trapd00r/pimpd2/raw/master/doc/pimpd2.conf.
 
 =head2 CPAN
 
-This is the preferred way of installing B<pimpd2>. Dependencies will be resolved
-automagically.
+This is the preferred way of installing B<pimpd2> for users. Dependencies will
+be resolved automagically.
 
 As root:
 
@@ -40,11 +40,12 @@ Edit the configuration file and start pimpd2:
 
 Install dependencies from CPAN. As root:
 
-    cpan Term::ExtendedColor Term::ReadLine::Gnu Config::General Audio::MPD
+    cpan Term::ExtendedColor Term::ReadLine::Gnu Config::General Audio::MPD \
+         Time::Duration
 
 As user:
 
-    git clone git://github.com/trapd00r/pimpd2.git 
+    git clone git://github.com/trapd00r/pimpd2.git
     cd pimpd2
     perl Makefile.PL
     make && su -c 'make install'
@@ -347,6 +348,8 @@ Stop local playback.
   -sal,  --search-album     search database for album
   -set,  --search-title     search database for title
          --slove            search the database with loved songs for pattern
+         --stats            display statistics about MPD
+         --status           display MPD status
 
 =head2 Controls
 

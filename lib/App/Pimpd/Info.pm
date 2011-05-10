@@ -8,12 +8,15 @@ BEGIN {
   @EXPORT = qw(
     current
     info
+    status
+    stats
   );
 }
 
 use App::Pimpd;
 use App::Pimpd::Validate;
 use Term::ExtendedColor qw(fg clear);
+use Time::Duration;
 
 # FIXME
 #get_color_support();
@@ -183,6 +186,49 @@ sub _on_off {
   return 'OFF';
 }
 
+sub stats {
+  my $friendly_names = {
+    artists     => 'Artists',
+    albums      => 'Albums',
+    songs       => 'Songs',
+
+    uptime      => 'Uptime',
+    playtime    => 'Play time',
+    db_playtime => 'DB Play Time',
+  };
+
+  my $status = $mpd->stats;
+
+  for(qw(artists albums songs)) {
+    printf("%15s: %s\n", $friendly_names->{$_}, $status->$_);
+  }
+
+  print "\n";
+
+  for my $time(qw(uptime playtime db_playtime)) {
+    printf("%15s: %s\n", $friendly_names->{$time}, duration( $status->$time ));
+  }
+
+  printf("%15s: %s\n", 'DB Updated', scalar localtime( $status->db_update ));
+  return;
+}
+
+sub status {
+  my $friendly_names = {
+    play  => 'playing',
+    pause => 'paused',
+    stop  => 'stopped',
+  };
+
+  my $status = $mpd->status;
+
+  return $friendly_names->{ $status->state }
+    ? $friendly_names->{ $status->state }
+    : ''
+}
+
+
+
 
 1;
 
@@ -204,6 +250,9 @@ App::Pimpd::Info
     if( ... ) {
       info();
     }
+
+    stats();
+    status();
 
 =head1 DESCRIPTION
 
@@ -227,6 +276,14 @@ line.
   }
 
 Prints all available information for the current song and MPD server setup.
+
+=item stats()
+
+Prints statistics about MPD
+
+=item status()
+
+Prints MPD status
 
 =back
 

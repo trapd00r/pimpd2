@@ -13,7 +13,7 @@ WriteMakefile1(
     #},
 
     NAME              => q{App::Pimpd},
-    AUTHOR            => q{Magnus Woldrich <trapd00r@trapd00r.se>},
+    AUTHOR            => q{Magnus Woldrich <m@japh.se>},
     ABSTRACT          => q{Perl Interface for the Music Player Daemon 2},
     VERSION_FROM      => q{./pimpd2},
     LICENSE           => q{perl},
@@ -22,8 +22,9 @@ WriteMakefile1(
     PREREQ_PM => {
       q{Audio::MPD}          => 0,
       q{Term::ExtendedColor} => 0,
-      q{Term::ReadLine::Gnu} => 0,
+      q{Term::ReadLine}      => 0,
       q{Config::General}     => 0,
+      q{Time::Duration}      => 0,
     },
     MAN1PODS            => {
       q{./pimpd2}       => q{blib/man1/pimpd2.1},

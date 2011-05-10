@@ -359,6 +359,9 @@ sub spawn_shell {
       print "$status\n";
     },
 
+    'stats'            => sub { stats(); },
+    'status'           => sub { print status(), "\n"; },
+
     'randomtrack'      => sub {
       play_pos_from_playlist(random_track_in_playlist());
       print current(), "\n";

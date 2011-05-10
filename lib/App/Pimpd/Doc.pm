@@ -38,6 +38,9 @@ sub help {
     'stitle'          => \&_help_stitle,
     'slove'           => \&_help_slove,
 
+    'stats'           => \&_help_stats,
+    'status'          => \&_help_status,
+
   # Playlist
     'playlist'        => \&_help_playlist,
     'playlists'       => \&_help_playlists,
@@ -72,6 +75,23 @@ sub help {
   else {
     return "No such topic.\n";
   }
+}
+
+sub _help_status {
+  return << "EOF"
+@{[fg('bold', 'Usage')]}: status
+
+Display MPD status
+
+EOF
+}
+sub _help_stats {
+  return << "EOF"
+@{[fg('bold', 'Usage')]}: stats
+
+Display statistics about MPD
+
+EOF
 }
 
 sub _help_unlove {

@@ -1,10 +1,11 @@
 #!/usr/bin/perl
+use lib 'lib';
 use strict;
 use vars qw($VERSION);
 my $APP;
 
 $APP     = 'pimpd2';
-$VERSION = '0.216';
+$VERSION = '0.220';
 
 
 use App::Pimpd;
@@ -24,7 +25,7 @@ use App::Pimpd::Playlist::Randomize;
 use Term::ExtendedColor qw(fg);
 use Getopt::Long;
 use Pod::Usage;
-#use Data::Dumper;
+
 
 @ARGV or usage();
 
@@ -42,8 +43,6 @@ GetOptions(
   'rt|random-track'      => sub { _rt(); },
 
   'af|add'               => sub { _add_files(@ARGV); },
-  #'aa|add-album'         => sub { @_ = map{$_->file} songs_on_album; _add_files(@_); },
-  #'aa|add-album'         => sub { shift; add_album_to_playlist(shift); },
   'a|apl|add-playlist'   => sub { add_playlist(@ARGV); },
   'playlists'            => sub { print "$_\n" for list_all_playlists(); },
   'pls|playlist'         => sub { show_playlist(); },
@@ -79,12 +78,12 @@ GetOptions(
     }
   },
 
-  'unlove'                => sub { remove_favorite(@ARGV); },
+  'unlove'               => sub { remove_favorite(@ARGV); },
 
-  'aa|add-album'           => sub {
+  'aa|add-album'         => sub {
     add_to_playlist( map{ $_->file } get_album_songs(@ARGV) );
   },
-  'lsp|lsplaylist'         => sub { songs_in_playlist(@ARGV); },
+  'lsp|lsplaylist'       => sub { songs_in_playlist(@ARGV); },
 
   'slove'                => sub {
     my @files = search_favlist(@ARGV);
@@ -108,8 +107,11 @@ GetOptions(
   'repeat'               => sub { toggle_repeat; },
   'random'               => sub { toggle_random; },
 
+  'status'               => sub { print status(), "\n"; },
+  'stats'                => sub { stats();  },
 
-  'host'               => sub {
+
+  'host'                 => sub {
     # FIXME one way, or another...
     my($host, $port, $password, $stream) = @ARGV;
     App::Pimpd::mpd_init($host, $port, $password);
@@ -400,6 +402,14 @@ Search the database for title.
 
 A pipe to C<--add-files> will add the results to the current playlist:
 
+=head2 --stats
+
+Display statistics about MPD
+
+=head2 --status
+
+Display MPD status
+
 =head1 > CONTROLS
 
 =head2 -n, --next
@@ -484,6 +494,8 @@ Stop local playback.
   -sal,  --search-album     search database for album
   -set,  --search-title     search database for title
          --slove            search the database with loved songs for pattern
+         --stats            display statistics about MPD
+         --status           display MPD status
 
 =head2 Controls
 
@@ -512,7 +524,6 @@ order:
   $XDG_CONFIG_HOME/pimpd2/pimpd2.conf
   ~/.config/pimpd2/pimpd.conf
   ~/.pimpd2.conf
-  ~/pimpd2.conf
   ./pimpd2.conf
   /etc/pimpd2.conf
 
@@ -544,7 +555,7 @@ under the same terms as Perl itself.
 
 =head1 SEE ALSO
 
-L<pimpd2.conf(1)>, L<mpd(1)>
+L<mpd(1)>
 
 L<App::Pimpd::Collection::Album>, L<App::Pimpd::Collection::Search>,
 L<App::Pimpd::Commands>, L<App::Pimpd::Doc>, L<App::Pimpd::Info>,
