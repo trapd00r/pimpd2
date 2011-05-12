@@ -96,7 +96,7 @@ C<--playlist> output.
 You can also use the C<--search-playlist> command if the tracks to be queued
 follows a pattern.
 
-=head1 > PLAYLIST INTERACTION
+=head1 PLAYLIST INTERACTION
 
 
 =head2 -pls, --playlist
@@ -222,7 +222,7 @@ Search the current playlist for string, possibly a regular expression.
 If more then one song is found, queues up the results. See C<--queue>.
 
 
-=head1 > COLLECTION INTERACTION
+=head1 COLLECTION INTERACTION
 
 =head2 -lsa, --songs
 
@@ -264,7 +264,7 @@ Search the database for title.
 
 A pipe to C<--add-files> will add the results to the current playlist:
 
-=head1 > CONTROLS
+=head1 CONTROLS
 
 =head2 -n, --next
 
