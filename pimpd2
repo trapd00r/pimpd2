@@ -17,7 +17,7 @@ sub usage {
 
 BEGIN {
   use Pod::Usage;
-  if( (!@ARGV) or ($ARGV[0] =~ m/--?h(?:elp)?/) ) {
+  if( (!@ARGV) or ($ARGV[0] =~ m/--?h(?:elp)?\z/) ) {
     usage();
     exit;
   }
