@@ -5,8 +5,23 @@ use vars qw($VERSION);
 my $APP;
 
 $APP     = 'pimpd2';
-$VERSION = '0.220';
+$VERSION = '0.224';
 
+sub usage {
+  pod2usage(
+    msg     => "$APP v$VERSION\n",
+    verbose => 1,
+    exitval => 0,
+  );
+}
+
+BEGIN {
+  use Pod::Usage;
+  if( (!@ARGV) or ($ARGV[0] =~ m/--?h(?:elp)?/) ) {
+    usage();
+    exit;
+  }
+}
 
 use App::Pimpd;
 use App::Pimpd::Player;
@@ -24,10 +39,6 @@ use App::Pimpd::Playlist::Randomize;
 
 use Term::ExtendedColor qw(fg);
 use Getopt::Long;
-use Pod::Usage;
-
-
-@ARGV or usage();
 
 GetOptions(
   'np|now-playing'       => sub { print current(), "\n"; },
@@ -165,13 +176,6 @@ sub _add_files {
   return;
 }
 
-sub usage {
-  pod2usage(
-    msg     => "$APP v$VERSION\n",
-    verbose => 1,
-    exitval => 0,
-  );
-}
 
 sub _debug {
   my $i = 0;
