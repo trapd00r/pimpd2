@@ -7,7 +7,7 @@ BEGIN {
   use Exporter;
   use vars qw($VERSION @ISA @EXPORT);
 
-  $VERSION = '0.306';
+  $VERSION = '0.308';
   @ISA = qw(Exporter);
   @EXPORT = qw(
     @c
@@ -22,13 +22,6 @@ BEGIN {
 
 use Audio::MPD;
 use Config::General;
-use Data::Dumper;
-$Data::Dumper::Terse     = 1;
-$Data::Dumper::Indent    = 1;
-$Data::Dumper::Useqq     = 1;
-$Data::Dumper::Deparse   = 1;
-$Data::Dumper::Quotekeys = 0;
-$Data::Dumper::Sortkeys  = 1;
 
 our ($mpd, %config, @c);
 
@@ -48,8 +41,7 @@ sub player_cmdline {
     }
     return "$config{player} $config{player_stream} $config{player_opts}";
   }
-  print STDERR "No player configured\n";
-  return 1;
+  return;
 }
 
 #sub get_color_support {
@@ -90,7 +82,6 @@ sub mpd_init {
       );
     }
   }
-  return;
 }
 
 sub abs_playlist_path {
