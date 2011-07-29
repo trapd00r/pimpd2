@@ -38,7 +38,7 @@ sub cp_album {
 
   else {
     for(@tracks) {
-      $_ = escape($_);
+      #$_ = escape($_);
       if(copy($_, $destination)) {
         printf("%40.40s => %s\n", $_, $destination);
       }
@@ -55,10 +55,10 @@ sub cp {
   #is_existing_dir($destination); # FIXME
 
   if(empty_playlist()) {
-    return 1;
+    return;
   }
 
-  my $file; # = $mpd->current->file;
+  my $file;
   if($config{music_directory} =~ m|.+/$|m) {
     $file = $config{music_directory} .= $mpd->current->file;
   }
@@ -71,7 +71,6 @@ sub cp {
   }
 
   else {
-    $file = escape($file);
     if(copy($file, $destination)) {
       return 1;
     }
