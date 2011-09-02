@@ -381,6 +381,7 @@ sub spawn_shell {
     },
 
     'delete-album'     => \&delete_album,
+    'stats'            => sub { App::Pimpd::Info::stats() },
 
     'rmalbum'          => sub { remove_album_from_playlist(@_); },
     'exit'             => sub { exit(0); },
