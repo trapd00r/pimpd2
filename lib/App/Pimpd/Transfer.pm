@@ -31,7 +31,7 @@ sub cp_album {
 
   if(remote_host()) {
     for(@tracks) {
-      #$_ = escape($_);
+      $_ = escape($_);
       _scp($_, $destination);
     }
   }
@@ -83,11 +83,12 @@ sub cp {
 
 sub _scp {
   my($source, $dest) = @_;
+  $source = escape($source);
 
   system('scp', '-r',
     "-P $config{ssh_port}",
-    "$config{ssh_host}:'$source'", $dest
-  ) == 0 or confess("scp: $!");
+    qq($config{ssh_host}:$source), $dest
+  ) == 0;# or confess("scp: $!");
 
   return;
 }
