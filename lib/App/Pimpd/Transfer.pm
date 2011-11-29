@@ -31,7 +31,7 @@ sub cp_album {
 
   if(remote_host()) {
     for(@tracks) {
-      $_ = escape($_);
+      #$_ = escape($_);
       _scp($_, $destination);
     }
   }

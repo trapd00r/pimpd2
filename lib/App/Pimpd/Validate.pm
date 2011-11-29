@@ -93,7 +93,7 @@ sub isa_valid_playlist {
 
 sub escape {
   my $str = shift;
-  $str =~ s/([;<>*|`&\$!#()[\]{}:'"\s])/\\$1/gm;
+  $str =~ s/([;<>*|`&\$!#()[\]{}:'" ])/\\$1/g;
 
   return $str;
 }
