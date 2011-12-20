@@ -253,7 +253,7 @@ sub spawn_shell {
     'add-album'       => sub {
       add_to_playlist( map{ $_->file } get_album_songs(@_));
     },
-    'playlists'       => sub { print "$_\n" for list_all_playlists(); },
+    'lsplaylists'     => sub { print "$_\n" for list_all_playlists(); },
     'add'             => sub {
 
       if($_[0] eq 'songs') {

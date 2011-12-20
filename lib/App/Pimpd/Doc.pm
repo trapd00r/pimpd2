@@ -43,7 +43,7 @@ sub help {
 
   # Playlist
     'playlist'        => \&_help_playlist,
-    'playlists'       => \&_help_playlists,
+    'lsplaylists'     => \&_help_lsplaylists,
     'add'             => \&_help_add,
     'add-album'       => \&_help_add_album,
     #'add-files'      => \&_help_add_files,
@@ -56,7 +56,6 @@ sub help {
     'love'            => \&_help_love,
     'loved?'          => \&_help_loved,
     'unlove'          => \&_help_unlove,
-    'lsplaylist'      => \&_help_lsplaylist,
     'splaylist'       => \&_help_splaylist,
 
 
@@ -307,32 +306,6 @@ See 'help queue'.
 EOF
 }
 
-sub _help_lsplaylist {
-  return << "EOF"
-@{[fg('bold', 'Usage')]}: lsplaylist PLAYLISTs
-
-List songs in external,  by MPD known, playlists.
-
-PLAYLIST can be a partial name, or a regular expression.
-Thus;
-
-  @{[fg($c[0], 'lsplaylist 2010-12')]}
-
-might resolve to something like;
-
-  0 2010-12-indie
-  1 2010-12-other
-  2 2010-12-pop
-  3 2010-12-punk_rock
-  4 2010-12-rock
-  5 2010-12-undef
-
-Type the corresponding number for the playlist you want to see,
-or just hit <enter> to show all of them.
-EOF
-}
-
-
 sub _help_love {
   return << "EOF"
 @{[fg('bold', 'Usage')]}: love [PLAYLIST]
@@ -405,8 +378,7 @@ sub _help_shell {
       queue         put songs in a queue
 
 @{[fg('bold', fg($c[0], '  Playlist'))]}
-      playlists     list all known playlists
-      lsplaylist    list files in playlist
+      lsplaylists   list all known playlists
       add           add playlists or songs to the current playlist
       add-album     add songs from album to playlist
       rmalbum       remove album from playlist
