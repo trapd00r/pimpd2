@@ -1,6 +1,6 @@
 package App::Pimpd;
 use strict;
-use encoding 'utf8';
+#use encoding 'utf8';
 use open qw(:utf8 :std);
 
 BEGIN {
