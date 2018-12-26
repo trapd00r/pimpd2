@@ -23,6 +23,11 @@ sub cp_album {
   my $album   = $mpd->current->album;
   my $artist  = $mpd->current->artist;
 
+  if(!defined($album)) {
+    warn "song doesn't have any album tag!\n";
+    return;
+  }
+
   my @tracks = grep {
     $artist eq $_->artist
   } $mpd->collection->songs_from_album($album);;
