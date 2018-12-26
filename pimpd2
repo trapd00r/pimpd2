@@ -1,4 +1,5 @@
 #!/usr/bin/perl
+# vim:ft=perl:et:sw=2:
 use lib 'lib';
 use strict;
 
@@ -7,7 +8,7 @@ use vars qw($VERSION);
 my $APP;
 
 $APP     = 'pimpd2';
-$VERSION = '0.300';
+$VERSION = '0.310';
 
 sub usage {
   pod2usage(
@@ -31,7 +32,7 @@ use App::Pimpd::Info;
 use App::Pimpd::Shell;
 use App::Pimpd::Commands;
 use App::Pimpd::Transfer;
-#use App::Pimpd::Validate;
+use App::Pimpd::Validate;
 use App::Pimpd::Collection::Search;
 use App::Pimpd::Collection::Album;
 use App::Pimpd::Playlist;
@@ -465,7 +466,7 @@ Stop local playback.
          --playlists        list all known playlists
   -af,   --add-files        add files to playlist
   -a,    --add-playlist     add playlist
-  -r,    --randomize        randomize a new playlist with n tracks
+         --randomize        randomize a new playlist with n tracks
   -ra,   --random-album     add n random full albums
   -rma,  --rmalbum          remove album matching pattern from playlist
   -da,   --delete-album     delete the current album from disk
