@@ -31,6 +31,10 @@ sub already_loved {
   # Ok, we have not specified an arbitary playlist name, let's see if this
   # song have been loved yet!
   if(!defined($playlist)) {
+    if(! -e $config{loved_database}) {
+      open(my $fh, '>', $config{loved_database});
+      close $fh;
+    }
     open($fh, '<', $config{loved_database})
       or confess("Cant open '$config{loved_database}': $!");
   }
