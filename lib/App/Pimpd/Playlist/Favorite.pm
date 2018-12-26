@@ -1,5 +1,6 @@
 package App::Pimpd::Playlist::Favorite;
 use strict;
+no warnings 'experimental::smartmatch';
 #use encoding 'utf8';
 use open qw(:utf8 :std);
 

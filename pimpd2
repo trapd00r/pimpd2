@@ -1,6 +1,8 @@
 #!/usr/bin/perl
 use lib 'lib';
 use strict;
+
+no warnings 'experimental::smartmatch';
 use vars qw($VERSION);
 my $APP;
 

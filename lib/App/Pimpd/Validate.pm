@@ -1,5 +1,6 @@
 package App::Pimpd::Validate;
 use strict;
+no warnings 'experimental::smartmatch';
 
 BEGIN {
   use Exporter;
