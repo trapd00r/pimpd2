@@ -16,6 +16,7 @@ use Carp qw(confess);
 use File::Copy;
 use App::Pimpd;
 use App::Pimpd::Validate;
+use File::Basename qw(basename);
 
 sub cp_album {
   my $destination = shift;
@@ -45,7 +46,7 @@ sub cp_album {
     for(@tracks) {
       #$_ = escape($_);
       if(copy($_, $destination)) {
-        printf("%40.40s => %s\n", $_, $destination);
+        printf("%40.40s => %s\n", basename($_), $destination);
       }
       else {
         warn("cp_album: $!");
