@@ -26,6 +26,7 @@ WriteMakefile1(
       q{Term::ReadLine::Gnu} => 0,
       q{Config::General}     => 0,
       q{Time::Duration}      => 0,
+      q{File::LsColor}       => 0,
     },
     MAN1PODS                 => {
       q{./pimpd2}            => q{blib/man1/pimpd2.1},

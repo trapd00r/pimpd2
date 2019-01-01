@@ -17,6 +17,7 @@ use File::Copy;
 use App::Pimpd;
 use App::Pimpd::Validate;
 use File::Basename qw(basename);
+use File::LsColor  qw(ls_color);
 
 sub cp_album {
   my $destination = shift;
@@ -78,6 +79,7 @@ sub cp {
 
   else {
     if(copy($file, $destination)) {
+      printf("'%s' -> '%s'\n", ls_color(basename($file)), $destination);
       return 1;
     }
     else {
