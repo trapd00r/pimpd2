@@ -12,7 +12,7 @@ WriteMakefile1(
     #BUILD_REQUIRES => {
     #},
 
-    NAME                     => q{App::Pimpd},
+    NAME                     => q{App::pimpd},
     AUTHOR                   => q{Magnus Woldrich <m@japh.se>},
     ABSTRACT                 => q{Perl Interface for the Music Player Daemon 2},
     VERSION_FROM             => q{./pimpd2},
