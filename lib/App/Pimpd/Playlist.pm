@@ -24,7 +24,7 @@ BEGIN {
 
 use App::Pimpd;
 use App::Pimpd::Validate;
-use Term::ExtendedColor qw(fg bg);
+use Term::ExtendedColor qw(fg bg bold);
 
 sub get_album_songs {
   my $album = shift // $mpd->current->album;
@@ -173,10 +173,7 @@ sub show_playlist {
 
     if($mpd->current->pos == $i) {
       # bg('red4', $i) will add another 17 chars
-
-      printf("%19s %51.51s |@{[fg('bold', 'x')]}| %-47.47s\n",
-        bg($c[4], $i), fg($c[5], fg('bold',  $artist)), $title);
-
+      printf("%s\n", bg('26', bold(sprintf("%4d %25.25s |x| %-47.47s", $i, $artist, $title))));
     }
     else {
       printf("%4d %25.25s | | %-47.47s\n",
