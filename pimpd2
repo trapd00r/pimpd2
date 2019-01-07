@@ -8,7 +8,7 @@ use vars qw($VERSION);
 my $APP;
 
 $APP     = 'pimpd2';
-$VERSION = '0.314';
+$VERSION = '0.316';
 
 sub usage {
   pod2usage(
@@ -103,7 +103,10 @@ GetOptions(
   },
 
   'spl|search-playlist|splaylist'  => sub { _search_playlist(@ARGV); },
-  'sap|search-all-pls'   => sub { search_all_playlists(@ARGV); },
+#  XXX this is basicly the same as --slove
+#  we maybe want to have functionality for searching playlists that's not made
+#  by pimpd2.
+  'sap|search-all-pls'   => sub { print "$_\n" for search_all_playlists(@ARGV); },
   'sdb|search-db'        => sub { print "$_\n" for search_db_quick(@ARGV); },
 
   'sar|search-artist'    => sub { print "$_\n" for search_db_artist(@ARGV); },
