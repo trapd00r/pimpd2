@@ -53,7 +53,7 @@ sub search_all_playlists {
 
   my @matched_files;
 
-  open(my $fh, '<', "$ENV{HOME}/.config/pimpd/fav.db")
+  open(my $fh, '<', "$config{loved_database}")
     or print "No DB found\n" and return 1;
   chomp(my @tracks = <$fh>);
 
