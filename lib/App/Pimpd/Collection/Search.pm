@@ -45,6 +45,15 @@ sub search_db_artist {
     return;
   }
 
+  # check if called from the interactive shell
+  my $caller_sub = (caller(1))[3];
+
+  if($caller_sub =~ m/App::Pimpd::Shell/) {
+    print "$_\n" for map {
+      sprintf("%s [%s] %s", $_->artist, $_->album, $_->title);
+    } @tracks;
+  }
+
   map{ $_ = $_->file } @tracks;
 
   return (wantarray()) ? @tracks : scalar(@tracks);
@@ -58,6 +67,14 @@ sub search_db_title {
 
   if(!@titles) {
     return;
+  }
+  # check if called from the interactive shell
+  my $caller_sub = (caller(1))[3];
+
+  if($caller_sub =~ m/App::Pimpd::Shell/) {
+    print "$_\n" for map {
+      sprintf("%s [%s] %s", $_->artist, $_->album, $_->title);
+    } @titles;
   }
 
   map{ $_ = $_->file } @titles;
@@ -73,6 +90,16 @@ sub search_db_album {
   if(!@albums) {
     return;
   }
+
+  # check if called from the interactive shell
+  my $caller_sub = (caller(1))[3];
+
+  if($caller_sub =~ m/App::Pimpd::Shell/) {
+    print "$_\n" for map {
+      sprintf("%s [%s] %s", $_->artist, $_->album, $_->title);
+    } @albums;
+  }
+
   map { $_ = $_->file } @albums;
 
   return (wantarray()) ? @albums : scalar(@albums);

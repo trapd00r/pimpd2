@@ -48,6 +48,7 @@ sub spawn_shell {
       print 'Adding ' . fg('bold', @_) . " random tracks...\n";
       my @random = randomize(@_);
 
+#      print $_->artist for @random;
       print "$_\n" for @random;
       clear_playlist();
       add_to_playlist(@random);
