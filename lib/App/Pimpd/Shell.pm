@@ -25,6 +25,7 @@ use App::Pimpd::Playlist::Search;
 use App::Pimpd::Validate;
 use Term::ExtendedColor qw(fg);
 use Term::ReadLine; # Term::ReadLine::Gnu prefered
+use File::LsColor qw(ls_color);
 
 my $opts;
 sub spawn_shell {
@@ -250,7 +251,11 @@ sub spawn_shell {
       print "$_\n" for albums_by_artist($artist);
     },
 
-    'songs'           => sub { print $_->file, "\n" for songs_on_album(@_); },
+    'songs'           => sub {
+      printf "%s\n", ls_color($_->file) for songs_on_album(@_);
+#      printf "%s\n", $_->title for songs_on_album(@_);
+    },
+
     'add-album'       => sub {
       add_to_playlist( map{ $_->file } get_album_songs(@_));
     },

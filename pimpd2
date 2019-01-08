@@ -8,7 +8,7 @@ use vars qw($VERSION);
 my $APP;
 
 $APP     = 'pimpd2';
-$VERSION = '0.330';
+$VERSION = '0.333';
 
 sub usage {
   pod2usage(
@@ -41,6 +41,7 @@ use App::Pimpd::Playlist::Favorite;
 use App::Pimpd::Playlist::Randomize;
 
 use Term::ExtendedColor qw(fg);
+use File::LsColor qw(ls_color);
 use Getopt::Long;
 
 GetOptions(
@@ -150,8 +151,14 @@ sub _lsa {
   my($album, $artist) = @_;
 
   $album or $album = $mpd->current->album;
-  print $_->file, "\n" for songs_on_album($album, $artist);
 
+  # no colors if not connected to a terminal
+  if(!-t STDOUT) {
+    print $_->file, "\n" for songs_on_album($album, $artist);
+  }
+  else {
+    printf "%s\n", ls_color($_->file) for songs_on_album($album, $artist);
+  }
   return;
 }
 
