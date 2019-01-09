@@ -157,7 +157,7 @@ App::Pimpd
 
   Magnus Woldrich
   CPAN ID: WOLDRICH
-  magnus@trapd00r.se
+  m@japh.se
   http://japh.se
 
 =head1 COPYRIGHT
