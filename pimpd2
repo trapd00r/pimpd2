@@ -8,7 +8,7 @@ use vars qw($VERSION);
 my $APP;
 
 $APP     = 'pimpd2';
-$VERSION = '0.333';
+$VERSION = '0.334';
 
 sub usage {
   pod2usage(
@@ -465,8 +465,10 @@ Stop local playback.
 
   -np,   --now-playing      basic song info on a single line
   -i,    --info             full song info
-  -cp,   --copy             copy the current track to destination
-  -cpa,  --copy-album       copy the current album to destination
+  -cp,   --copy             copy the current track
+                            optional argument: destination
+  -cpa,  --copy-album       copy the current album
+                            optional argument: destination
   -sh,   --shell            spawn the interactive shell
   -q,    --queue            queue tracks
 
@@ -476,8 +478,10 @@ Stop local playback.
          --playlists        list all known playlists
   -af,   --add-files        add files to playlist
   -a,    --add-playlist     add playlist
-         --randomize        randomize a new playlist with n tracks
-  -ra,   --random-album     add n random full albums
+         --randomize        randomize a new playlist with n tracks.
+                            optional arguments: quantity, artist
+  -ra,   --random-album     add n random full albums.
+                            optional arguments: quantity, artist
   -rma,  --rmalbum          remove album matching pattern from playlist
   -da,   --delete-album     delete the current album from disk
   -f,    --love             love song
@@ -489,6 +493,7 @@ Stop local playback.
 
   -lsa,  --songs            list songs on album
   -l,    --albums           list albums by artist
+                            optional argument: artist
   -sdb,  --search-db        search database for pattern
   -sar,  --search-artist    search database for artist
   -sal,  --search-album     search database for album
@@ -509,8 +514,8 @@ Stop local playback.
          --random           toggle random mode
 
   -p,    --play             start playback (locally and remote)
-  -s,    --stop             stop playback (locally and remote)
-  -k,    --kill             stop playback (locally)
+  -s,    --stop             stop playback  (locally and remote)
+  -k,    --kill             stop playback  (locally)
 
   -h,    --help             show the help and exit
   -m,    --man              show the manual and exit

@@ -11,7 +11,7 @@ BEGIN {
 }
 
 use App::Pimpd;
-use Term::ExtendedColor qw(fg);
+use Term::ExtendedColor qw(fg bold);
 
 sub help {
   my $cmd = shift;
@@ -373,8 +373,10 @@ sub _help_shell {
 ,"
       np            show the current song
       info          show all current information
-      copy          copy song to destination
-      copya         copy album to destination
+      copy          copy song
+                    optional argument: @{[bold('destination')]}
+      copya         copy album
+                    optional argument: @{[bold('destination')]}
       queue         put songs in a queue
 
 @{[fg('bold', fg($c[0], '  Playlist'))]}
@@ -383,7 +385,9 @@ sub _help_shell {
       add-album     add songs from album to playlist
       rmalbum       remove album from playlist
       randomize     randomize a new playlist with n tracks
+                    optional arguments: @{[bold('quantity')]}, @{[bold('artist')]}
       randomalbum   and n random full albums
+                    optional arguments: @{[bold('quantity')]}, @{[bold('artist')]}
       love          love song
       loved?        check if the current song is loved
       unlove        unlove file(s) matching PATTERN
@@ -392,6 +396,7 @@ sub _help_shell {
 @{[fg('bold', fg($c[0], '  Collection'))]}
       songs         list songs on album
       albums        list albums by artist
+                    optional argument: @{[bold('artist')]}
       sartist       search for artist str
       salbum        search for album str
       stitle        search for title str
