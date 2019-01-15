@@ -16,6 +16,7 @@ BEGIN {
 use App::Pimpd;
 use App::Pimpd::Validate;
 use Term::ExtendedColor qw(fg clear);
+use File::LsColor qw(ls_color);
 use Time::Duration;
 
 # FIXME
@@ -101,6 +102,7 @@ sub info {
     $status{volume} = 'N/A (Software Mixer)';
   }
 
+
   printf("%s %8s: %.66s\n", fg('bold', fg('251', 'S')),
     'Artist', fg($c[3], fg('bold', $current{artist}))
   );
@@ -114,9 +116,7 @@ sub info {
   printf("%s %8s: %.66s\n", fg('bold', fg(248, 'G')),
     'Genre', fg($c[13], $current{genre})
   );
-  printf("%s %9s: %s\n", fg('bold', undef),
-    'File', fg($c[7], $current{file})
-  );
+  printf("%s %9s: %s\n",'', 'File', ls_color($current{file}));
 
   printf("%s %8s: %.66s\n", fg('bold', fg('247', 'I')),
     'Date', $current{date}
