@@ -8,7 +8,7 @@ use vars qw($VERSION);
 my $APP;
 
 $APP     = 'pimpd2';
-$VERSION = '0.336';
+$VERSION = '0.338';
 
 sub usage {
   pod2usage(
