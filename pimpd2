@@ -8,7 +8,7 @@ use vars qw($VERSION);
 my $APP;
 
 $APP     = 'pimpd2';
-$VERSION = '0.338';
+$VERSION = '0.340';
 
 sub usage {
   pod2usage(
@@ -312,6 +312,10 @@ Return B<n> random full albums.
 
 A pipe to C<--add-files> will add the results to the current playlist.
 
+=head2 -rt, --random-track
+
+Start playback of a random song in the current playlist.
+
 =head2 -rma, --rmalbum
 
 Given a string, searches the current playlist for matching albums, and remove
@@ -478,10 +482,11 @@ Stop local playback.
          --playlists        list all known playlists
   -af,   --add-files        add files to playlist
   -a,    --add-playlist     add playlist
-         --randomize        randomize a new playlist with n tracks.
+         --randomize        randomize a new playlist with n tracks
                             optional arguments: quantity, artist
-  -ra,   --random-album     add n random full albums.
+  -ra,   --random-album     add n random full albums
                             optional arguments: quantity, artist
+  -rt,   --random-track     play a random song in the current playlist
   -rma,  --rmalbum          remove album matching pattern from playlist
   -da,   --delete-album     delete the current album from disk
   -f,    --love             love song
@@ -550,8 +555,8 @@ or L<http://github.com/trapd00r/pimpd2/issues>.
 
 =head1 COPYRIGHT
 
-Copyright 2009, 2010, 2011 the B<pimpd2> L</AUTHOR> and L</CONTRIBUTORS> as
-listed above.
+Copyright 2009, 2010, 2011, 2019- the B<pimpd2> L</AUTHOR> and
+L</CONTRIBUTORS> as listed above.
 
 =head1 LICENSE
 
