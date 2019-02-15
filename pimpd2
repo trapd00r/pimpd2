@@ -7,8 +7,6 @@ no warnings 'experimental::smartmatch';
 use vars qw($VERSION);
 my $APP;
 
-$APP     = 'pimpd2';
-$VERSION = '0.340';
 
 sub usage {
   pod2usage(
@@ -19,6 +17,8 @@ sub usage {
 }
 
 BEGIN {
+  $APP     = 'pimpd2';
+  $VERSION = '0.342';
   use Pod::Usage;
   if( (!@ARGV) or ($ARGV[0] =~ m/--?h(?:elp)?\z/) ) {
     usage();
