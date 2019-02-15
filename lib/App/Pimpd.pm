@@ -7,7 +7,7 @@ BEGIN {
   use Exporter;
   use vars qw($VERSION @ISA @EXPORT);
 
-  $VERSION = '0.308';
+  $VERSION = '0.310';
   @ISA = qw(Exporter);
   @EXPORT = qw(
     @c
@@ -160,8 +160,9 @@ App::Pimpd - Base class for pimpd2
 
 =head1 DESCRIPTION
 
-B<App::Pimpd> is the base class for the rest of the App::Pimpd namespace, exporting
-the $mpd object and a couple of configuration variables.
+B<App::Pimpd> is the base class for the rest of the App::Pimpd
+namespace, exporting the $mpd object and a couple of configuration
+variables.
 
 
 =head1 EXPORTS
@@ -218,8 +219,8 @@ B<Term::ExtendedColor>
 
 =head1 COPYRIGHT
 
-Copyright (C) 2010, 2011 Magnus Woldrich. All right reserved.
-This program is free software; you can redistribute it and/or modify it under
+Copyright (C) 2010, 2011, 2019- Magnus Woldrich. All right reserved. This
+program is free software; you can redistribute it and/or modify it under
 the same terms as Perl itself.
 
 =cut

@@ -333,7 +333,7 @@ order:
 
     Magnus Woldrich
     CPAN ID: WOLDRICH
-    magnus@trapd00r.se
+    m@japh.se
     http://japh.se
 
 # CONTRIBUTORS
@@ -347,8 +347,8 @@ or [http://github.com/trapd00r/pimpd2/issues](http://github.com/trapd00r/pimpd2/
 
 # COPYRIGHT
 
-Copyright 2009, 2010, 2011 the **pimpd2** ["AUTHOR"](#author) and ["CONTRIBUTORS"](#contributors) as
-listed above.
+Copyright 2009, 2010, 2011, 2019- the **pimpd2** ["AUTHOR"](#author) and
+["CONTRIBUTORS"](#contributors) as listed above.
 
 # LICENSE
 
