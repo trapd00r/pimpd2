@@ -3,38 +3,39 @@ use warnings;
 use ExtUtils::MakeMaker;
 
 WriteMakefile1(
-    META_MERGE => {
-        resources => {
-            repository => q{https://github.com/trapd00r/pimpd2},
-            bugtracker => q{https://github.com/trapd00r/pimpd2/issues},
-        },
-    },
-    #BUILD_REQUIRES => {
-    #},
-
-    NAME                     => q{App::pimpd},
-    AUTHOR                   => q{Magnus Woldrich <m@japh.se>},
-    ABSTRACT                 => q{Perl Interface for the Music Player Daemon 2},
-    VERSION_FROM             => q{./pimpd2},
-    LICENSE                  => q{perl},
-    EXE_FILES                => [ q{./pimpd2} ],
-    MIN_PERL_VERSION         => q{5.010},
-    PREREQ_PM                => {
-      q{Audio::MPD}          => 0,
-      q{Term::ExtendedColor} => 0,
-      q{Term::ReadLine}      => 0,
-      q{Term::ReadLine::Gnu} => 0,
-      q{Config::General}     => 0,
-      q{Time::Duration}      => 0,
-      q{File::LsColor}       => 0,
-    },
-    MAN1PODS                 => {
-      q{./pimpd2}            => q{blib/man1/pimpd2.1},
+  META_MERGE => {
+      resources => {
+          repository => {
+            type       => 'git',
+            url        => 'https://github.com/trapd00r/pimpd2.git',
+            web        => 'https://github.com/trapd00r/pimpd2',
+            bugtracker => 'https://github.com/trapd00r/pimpd2/issues',
       },
+    },
+  },
+  NAME                     => q{App::pimpd},
+  AUTHOR                   => q{Magnus Woldrich <m@japh.se>},
+  ABSTRACT                 => q{Perl Interface for the Music Player Daemon 2},
+  VERSION_FROM             => q{./pimpd2},
+  LICENSE                  => q{perl},
+  EXE_FILES                => [ q{./pimpd2} ],
+  MIN_PERL_VERSION         => q{5.010},
+  PREREQ_PM                => {
+    q{Audio::MPD}          => 0,
+    q{Term::ExtendedColor} => 0,
+    q{Term::ReadLine}      => 0,
+    q{Term::ReadLine::Gnu} => 0,
+    q{Config::General}     => 0,
+    q{Time::Duration}      => 0,
+    q{File::LsColor}       => 0,
+  },
+  MAN1PODS                 => {
+    q{./pimpd2}            => q{blib/man1/pimpd2.1},
+    },
 
-    MAN3PODS            => { },
-    dist                => { COMPRESS => q{gzip -9f}, SUFFIX => q{gz}, },
-    clean               => { FILES    => q{pimpd2-*} },
+  MAN3PODS            => { },
+  dist                => { COMPRESS => q{gzip -9f}, SUFFIX => q{gz}, },
+  clean               => { FILES    => q{pimpd2-*} },
 );
 
 sub WriteMakefile1 {
@@ -68,5 +69,3 @@ sub WriteMakefile1 {
 
     WriteMakefile(%params);
 }
-
-
