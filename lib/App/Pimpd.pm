@@ -7,7 +7,7 @@ BEGIN {
   use Exporter;
   use vars qw($VERSION @ISA @EXPORT);
 
-  $VERSION = '0.310';
+  $VERSION = '0.312';
   @ISA = qw(Exporter);
   @EXPORT = qw(
     @c
@@ -53,7 +53,7 @@ sub player_cmdline {
 #}
 
 sub mpd_init {
-  my($host, $port, $password) = @_;
+  my($host, $port, $password) = @_ || ($ENV{MPD_HOST}, $ENV{MPD_PORT}, undef);
   if(defined($host)) {
     $mpd = Audio::MPD->new(
       host     => $host,
