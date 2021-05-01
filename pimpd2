@@ -18,7 +18,7 @@ sub usage {
 
 BEGIN {
   $APP     = 'pimpd2';
-  $VERSION = '0.348';
+  $VERSION = '0.350';
   use Pod::Usage;
   if( (!@ARGV) or ($ARGV[0] =~ m/--?h(?:elp)?\z/) ) {
     usage();
