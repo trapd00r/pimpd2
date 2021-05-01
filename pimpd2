@@ -18,7 +18,7 @@ sub usage {
 
 BEGIN {
   $APP     = 'pimpd2';
-  $VERSION = '0.346';
+  $VERSION = '0.348';
   use Pod::Usage;
   if( (!@ARGV) or ($ARGV[0] =~ m/--?h(?:elp)?\z/) ) {
     usage();
@@ -59,7 +59,7 @@ GetOptions(
 
   'af|add'               => sub { _add_files(@ARGV); },
   'a|apl|add-playlist'   => sub { add_playlist(@ARGV); },
-  'lsplaylists'          => sub { print "$_\n" for list_all_playlists(); },
+  'lsp|lsplaylists'      => sub { print "$_\n" for list_all_playlists(); },
   'pls|playlist'         => sub { show_playlist(); },
   'da|delete-album'      => sub { delete_album(); },
 
@@ -479,7 +479,7 @@ Stop local playback.
 =head2 Playlist
 
   -pls,  --playlist         show the current playlist
-         --playlists        list all known playlists
+  -lsp,  --lsplaylists      list all known playlists
   -af,   --add-files        add files to playlist
   -a,    --add-playlist     add playlist
          --randomize        randomize a new playlist with n tracks
